@@ -134,7 +134,7 @@ namespace SferedApi.Components.Geo
         {
             pManager.AddTextParameter("Text", "T", "Text to project", 0);
             pManager.AddBrepParameter("Brep", "B", "Brep to project onto", 0);
-            pManager.AddPlaneParameter("Plane", "P", "Plane to project text insertion from ", 0, Plane.get_WorldXY());
+            pManager.AddPlaneParameter("Plane", "P", "Plane to project text insertion from ", 0, Plane.WorldXY);
             pManager.AddNumberParameter("Width", " ", "Width of entire string(obsolete)", 0);
             pManager.AddNumberParameter("Height", "H", "Height of Letter", 0, 2.4);
             pManager.AddNumberParameter("Depth", "D", "Depth of Letter", 0, 0.5);

@@ -47,7 +47,7 @@ namespace SferedApi.Components
                             break;
                         }
                         Curve current = enumerator.Current;
-                        if ((current == null) || !current.get_IsValid())
+                        if ((current == null) || !current.IsValid)
                         {
                             this.AddRuntimeMessage(20, "curve is invalid");
                             return;

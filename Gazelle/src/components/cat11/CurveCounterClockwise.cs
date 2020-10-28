@@ -17,7 +17,7 @@ namespace SferedApi.Components.CurveAdvanced
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Curve", "C", "Curve", 0);
-            pManager.AddPlaneParameter("Plane", "P", "Plane", 0, Plane.get_WorldXY());
+            pManager.AddPlaneParameter("Plane", "P", "Plane", 0, Plane.WorldXY);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

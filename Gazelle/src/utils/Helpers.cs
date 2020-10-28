@@ -668,7 +668,7 @@ namespace SferedApi
             List<IntersectionEvent> list3 = new List<IntersectionEvent>();
             foreach (Curve curve in curves)
             {
-                RegionContainment containment2 = Curve.PlanarClosedCurveRelationship(trim, curve, Plane.get_WorldXY(), 0.001);
+                RegionContainment containment2 = Curve.PlanarClosedCurveRelationship(trim, curve, Plane.WorldXY, 0.001);
                 switch (containment2)
                 {
                     case 1:

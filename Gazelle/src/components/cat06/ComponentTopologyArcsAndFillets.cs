@@ -93,19 +93,19 @@ namespace SferedApi.Components
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Points", "P", "Control Points of the polyArc", 1);
-            pManager.AddPlaneParameter("Coordinate System (Plane)", "S", "Coordinate System(Plane)", 0, Plane.get_WorldXY());
-            pManager.AddNumberParameter("Arc Bulge Distance", "A", DESCRIPTION1, 1);
-            pManager.AddNumberParameter("Fillet Radius", "F", "the fillet value of every point. a fillet of 0 will ignore fillets.", 1);
+            pManager.AddPointParameter("Points", "P", "Control Points of the polyArc", (GH_ParamAccess)1);
+            pManager.AddPlaneParameter("Coordinate System (Plane)", "S", "Coordinate System(Plane)", 0, Plane.WorldXY);
+            pManager.AddNumberParameter("Arc Bulge Distance", "A", DESCRIPTION1, (GH_ParamAccess)1);
+            pManager.AddNumberParameter("Fillet Radius", "F", "the fillet value of every point. a fillet of 0 will ignore fillets.", (GH_ParamAccess)1);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddCurveParameter("PolyArc", "PA", "The Resulting PolyArc", 0);
-            pManager.AddCurveParameter("Curves", "C", "all Pieces", 1);
-            pManager.AddCurveParameter("Arcs", "A", "Arcs", 1);
-            pManager.AddCurveParameter("Fillets", "F", "Fillets", 1);
-            pManager.AddPointParameter("Control Points", "P", "Control Points of All Curves", 1);
+            pManager.AddCurveParameter("Curves", "C", "all Pieces", (GH_ParamAccess)1);
+            pManager.AddCurveParameter("Arcs", "A", "Arcs", (GH_ParamAccess)1);
+            pManager.AddCurveParameter("Fillets", "F", "Fillets", (GH_ParamAccess)1);
+            pManager.AddPointParameter("Control Points", "P", "Control Points of All Curves", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -165,7 +165,7 @@ namespace SferedApi.Components
                                                         throw new Exception("fullCurve cant join all curves");
                                                     }
                                                     NurbsCurve curve2 = curveArray[0].ToNurbsCurve();
-                                                    List<Point3d> list9 = (from x in curve2.get_Points() select x.get_Location()).ToList<Point3d>();
+                                                    List<Point3d> list9 = (from x in curve2.Points select x.Location).ToList<Point3d>();
                                                     list9.RemoveAt(list9.Count - 1);
                                                     DA.SetData(0, curve2);
                                                     DA.SetDataList(1, list8);
@@ -191,9 +191,9 @@ namespace SferedApi.Components
                                 Point3d pointd = collection[num5];
                                 bool flag4 = num5 >= (collection.Count - 1);
                                 Point3d pointd2 = !flag4 ? collection[num5 + 1] : collection[0];
-                                Point3d inBetweenPoint = Point3d.get_Unset();
+                                Point3d inBetweenPoint = Point3d.Unset;
                                 NurbsCurve item = this.BuildArc(pointd, pointd2, vectordArray[num5], list2[num5], ref assistors, ref inBetweenPoint);
-                                if (!item.get_IsValid())
+                                if (!item.IsValid)
                                 {
                                     throw new Exception("arc " + num5 + " is invalid");
                                 }
@@ -201,7 +201,7 @@ namespace SferedApi.Components
                                 num5++;
                             }
                         }
-                        curve.ClosestPoint(collection[index], ref num4);
+                        curve.ClosestPoint(collection[index], out num4);
                         Vector3d vectord = curve.TangentAt(num4);
                         vectord.Rotate(1.5707963267948966, plane.ZAxis);
                         vectordArray[index] = vectord;

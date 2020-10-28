@@ -31,7 +31,7 @@ namespace SferedApi
             Surface surface = null;
             DA.GetData<Brep>(0, ref brep);
             DA.GetData<Surface>(1, ref surface);
-            if (((brep == null) || (surface == null)) || !surface.get_IsValid())
+            if (((brep == null) || (surface == null)) || !surface.IsValid)
             {
                 this.AddRuntimeMessage(20, "input bad");
             }

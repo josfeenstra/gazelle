@@ -17,7 +17,7 @@ namespace SferedApi.Components.Geo
         {
             pManager.AddGenericParameter("Geometry", "G", "", 0);
             pManager.AddVectorParameter("Translation Vector", "T", "Vector move the Geometry with", 0, new Vector3d(0.0, 0.0, 10.0));
-            pManager.AddPlaneParameter("Translation Plane", "P", "Plane to move object in", 0, Plane.get_WorldXY());
+            pManager.AddPlaneParameter("Translation Plane", "P", "Plane to move object in", 0, Plane.WorldXY);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

@@ -31,7 +31,7 @@ namespace SferedApi
             Point3d point = Point3d.get_Unset();
             DA.GetData<Brep>(0, ref brep);
             DA.GetData<Point3d>(1, ref point);
-            if ((brep == null) || !point.get_IsValid())
+            if ((brep == null) || !point.IsValid)
             {
                 this.AddRuntimeMessage(20, "input bad");
             }

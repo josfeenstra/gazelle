@@ -34,7 +34,7 @@ namespace SferedApi.Components.CurveAdvanced
             DA.GetData<Curve>(1, ref curve);
             DA.GetData<int>(2, ref vertexFrom);
             DA.GetData<int>(3, ref vertexTo);
-            if (((brep == null) || ((curve == null) || (!curve.get_IsValid() || (vertexFrom == -1)))) || (vertexTo == -1))
+            if (((brep == null) || ((curve == null) || (!curve.IsValid || (vertexFrom == -1)))) || (vertexTo == -1))
             {
                 this.AddRuntimeMessage(20, "input bad");
             }

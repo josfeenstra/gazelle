@@ -55,7 +55,7 @@ namespace SferedApi.Components.Geo
                         if (num5 < num2)
                         {
                             Curve curve2 = list[num5];
-                            PointContainment containment = curve2.Contains(item, Plane.get_WorldXY(), 0.001);
+                            PointContainment containment = curve2.Contains(item, Plane.WorldXY, 0.001);
                             if (containment != 0)
                             {
                                 if (containment != 3)
@@ -124,7 +124,7 @@ namespace SferedApi.Components.Geo
             {
                 throw new Exception("No Curves Given For test");
             }
-            if (!point.get_IsValid())
+            if (!point.IsValid)
             {
                 throw new Exception("Point is not valid");
             }
@@ -242,7 +242,7 @@ namespace SferedApi.Components.Geo
                     }
                     return results;
                 }
-                if (!objA[num].get_IsValid())
+                if (!objA[num].IsValid)
                 {
                     throw new Exception($"curve {num} is not valid");
                 }
@@ -268,7 +268,7 @@ namespace SferedApi.Components.Geo
                     throw new Exception("not all curves are closed");
                 }
             }
-            if (!vector.get_IsValid())
+            if (!vector.IsValid)
             {
                 throw new Exception("vector is not valid");
             }

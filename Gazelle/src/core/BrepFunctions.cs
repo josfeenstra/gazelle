@@ -24,7 +24,7 @@ namespace SferedApi
             BrepFace face = loop2.Face;
             Curve curve = brep.Surfaces.get_Item(face.get_SurfaceIndex()).Pullback(brep.get_Edges().get_Item(edge).DuplicateCurve(), 0.001);
             CurveOrientation orientation = (loop2.get_LoopType() != 1) ? ((loop2.get_LoopType() != 2) ? ((CurveOrientation) 0) : ((CurveOrientation) (-1))) : ((CurveOrientation) 1);
-            CurveOrientation orientation2 = curve.ClosedCurveOrientation(Plane.get_WorldXY());
+            CurveOrientation orientation2 = curve.ClosedCurveOrientation(Plane.WorldXY);
             curve.Reverse();
             isTrimReversedEdge = true;
             if (((orientation2 != 1) || (orientation != -1)) ? ((orientation2 == -1) && (orientation == 1)) : true)
@@ -255,7 +255,7 @@ namespace SferedApi
             }
             foreach (BrepVertex vertex in original.get_Vertices())
             {
-                brep.get_Vertices().Add(vertex.get_Location(), precision);
+                brep.get_Vertices().Add(vertex.Location, precision);
             }
             foreach (BrepEdge edge in original.get_Edges())
             {
@@ -945,7 +945,7 @@ namespace SferedApi
                                 BrepVertex vertex = vertexArray[index];
                                 if (!dictionary.ContainsKey(vertex.get_VertexIndex()))
                                 {
-                                    int num9 = brep.AddVertex(vertex.get_Location());
+                                    int num9 = brep.AddVertex(vertex.Location);
                                     dictionary.Add(vertex.get_VertexIndex(), num9);
                                 }
                                 index++;
@@ -1003,7 +1003,7 @@ namespace SferedApi
                                 BrepVertex vertex = vertexArray[index];
                                 if (!dictionary.ContainsKey(vertex.get_VertexIndex()))
                                 {
-                                    int num9 = brep.AddVertex(vertex.get_Location());
+                                    int num9 = brep.AddVertex(vertex.Location);
                                     dictionary.Add(vertex.get_VertexIndex(), num9);
                                 }
                                 index++;
