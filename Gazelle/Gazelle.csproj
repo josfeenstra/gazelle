@@ -60,6 +60,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="_src\components\cat06\ScalableSpline.cs" />
+    <Compile Include="_src\components\cat06\ComponentTopologyArcsAndFillets.cs" />
+    <Compile Include="_src\components\cat06\ComponentTopologyCurve.cs" />
+    <Compile Include="_src\components\cat06\ComponentTopologySurface.cs" />
     <Compile Include="_src\custom-types\AttributesButtonGeneral.cs" />
     <Compile Include="_src\components\cat00\ComponentDevPythonInject.cs" />
     <Compile Include="_src\custom-types\AttributesButtonVarIn.cs" />
@@ -144,7 +148,6 @@
     <None Include="Resources\sfered-logo-zwart.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="_src\components\cat06\" />
     <Folder Include="_src\components\cat07\" />
     <Folder Include="_src\components\cat08\" />
     <Folder Include="_src\components\cat09\" />

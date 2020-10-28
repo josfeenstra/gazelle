@@ -11,8 +11,8 @@ namespace SferedApi
     {
         // version control (not how it should be)
         private static int MajorVersion = 0;
-        private static int MinorVersion = 2;
-        private static int BuildNumber = 1;
+        private static int MinorVersion = 5;
+        private static int BuildNumber = 0;
         private static int Revision = 0;
         public static string Version = MajorVersion +"."+MinorVersion +"."+BuildNumber+"."+Revision;
         public static string AssemblyVersion = Version;
