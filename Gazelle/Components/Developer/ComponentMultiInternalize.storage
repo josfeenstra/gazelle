@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
+
+namespace SferedApi.Components.Misc
+{
+    public class ComponentMultiInternalize : GH_Component
+    {
+        /// <summary>
+        /// Initializes a new instance of the MyComponent1 class.
+        /// </summary>
+        public ComponentMultiInternalize()
+          : base("MyComponent1", "Nickname",
+              "Description",
+              "Category", "Subcategory")
+        {
+        }
+
+        /// <summary>
+        /// Registers all the input parameters for this component.
+        /// </summary>
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        {
+
+        }
+
+        /// <summary>
+        /// Registers all the output parameters for this component.
+        /// </summary>
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        {
+        }
+
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// </summary>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            // input
+            var Add = false;
+            var Data = new List<object>();
+            var Storage = new List<object>();
+            var Get = 0;
+            
+
+            // reset text
+            Message = "Dont Link Storage!";
+
+            // Get the param of the Storage
+            var StorageParamBad = Params.Input[3];
+            GH_PersistentParam<IGH_Goo> StorageParam = StorageParamBad as GH_PersistentParam<IGH_Goo>;
+
+            // add to persistent data of
+            if (Add)
+            {
+                // add things to whatever is inside storage
+                foreach (var item in Data)
+                {
+                    StorageParam.SetPersistentData(item);
+                }
+                return;
+            }
+
+            if (Storage == null)
+                return;
+
+            try
+            {
+                // get sets of 3 items
+                var index = Get * 4;
+            }
+            catch
+            {
+                Message += "\nCouldn't get item: " + Get.ToString() + "...";
+            }
+
+
+            // output 
+            // Storage;
+
+        }
+
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("5fb7e3f1-bed8-4229-885a-4c8886e064dc"); }
+        }
+    }
+}

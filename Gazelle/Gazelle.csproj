@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9C8D9B67-E948-4CB6-BF21-39A60D3F5FC6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SferedApi</RootNamespace>
+    <AssemblyName>SferedApi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="RhinoCommon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Rhinoceros 5\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\feens\AppData\Roaming\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GH_IO">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\feens\AppData\Roaming\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AttributesButtonGeneral.cs" />
+    <Compile Include="Components\Developer\ComponentDevPythonInject.cs" />
+    <Compile Include="Attributes\AttributesButtonVarIn.cs" />
+    <Compile Include="Components\Developer\ComponentDevProcessFont.cs" />
+    <Compile Include="Components\Geo\ComponentGeoAsymmetricOffset.cs" />
+    <Compile Include="Components\Geo\ComponentGeoPerforateSurface.cs" />
+    <None Include="Components\Geo\ComponentGeoPlanarMove.cs.TurnedOff" />
+    <Compile Include="Components\Geo\ComponentGeoQuickSubCurves.cs" />
+    <None Include="Components\TextInsertion\ComponentGeoProjectText - Copy.BACKUP" />
+    <Compile Include="Components\Geo\ComponentGeoFlipCurve.cs" />
+    <Compile Include="Components\Developer\ComponentDevPluginInfo.cs" />
+    <Compile Include="Components\Misc\ComponentQuickBranchSelectNew.cs" />
+    <Compile Include="Components\TextInsertion\ComponentGeoProjectText.cs" />
+    <Compile Include="Components\Misc\ComponentQuickBranchSelectLegacy.cs" />
+    <Compile Include="Components\Misc\ComponentQuickItemSelect.cs" />
+    <None Include="Components\Developer\ComponentMultiInternalize.storage" />
+    <Compile Include="Components\Misc\ComponentQuickList.cs" />
+    <Compile Include="Components\Misc\ComponentQuickTree.cs" />
+    <Compile Include="Components\NodeConversion\ComponentDVController.cs" />
+    <None Include="Components\Developer\ComponentNodeFromClassic.storage" />
+    <Compile Include="Components\NodeConversion\ComponentNodeFromString.cs" />
+    <None Include="Components\Developer\ComponentNodeFromPath.storage" />
+    <None Include="Components\Developer\ComponentNodeToClassic.storage" />
+    <Compile Include="Components\Node\ComponentNodeIn.cs" />
+    <Compile Include="Components\Node\ComponentNodeInAll.cs" />
+    <Compile Include="Components\Node\ComponentNodeMerge.cs" />
+    <Compile Include="Components\Node\ComponentNodeOut.cs" />
+    <Compile Include="Components\NodeConversion\ComponentNodePythonify.cs" />
+    <Compile Include="Components\NodeConversion\ComponentNodeToString.cs" />
+    <Compile Include="Components\TextInsertion\ComponentTextFontSaver.cs" />
+    <Compile Include="Datatypes\GH_DataNode.cs" />
+    <Compile Include="Datatypes\Datanode.cs" />
+    <None Include="Datatypes\GH_Param_BaseDataNode.Incorrect" />
+    <Compile Include="Datatypes\GH_Param_BaseDataNode.cs" />
+    <Compile Include="Helpers\StaticData.cs" />
+    <Compile Include="Helpers\Functions.cs" />
+    <Compile Include="Helpers\DataNodeOld.cs" />
+    <Compile Include="Datatypes\GH_Param_DataNode.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="GazelleInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Components\Developer\ComponentDevClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pick_item21.png" />
+    <None Include="Resources\pick_item22.png" />
+    <None Include="Resources\pick_item23.png" />
+    <None Include="Resources\information.bmp" />
+    <Content Include="Resources\info.png" />
+    <Content Include="Resources\TextInsertJson.txt" />
+    <None Include="Resources\Image2.bmp" />
+    <Content Include="Resources\json1.txt" />
+    <None Include="Resources\ToJson.bmp" />
+    <None Include="Resources\NodeIn.bmp" />
+    <None Include="Resources\NodeOut.bmp" />
+    <None Include="Resources\NodeMerge.bmp" />
+    <None Include="Resources\pick_item.png" />
+    <None Include="Resources\pick_branch.png" />
+    <None Include="Resources\Sfered_Iconified.png" />
+    <None Include="Resources\NodeIn1.bmp" />
+    <None Include="Resources\NodeIn11.bmp" />
+    <None Include="Resources\NodeIn12.bmp" />
+    <None Include="Resources\NodeIn13.bmp" />
+    <None Include="Resources\NodeIn131.bmp" />
+    <None Include="Resources\NodeIn14.bmp" />
+    <None Include="Resources\pick_item1.png" />
+    <None Include="Resources\pick_branch1.png" />
+    <None Include="Resources\NodeIn1311.bmp" />
+    <None Include="Resources\pick_item2.png" />
+    <Content Include="Resources\TextFile1.txt" />
+    <None Include="packages.config" />
+    <None Include="Resources\Image1.png" />
+    <Content Include="Resources\LogoVarIn.png" />
+    <None Include="Resources\sfered-logo-zwart1.png" />
+    <None Include="Resources\sfered-logo-zwart.png" />
+    <None Include="Temp\json1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Python\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName)_$(AssemblyVersion).gha"
+Copy "$(TargetPath)" "C:\Users\Feens\AppData\Roaming\Grasshopper\Libraries\$(ProjectName)_$(AssemblyVersion).gha"
+Erase "$(TargetPath)"
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhinoceros 5 (64-bit)\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+</Project>

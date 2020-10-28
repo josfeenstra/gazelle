@@ -1,0 +1,492 @@
+ghenv.Component.Name = "SI: Pythonify"
+ghenv.Component.NickName = "SI: PY"
+ghenv.Component.Description = "converts C# nodes into python usable node"
+
+
+
+print("hello world")
+a = "hello world"
+b = x + y
+ 
+ import Rhino as rc
+import Rhino.Geometry as rcg
+import scriptcontext as sc
+
+import clr
+clr.AddReference("Grasshopper")
+import Grasshopper as gh
+import rhinoscriptsyntax as rs 
+
+from copy import deepcopy as copy
+import string
+
+# get the letter curve data 
+DATA_LETTERLINES = C
+
+class HelpData:
+    
+    def __init__(self):
+        self.LETTER_CURVES = DATA_LETTERLINES
+        self.LETTER_DATA = {
+        "data a": {
+            "surface top": [ 
+                [10,9,4,0],
+                [10,1,11,12],
+                [12,2,7,6],
+                [4,3,[18,5,19],6],
+                [5,17,8]
+            ],
+            "surface bot": [
+                [18,9,13,17],
+                [8,7,19,14],
+                [11,13,14]
+            ],
+            "loft": [11,7,19,8,17,18,9],
+            "edges": [0,1,2,3]
+         },    
+        "data b": {
+            "surface top": [ 
+                [13,14,15,16],
+                [9,10,11,12],
+                [0,[4,5],28,27],
+                [27,1,6,17],
+                [17,3,22,32],
+                [22,31,7,18],
+                [28,8,2,18]
+            ],
+            "surface bot": [
+                [6,26,13,29],
+                [29,3,16,24],
+                [24,15,20,21],
+                [5,20,14,26],
+                [19,21,23,11],
+                [23,12,7,30],
+                [8,9,25,30],
+                [25,4,10,19]
+
+            ],
+            "loft": [4,5,6,3,7,8,9,10,11,12,13,14,15,16],
+            "edges": [0,1,2,32,31]
+         },
+        "data c": {
+            "surface top": [
+                [10, 1, 4, 11],
+                [11, 2, 13, 12],
+                [12, 3,7,16],
+                [16, 17, 10, 0],
+                
+                [14,13,9,8],
+                [6,14,5,15]
+            ],
+            "surface bot": [
+                [19,9,6,4],
+                [8,5,7,18],
+                [17,19,15,18]
+            ],
+            "loft": [9,6,15,5,8,7,17,4],
+            "edges": [0,1,2,3]
+        },
+        "data d": {
+            "surface top": [ 
+                [16, 17, 6, 0],
+                [16, 1, 11, 19],
+                [5,2,19,18],
+                [17,10,3,18],
+                [8,4,9,7]
+            ],
+            "surface bot": [
+                [6,7,12,15],
+                [12,11,13,8],
+                [13,4,5,14],
+                [14,9,10,15]
+            ],
+            "loft": [10,5,11,6,7,9,4,8],
+            "edges": [0,1,2,3]
+         },
+        "data e": {
+            "surface top": [
+                [20, 22, 1, 17],
+                [11,5,17],
+                [27,18,4],
+                [5,2,4,6],
+                [8,26,7,6],
+                [12,7,9,14],
+                [10,8,13,16],
+                [20,24,19,0],
+                [19,28,18,3]
+            ],
+            "surface bot": [
+                [22,11,10,23],
+                [23,24,[14,15,16],25],
+                [12,13,15,26],
+                [25,9,27,28],
+            ],
+            "loft": [22,11,10,16,13,26,12,14,9,27,28,24],
+            "edges": [0,1,2,3]
+        },
+        "data f": {
+            "surface top": [
+                [9, 24, 10, 6],
+                [9,23,8,12],
+                [12,17,20],
+                [20,22,11,4],
+                [[0,1],10,21,11],
+                [13,18,19,15],
+                [19,5,4,3],
+                [2,16,3,0]
+
+            ],
+            "surface bot": [
+                [7,6,[13,14,2],1],
+                [7,8,17,18],
+                [14,15,16,5]
+            ],
+            "loft": [6,8,17,18,13,15,5,16,2,1],
+            "edges": [24,23,22,21]
+             
+        }
+    } 
+
+class SferedAPI:
+
+    def __init__(self):
+        self.hd = HelpData()
+        self.letterData = self.hd.LETTER_DATA
+        self.letterCurves = self.hd.LETTER_CURVES    
+    
+    # not being used right now 
+    def subCurveSpecial(self, somedata, curves):
+        iCurve = somedata[1]
+        iPoint = somedata[2]
+        nSubCurve = somedata[4]
+        curve = curves[iCurve]
+        points = [curves[iPoint].PointAtStart, curves[iPoint].PointAtEnd]
+        point = points[somedata[3]]
+        return self.subCurve(curve, point, nSubCurve)
+
+    # not being used right now 
+    def subCurve(self, inCurve, point, part=-1):
+        
+        # find splitting parameter out of point
+        t = inCurve.ClosestPoint(point, 1.0)[1]
+        outCurve = copy(inCurve)
+        
+        # this fails sometimes 
+        subcurves = outCurve.Split(int(t))
+        for curve in subcurves:
+            print(curve.Domain)
+        # part 1 or part 2 is not clear
+        if part == -1:
+            return subcurves
+        else:
+            return subcurves[part]
+
+    def projectLetterInsertion(self, character, inputData, surface, vector, depth):
+        
+        # test
+        test = []
+        
+        # rc.Geometry.Transform.Translation(1,1,1)
+        curves1 = []
+        curves2 = []
+        resultGeo = []
+        
+        # precaluclations 
+        tolerance = 0.000000001
+        tolerance_incorrect = sc.doc.ModelAbsoluteTolerance
+        # determine dataset based upon inserted character
+        key = "data " + character.lower()
+        if key not in self.letterData.keys(): print("char input wrong"); return 
+        data = self.letterData[key]
+        
+        # per item in inputdata
+        for i, curve in enumerate(inputData):
+            # filter away coordinate thing
+            if i == 0 or curve == None:
+                continue
+        
+            # project curves to brep, and move curve
+            try:
+                projectedCrvs = rc.Geometry.Curve.ProjectToBrep(curve, surface, vector, tolerance)
+            except:
+                print("process failed")
+                return [[],[]]
+            
+            # select the right curve from the list 
+            if len(projectedCrvs) == 1:
+                # only 1 curve in list 
+                projectedCrv = projectedCrvs[0]
+            else:
+                
+                print("multiple projections")
+                
+                # pick closest one, unless if its waaay smaller than the original curve
+                errormargin = curve.GetLength() / 100
+                projectedCrvsSublist = [crv for crv in projectedCrvs if crv.GetLength() > errormargin]
+                if len(projectedCrvsSublist) < 1:
+                    print(" the project to brep results failed ")
+                    return [[],[]]
+                
+                pointList = rc.Collections.Point3dList([crv.PointAtEnd for crv in projectedCrvsSublist])
+                closestI = pointList.ClosestIndex(curve.PointAtEnd)
+                projectedCrv = projectedCrvsSublist[closestI]
+            
+                # 
+                for curve in projectedCrvs:
+                    length = curve.GetLength()
+                    print(length)
+            
+            # DEBUG STEP: to avoid rare glichy surfaces, rebulid curve. dont rebuild if edge curve
+            #            rebuilt = projectedCrv.Rebuild(10, projectedCrv.Degree, False)
+            #            if i in data["edges"]:
+            #                rebuilt = projectedCrv 
+            #            if not rebuilt:
+            #                print("ERROR: FIND THIS CURVE: {}".format(i))
+            #                rebuilt = projectedCrv
+            
+            # add the upper and lower curves to an upper and lower set
+            curves1.append(copy(projectedCrv))
+            projectedCrv.Translate(vector * depth)
+            curves2.append(projectedCrv)
+        
+        # convert curves to geometry
+        for dataset in data["surface top"]:
+            curveSet = self.getCurves(curves1, dataset)
+            geo = rc.Geometry.Brep.CreateEdgeSurface(curveSet)
+            resultGeo.append(geo)
+        
+        for dataset in data["surface bot"]:
+            curveSet = self.getCurves(curves2, dataset)
+            geo = rc.Geometry.Brep.CreateEdgeSurface(curveSet)
+            resultGeo.append(geo)
+                        
+            # test
+            test.append(curveSet)
+        for i in data["loft"]:
+            curveSet = [curves1[i], curves2[i]]
+            geo = rc.Geometry.Brep.CreateFromLoft(curveSet, 
+                rc.Geometry.Point3d.Unset, rc.Geometry.Point3d.Unset, rc.Geometry.LoftType.Normal, False)[0]
+            resultGeo.append(geo)
+        
+        # return the stuff 
+        return [resultGeo, test]
+
+    def getCurves(self, curves, indexes):
+        # function to extract multiple curves from a list of curves, by giving a list of indexes
+        # special feature, insert a list op indexes instead of an index, a joined curve is returned
+        subList = []
+        for index in indexes:
+            if isinstance(index, int):
+                subList.append(curves[index])
+            elif isinstance(index, list): 
+                # join all selected curves
+                joinableCurves = []
+                for i in index:
+                    if isinstance(i, str) and i == "sub":
+                            joinableCurves.append(self.subCurveSpecial(index, curves))
+                            break
+                    else:
+                        joinableCurves.append(curves[i])
+                joinedCurve = rc.Geometry.Curve.JoinCurves(joinableCurves)[0]
+                subList.append(joinedCurve)
+            else:
+                print("TYPE ERROR")
+                
+        return subList
+
+    def listToTree(self, pythonList):
+        """ This is not mine """
+        """ Converts a  nested Python list to a GH datatree """
+        
+        # Create GH datatree
+        dataTree = gh.DataTree[object]()
+        
+        # Add pythonlist sub lists to dataTree
+        for i,l in enumerate(pythonList):
+            for v in l:
+                dataTree.Add(v,gh.Kernel.Data.GH_Path(i))
+                
+        return dataTree
+
+    def treeToList(self, dataTree):
+        
+        """ Converts a GH datatree to a nested Python list """
+        
+        # Create an empty Python list
+        pyList = []
+        
+        # Add the branches of the Gh datatree to this list
+        for i in range(dataTree.BranchCount):
+            branch = list(dataTree.Branch(i))
+            pyList.append(branch)
+            
+        return pyList
+
+    def InsertCodeIntoSurface(self, code, inputBrep, projectionPlane, cpPrecision, depth, inputWidth, inputHeight):
+
+        # function specific constances 
+        LETTER_CURVES_HOVER_HEIGHT = 1
+        
+        # test
+        test = []
+
+        # get coordinates for all cornerpoints 
+        LETTER_CURVES_HEIGHT = 2.4
+        LETTER_CURVES_WIDTH = 2.4
+        
+        # pre definitions 
+        codeLength = len(code)
+        # cornerPoint = self.letterCurves.Branch(1)[0]
+        xVec = rc.Geometry.Vector3d.XAxis
+        yVec = rc.Geometry.Vector3d.YAxis
+        zVec = rc.Geometry.Vector3d.ZAxis
+        originPoint = rc.Geometry.Point3d.Origin
+        
+        # determine the zxPlane. This is the plane all curve geo is written upon
+        zxPlane = rc.Geometry.Plane(originPoint, xVec, zVec)
+         
+        # get a point on the surface, to get the surface normal. 
+        # it doesnt matter if surface is brep, but point must be close to surface / brep
+        operationCP = inputBrep.ClosestPoint(projectionPlane.Origin, cpPrecision)
+        
+        if operationCP[0]:
+            
+            # perform necesairy calculations to get a good hover point 
+            surfacePoint = operationCP[1]
+            componentIndex = operationCP[2]
+            surfaceNormal = operationCP[5] 
+            point = rc.Geometry.Point3d.Add(surfacePoint, surfaceNormal * LETTER_CURVES_HOVER_HEIGHT)
+            
+            # now turn this data into a suitable plane
+            # badPlane = rc.Geometry.Plane(point, surfaceNormal, planeXVector)
+            # projectPlane = rc.Geometry.Plane(point, badPlane.ZAxis, planeXVector)
+            
+            # set up transformation data
+            scaleTransformation = rc.Geometry.Transform.Scale(zxPlane, inputWidth / LETTER_CURVES_WIDTH, inputHeight / LETTER_CURVES_HEIGHT, 1)
+            planeTransformation = rc.Geometry.Transform.PlaneToPlane(zxPlane, projectionPlane)
+            
+            
+            # rc.Geometry.Plane.
+            # test.append(badPlane)
+            # test.append(projectPlane)
+        else:
+            print("input point is to far away!")
+            return [[],[]]
+        
+        # calculate how the centre points should move
+        distanceToMid = LETTER_CURVES_WIDTH * codeLength / 2 
+        print(distanceToMid)
+        
+        # per character in code
+        letterGeo = []
+        for i, character in enumerate(code):
+            
+            # make a new point
+            xMovement = (LETTER_CURVES_WIDTH * i) - distanceToMid
+            
+            # create vector data for moving curves over to correct position
+            vector1 = rc.Geometry.Vector3d(LETTER_CURVES_WIDTH / 2,0,0)         # move left & right
+            vector2 = rc.Geometry.Vector3d(xMovement,0,0)                       # move to char. pos.
+            vector3 = rc.Geometry.Vector3d(point)                               # move towards the actual point
+            vectorTotal = vector1 + vector2
+            
+            # select the set of lettercurves to used, based upon the character to be created ("a", 'b', 'o', etc)
+            charID = ord(character.lower()) - 97
+            letterCurves = self.letterCurves.Branch(charID)
+            
+            # fill a list with curves in correct position
+            movedCurves = []
+            for i, curve in enumerate(letterCurves):
+                if i == 0:
+                    movedCurves.append(copy(curve))
+                    continue
+                    
+                # make a copy, and move it to correct position
+                newCurve = copy(curve)
+                newCurve.Translate(vectorTotal)
+                
+                # perform additional transformations, like scaling and rotating
+                newCurve.Transform(scaleTransformation)
+                newCurve.Transform(planeTransformation)
+                
+                # rc.Geometry.Transform.ChangeBasis()
+                
+                # add it to the list
+                movedCurves.append(newCurve)
+            
+            # use that list to make the letter extrution per character 
+            geo, moretest = self.projectLetterInsertion(character, movedCurves, inputBrep, projectionPlane.Normal, depth * -1)
+            test += moretest
+            # add the new geometry to the list
+            letterGeo.append(geo)
+        return [letterGeo, test, surfacePoint]
+
+
+
+
+
+
+
+
+
+""" DO NOT USE THIS THING, DANGEROUS"""
+class SferedDebugTools:
+    
+    display = rc.Display.CustomDisplay(True)
+    
+    def __init__(self):
+        pass
+        
+    def printTest(self, curves):
+        
+        # start with clean slate
+        display.Clear()
+        
+        # make text in a plane
+        origin = rc.Geometry.Point3d(0,0,0)
+        vector = rc.Geometry.Vector3d(0,0,1)
+        plane = rc.Geometry.Plane(origin, vector)
+        color = rc.Display.ColorHSL(1,1.0,0.5)
+        text = rc.Display.Text3d("hoi", plane, 5)
+       
+        # rc.Display.Text3d()
+        # add it to the custom display
+        display.AddText(text, color)
+        display.AddCurve(curves[0], color, 6)
+    
+    def printCurves(self, curves):
+
+        # start with clean slate
+        display.Clear()
+        
+        for i, curve in enumerate(curves):
+            
+            # get midplane section curves 
+            # curve.
+            
+            # make text in a plane
+            # rc.Geometry.Vector3d(
+            origin = rc.Geometry.Point3d(0,0,0)
+            vector = rc.Geometry.Vector3d(0,0,1)
+            plane = rc.Geometry.Plane(origin, vector)
+            color = rc.Display.ColorHSL(1,1.0,0.5)
+            
+            text = rc.Display.Text3d("curve " + str(i), plane, 5)
+            rc.Display.Text3d
+            # text.FrontFace = True
+            
+            # rc.Display.Text3d()
+            # add it to the custom display
+            display.AddText(text, color)
+            display.AddCurve(curve, color, 3)
+            
+    def clear(self):
+        
+        display.Clear()
+        display.Dispose
+        del display
+
+API = SferedAPI
+# DO NOT USE DEBUGTOOLS YET
+DB = SferedDebugTools
+

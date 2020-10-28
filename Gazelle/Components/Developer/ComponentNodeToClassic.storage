@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Rhino.Geometry;
+using SferedApi.Datatypes;
+
+namespace SferedApi.Components.NodeConversion
+{
+    public class ComponentNodeToClassic : GH_Component
+    {
+        /// <summary>
+        /// Initializes a new instance of the ComponentNodeToClassic class.
+        /// </summary>
+        public ComponentNodeToClassic()
+          : base(   SD.Starter + "Obsolete", // Node to classic / old data structure
+                    SD.Starter + "To Old DONT USE THIS",
+                    SD.CopyRight + "Create a classic design variable data structure from a Node. " +
+                                   "\nNode Must to contain the keys '"+ SD.JsonMetaKeys0 +"' and '"+ SD.JsonMetaKeys1 + "'." +
+                                   "\nThose entries must contain: " + SD.ClassicKeys0 + ", " + SD.ClassicKeys1 + ", " + SD.ClassicKeys2 + ", " + SD.ClassicKeys3 + ", " + SD.ClassicKeys4 + " and " + SD.ClassicKeys5 + ".",
+                    SD.PluginTitle,
+                    SD.PluginCategory0)
+        {
+        }
+
+        // -------------------------------------------
+
+        // list in list to tree 
+        public DataTree<object> listToTree(List<List<object>> list)
+        {
+            /// This is not mine
+            /// Converts a  nested list to a GH_datatree
+            
+            // Create GH datatree
+            var dataTree = new DataTree<object>();
+
+            // Add pythonlist sub lists to dataTree
+            for (int i = 0; i < list.Count; i++)
+            {
+                var sublist = list[i];
+                foreach (var item in sublist)
+                {
+                    dataTree.Add(item, new GH_Path(i));
+                }
+            }
+            return dataTree;
+        }
+
+        // -------------------------------------------
+
+        /// <summary>
+        /// Registers all the input parameters for this component.
+        /// </summary>
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        {
+            pManager.AddGenericParameter("node", "N", "node", GH_ParamAccess.item);
+        }
+
+        /// <summary>
+        /// Registers all the output parameters for this component.
+        /// </summary>
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        {
+            //pManager.AddGenericParameter("node", "node", "node", GH_ParamAccess.item);
+            pManager.AddGenericParameter("old / classic data", "D", "Classic data structure to be used in old models", GH_ParamAccess.tree);
+        }
+
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// </summary>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            // input 
+            var inNode = new GH_DataNode();
+            DA.GetData(0, ref inNode);
+            var dict = inNode.Value.GetFlatDict();
+
+            // try to get the dictionaries 
+            Dictionary<string, object> classicDict;
+            Dictionary<string, object> classicMap;
+            try
+            {
+                classicDict = (Dictionary<string, object>)dict[SD.JsonMetaKeys0];
+                classicMap = (Dictionary<string, object>)dict[SD.JsonMetaKeys1];
+            }
+            catch
+            {
+
+                DA.SetData(0, dict);
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Incorrect input. Are you sure the keys are right?");
+                return;
+            }
+
+            // Create GH datatree
+            var dataTree = new DataTree<object>();
+
+            // add empty entry, to make list of list counter start at 1 (oude datastructuur teller begint bij 1, foei foei foei)
+            dataTree.Add("sybren je begint altijd bij 0 met tellen :)", new GH_Path(0));
+
+
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, classicMap.ToString());
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, classicDict.ToString());
+
+            //// iterate through keys (designVec, Bridge, etc)
+            //for (int i = 0; i < list.Count; i++)
+            //{
+            //    var sublist = list[i];
+            //    foreach (var item in sublist)
+            //    {
+            //        dataTree.Add(item, new GH_Path(i));
+            //    }
+            //}
+
+
+            //// iterate 'in order' through metakeys
+            //for subListKey in subListKeys:
+
+
+            //    print(oldDict)
+
+            //    // get the correct sub dict
+            //    subDict = oldDict[subListKey]
+            //    subDictMap = oldDictMap[subListKey]
+
+            //    // make a new sub list
+            //    subList = []
+            //    idList = []
+
+            //    // go through both dicts
+            //            for key, iValue in subDictMap.iteritems():
+
+            //        // add list items to sublist
+            //                try:
+            //            value = subDict[key]
+            //        except:
+            //                print("COULDNT FORMAT: {}".format(key))
+            //            value = "NONE"
+
+
+            //        subList.extend([key, value])
+
+            //        // add desired order id's to another list
+            //        iKey = iValue - 1
+            //        idList.extend([iKey, iValue])
+
+            //    // sort subList by sorting the values of idList
+            //    sortedList = [x for _, x in sorted(zip(idList, subList))]
+
+
+            //    listOfLists.append(sortedList)
+
+
+
+            // output
+            DA.SetData(0, dataTree);
+        }
+
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("e54423ca-d6ce-4854-ae3f-623d239bf150"); }
+        }
+    }
+}

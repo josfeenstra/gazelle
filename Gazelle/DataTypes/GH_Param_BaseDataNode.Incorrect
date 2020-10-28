@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Grasshopper.Kernel;
+using Rhino.Geometry;
+
+namespace SferedApi
+{
+    // I tried to do it nicely, extending the base, but for some reason C# doesnt like it. Im afraid i have to resort to the good ol' copy pasting... 
+
+
+    public class GH_Param_BaseDataNode : GH_Param_DataNode
+    {
+        public GH_Param_BaseDataNode()
+            : base("Base ","B")
+        {
+        }
+
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override Bitmap Icon
+        {
+            get
+            {
+                // david rutten has created this amazing bitmap. im keeping this because i wanna know how he does it
+                Bitmap icon = new Bitmap(24, 24, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Graphics g = Graphics.FromImage(icon);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.Clear(Color.Transparent);
+
+                // the drawing
+                g.FillEllipse(Brushes.Green, 4, 4, 16, 16);
+                g.FillEllipse(Brushes.LightGreen, 7, 7, 5, 5);
+                g.DrawEllipse(Pens.Black, 3, 3, 18, 18);
+                g.DrawEllipse(Pens.Black, 4, 4, 16, 16);
+
+                // finally 
+                g.Dispose();
+                return icon;
+            }
+        }
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("cdd49b6b-878f-4b7a-9821-4bc21a372ad0"); }
+        }
+
+        public override string TypeName
+        {
+            get { return "BaseDataNode"; }
+        }
+    }
+}

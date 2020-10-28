@@ -1,0 +1,197 @@
+﻿using System;
+using System.Collections.Generic;
+
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
+using SferedApi.Datatypes;
+
+namespace SferedApi.Components.NodeConversion
+{
+   
+    // NOTE: classic referes to the old way of storing Sfered Intelligence Design Variable Data.
+    public class ComponentNodeFromClassic : GH_Component
+    {
+        /// <summary>
+        /// Initializes a new instance of the ComponentNodeFromClassic class.
+        /// </summary>
+        public ComponentNodeFromClassic()
+          : base(SD.Starter + "Obsolete", // Node from classic / old data structure
+                    SD.Starter + "from Old DONT USE THIS",
+                    SD.CopyRight + "Create a Node from a classic design variable data structure. " +
+                                   "\nNode Must to contain the keys '" + SD.JsonMetaKeys0 + "' and '" + SD.JsonMetaKeys1 + "'." +
+                                   "\nmust contain: " + SD.ClassicKeys0 + ", " + SD.ClassicKeys1 + ", " + SD.ClassicKeys2 + ", " + SD.ClassicKeys3 + ", " + SD.ClassicKeys4 + " and " + SD.ClassicKeys5 + ".",
+                    SD.PluginTitle,
+                    SD.PluginCategory0)
+        {
+        }
+
+        //---------------------------------------------------------------------  helper function
+
+        // turn a list of classic DV data into a json 
+        public bool JsonifyClassicList( List<object> keyValuePairs, 
+                                        ref Dictionary<string, string> classicDict,
+                                        ref Dictionary<string, int> translationDict)
+        {
+            // if list is not even
+            if (keyValuePairs.Count % 2 != 0)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "list length uneven");
+                return false;
+            }
+
+            // convert 2 items of the list into 1 key / value pair 
+            var savedKey = "";
+            for (int i = 0; i < keyValuePairs.Count; i++)
+            {
+                var item = keyValuePairs[i];
+                if (i % 2 == 0)
+                {
+                    // item is key, even | convert to string and store it temporarely
+                    if (item is string)
+                    {
+                        string s_item = (string)item;
+                        savedKey = s_item.Replace(" ", "_");
+                    }
+                    if (item is GH_String)
+                    {
+                        var s_item = (GH_String)item;
+                        savedKey = s_item.Value.Replace(" ", "_");
+                    }
+                    else
+                    {
+                        // couldnt convert key to keyable data
+                        return false;
+                    }
+
+                    
+                }
+                else
+                {
+                    // item is value, odd
+                    classicDict[savedKey] = item.ToString();
+                    translationDict[savedKey] = i;
+                }
+            }
+
+            // the dictionaries should now be filled
+            return true;
+
+        }
+
+        // -------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Registers all the input parameters for this component.
+        /// </summary>
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        {
+            pManager.AddGenericParameter("old / classic data", "D", "Classic data structure from old models", GH_ParamAccess.tree);
+        }
+
+        /// <summary>
+        /// Registers all the output parameters for this component.
+        /// </summary>
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        {
+            pManager.AddGenericParameter("node", "N", "node", GH_ParamAccess.item);
+        }
+
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// 
+        /// DATA STRUCTURE:
+        /// 
+        /// MetaDict:
+        ///    L About:         # metadata
+        ///      L version
+        ///      L date
+        ///      L modeller
+        ///      L model
+        ///    L Old:           # classic way of structuring the design variables
+        ///      L designVec
+        ///        L "1.0 TO 3"
+        ///      L glass
+        ///        L "1.0 to 3"
+        ///      L...
+        ///    L OldMap:        # these contain the indexes to map the dictionary back to the old list
+        ///      L designVec
+        ///        L "5.0"
+        ///    L Kernel         # core 
+
+        /// </summary>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            // input 
+            var classicData = new GH_Structure<IGH_Goo>();
+            DA.GetDataTree(0, out classicData);
+
+            // process: set the data of a new datanode to the json data
+            var dvDict = new Dictionary<string, object>();        // design variable dictionary
+            var transDict = new Dictionary<string, object>();     // translation dictionary 
+
+            // 
+            for (int i = 0; i < classicData.Branches.Count; i++)
+            {
+                // get sublist | IGH_Goo -> objects
+                var subList = new List<object>(classicData.Branches[i]);
+
+                // create new sub dictionaries 
+                var dvDictEntry = new Dictionary<string, string>();
+                var transEntry = new Dictionary<string, int>();
+                
+                // fill subdicts 
+                var r = JsonifyClassicList(subList, ref dvDictEntry, ref transEntry);
+                if (r == false)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "couldn't convert dictionary");
+                    return;
+                }
+
+                // add subdicts to main dicts
+                var key = SD.ClassicKeys[i];
+                dvDict[key] = dvDictEntry;
+                transDict[key] = transEntry;
+            }
+    
+            // create the static setup of the meta dictionary
+            var metaDict = new Dictionary<string, object>()
+            {
+                { SD.JsonMetaKeys0, dvDict},
+                { SD.JsonMetaKeys1, transDict},
+                { SD.JsonMetaKeys2, new Dictionary<string, object>() { { "Description", "TODO about" } } },
+                { SD.JsonMetaKeys3, new Dictionary<string, object>() { { "Description", "TODO extra" } } }
+            };
+     
+            // we have a dictionary filled with the right stuff, make a node out of it 
+            var outNode = new GH_DataNode(metaDict);
+            
+            // output
+            DA.SetData(0, outNode);
+        }
+
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("dd8f3d64-c6fe-4e31-b763-778b18771236"); }
+        }
+    }
+}
