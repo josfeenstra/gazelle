@@ -60,44 +60,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\AttributesButtonGeneral.cs" />
-    <Compile Include="Components\Developer\ComponentDevPythonInject.cs" />
-    <Compile Include="Attributes\AttributesButtonVarIn.cs" />
-    <Compile Include="Components\Developer\ComponentDevProcessFont.cs" />
-    <Compile Include="Components\Geo\ComponentGeoAsymmetricOffset.cs" />
-    <Compile Include="Components\Geo\ComponentGeoPerforateSurface.cs" />
-    <None Include="Components\Geo\ComponentGeoPlanarMove.cs.TurnedOff" />
-    <Compile Include="Components\Geo\ComponentGeoQuickSubCurves.cs" />
-    <None Include="Components\TextInsertion\ComponentGeoProjectText - Copy.BACKUP" />
-    <Compile Include="Components\Geo\ComponentGeoFlipCurve.cs" />
-    <Compile Include="Components\Developer\ComponentDevPluginInfo.cs" />
-    <Compile Include="Components\Misc\ComponentQuickBranchSelectNew.cs" />
-    <Compile Include="Components\TextInsertion\ComponentGeoProjectText.cs" />
-    <Compile Include="Components\Misc\ComponentQuickBranchSelectLegacy.cs" />
-    <Compile Include="Components\Misc\ComponentQuickItemSelect.cs" />
-    <None Include="Components\Developer\ComponentMultiInternalize.storage" />
-    <Compile Include="Components\Misc\ComponentQuickList.cs" />
-    <Compile Include="Components\Misc\ComponentQuickTree.cs" />
-    <Compile Include="Components\NodeConversion\ComponentDVController.cs" />
-    <None Include="Components\Developer\ComponentNodeFromClassic.storage" />
-    <Compile Include="Components\NodeConversion\ComponentNodeFromString.cs" />
-    <None Include="Components\Developer\ComponentNodeFromPath.storage" />
-    <None Include="Components\Developer\ComponentNodeToClassic.storage" />
-    <Compile Include="Components\Node\ComponentNodeIn.cs" />
-    <Compile Include="Components\Node\ComponentNodeInAll.cs" />
-    <Compile Include="Components\Node\ComponentNodeMerge.cs" />
-    <Compile Include="Components\Node\ComponentNodeOut.cs" />
-    <Compile Include="Components\NodeConversion\ComponentNodePythonify.cs" />
-    <Compile Include="Components\NodeConversion\ComponentNodeToString.cs" />
-    <Compile Include="Components\TextInsertion\ComponentTextFontSaver.cs" />
-    <Compile Include="Datatypes\GH_DataNode.cs" />
-    <Compile Include="Datatypes\Datanode.cs" />
-    <None Include="Datatypes\GH_Param_BaseDataNode.Incorrect" />
-    <Compile Include="Datatypes\GH_Param_BaseDataNode.cs" />
-    <Compile Include="Helpers\StaticData.cs" />
-    <Compile Include="Helpers\Functions.cs" />
-    <Compile Include="Helpers\DataNodeOld.cs" />
-    <Compile Include="Datatypes\GH_Param_DataNode.cs" />
+    <Compile Include="_src\custom-types\AttributesButtonGeneral.cs" />
+    <Compile Include="_src\components\cat00\ComponentDevPythonInject.cs" />
+    <Compile Include="_src\custom-types\AttributesButtonVarIn.cs" />
+    <Compile Include="_src\components\cat00\ComponentDevProcessFont.cs" />
+    <Compile Include="_src\components\cat04\ComponentGeoAsymmetricOffset.cs" />
+    <Compile Include="_src\components\cat04\ComponentGeoPerforateSurface.cs" />
+    <Compile Include="_src\core\BrepFunctions.cs" />
+    <Compile Include="_src\core\CurveFunctions.cs" />
+    <Compile Include="_src\core\SurfaceFunctions.cs" />
+    <None Include="_src\components\cat04\ComponentGeoPlanarMove.cs.TurnedOff" />
+    <Compile Include="_src\components\cat04\ComponentGeoQuickSubCurves.cs" />
+    <Compile Include="_src\components\cat04\ComponentGeoFlipCurve.cs" />
+    <Compile Include="_src\components\cat00\ComponentDevPluginInfo.cs" />
+    <Compile Include="_src\components\cat03\ComponentQuickBranchSelectNew.cs" />
+    <Compile Include="_src\components\cat05\ComponentGeoProjectText.cs" />
+    <Compile Include="_src\components\cat03\ComponentQuickBranchSelectLegacy.cs" />
+    <Compile Include="_src\components\cat03\ComponentQuickItemSelect.cs" />
+    <Compile Include="_src\components\cat03\ComponentQuickList.cs" />
+    <Compile Include="_src\components\cat03\ComponentQuickTree.cs" />
+    <Compile Include="_src\components\cat02\ComponentDVController.cs" />
+    <Compile Include="_src\components\cat02\ComponentNodeFromString.cs" />
+    <Compile Include="_src\components\cat01\ComponentNodeIn.cs" />
+    <Compile Include="_src\components\cat01\ComponentNodeInAll.cs" />
+    <Compile Include="_src\components\cat01\ComponentNodeMerge.cs" />
+    <Compile Include="_src\components\cat01\ComponentNodeOut.cs" />
+    <Compile Include="_src\components\cat02\ComponentNodePythonify.cs" />
+    <Compile Include="_src\components\cat02\ComponentNodeToString.cs" />
+    <Compile Include="_src\components\cat05\ComponentTextFontSaver.cs" />
+    <Compile Include="_src\custom-types\GH_DataNode.cs" />
+    <Compile Include="_src\custom-types\Datanode.cs" />
+    <None Include="_src\custom-types\GH_Param_BaseDataNode.Incorrect" />
+    <Compile Include="_src\custom-types\GH_Param_BaseDataNode.cs" />
+    <Compile Include="_src\utils\StaticData.cs" />
+    <Compile Include="_src\core\Functions.cs" />
+    <Compile Include="_src\custom-types\GH_Param_DataNode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,7 +102,7 @@
     </Compile>
     <Compile Include="GazelleInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Components\Developer\ComponentDevClass.cs" />
+    <Compile Include="_src\components\cat00\ComponentDevClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -145,10 +142,13 @@
     <Content Include="Resources\LogoVarIn.png" />
     <None Include="Resources\sfered-logo-zwart1.png" />
     <None Include="Resources\sfered-logo-zwart.png" />
-    <None Include="Temp\json1.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Python\" />
+    <Folder Include="_src\components\cat06\" />
+    <Folder Include="_src\components\cat07\" />
+    <Folder Include="_src\components\cat08\" />
+    <Folder Include="_src\components\cat09\" />
+    <Folder Include="_src\components\cat10\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

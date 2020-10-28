@@ -26,7 +26,7 @@ namespace SferedApi
     class SD
     {
         // info for components
-        public static string Starter     = "SI ";
+        public static string Starter     = "GZ ";
         public static string CopyRight   = "(c) Sfered" + "Plugin version";
         public static string PluginTitle = Meta.Name;
 
@@ -38,6 +38,14 @@ namespace SferedApi
         public static string PluginCategory3 = "Misc.";
         public static string PluginCategory4 = "Geometry";
         public static string PluginCategory5 = "Text";
+        public static string PluginCategory6 = "Spline";
+        public static string PluginCategory7 = "Brep";
+        public static string PluginCategory8 = "Brep Advanced";
+        public static string PluginCategory9 = "Brep Utilities";
+        public static string PluginCategory11 = "Curve";
+        public static string PluginCategory10 = "Experiment";
+
+        public static string PluginCategory6Description = "\nThis Component is part of the 'Spline' components. \nThese components default to a system which uses 4 control points to create a 3rd degree basic spline, in similair fashion to Adobe Illustrator. \nThis greatly speeds up the workflow of parametric product design.";
 
         // classic data structure keys 
         public static string ClassicKeys0 = "designVec";
@@ -69,12 +77,12 @@ namespace SferedApi
         };
 
         // static tolerance values 
-        public const double Tolerance                   = 0.001;                      // general tolerance
-        public const double JoinTolerance               = 0.001;
-        public const double OverlapTolerance            = 0.001;
-        public const double IntersectTolerance          = 0.001;
-        public const double ProjectionTolerance         = 0.001;
-        public const double CurveRelationshipTolerance  = 0.001;
-
+        public const double Tolerance = 0.001;
+        public const double JoinTolerance = 0.001;
+        public const double OverlapTolerance = 0.001;
+        public const double IntersectTolerance = 0.001;
+        public const double ProjectionTolerance = 0.001;
+        public const double CurveRelationshipTolerance = 0.001;
+        public const double PointTolerance = 0.001;
     }
 }
