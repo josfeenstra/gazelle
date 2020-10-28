@@ -82,11 +82,11 @@ namespace SferedApi.Components
                 }
                 double num4 = intersections2[0].ParameterA;
                 arcs[index2] = (num4 < curve2.Domain.T1) ? curve2.Trim(num4, curve2.Domain.T1).ToNurbsCurve() : curve2.Trim(num4 - num, curve2.Domain.T1).ToNurbsCurve();
-                double num5 = (((point - arcs[index1].PointAtEnd) / 3.0) * 2.0).get_Length();
-                Point3d pointd = arcs[index1].PointAtEnd + (arcs[index1].get_TangentAtEnd() * num5);
-                double num6 = (((point - arcs[index2].PointAtStart) / 3.0) * 2.0).get_Length();
-                Point3d pointd2 = arcs[index2].PointAtStart - (arcs[index2].get_TangentAtStart() * num6);
-                Point3d[] pointdArray1 = new Point3d[] { arcs[index1].PointAtEnd, pointd, pointd2, arcs[index2].get_PointAtStart() };
+                double num5 = (((point - arcs[index1].PointAtEnd) / 3.0) * 2.0).Length;
+                Point3d pointd = arcs[index1].PointAtEnd + (arcs[index1].TangentAtEnd * num5);
+                double num6 = (((point - arcs[index2].PointAtStart) / 3.0) * 2.0).Length;
+                Point3d pointd2 = arcs[index2].PointAtStart - (arcs[index2].TangentAtStart * num6);
+                Point3d[] pointdArray1 = new Point3d[] { arcs[index1].PointAtEnd, pointd, pointd2, arcs[index2].PointAtStart };
                 C = NurbsCurve.Create(false, 3, pointdArray1);
             }
         }
@@ -111,7 +111,7 @@ namespace SferedApi.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             List<Point3d> collection = new List<Point3d>();
-            Plane plane = Plane.get_Unset();
+            Plane plane = Plane.Unset;
             List<double> list2 = new List<double>();
             List<double> list3 = new List<double>();
             DA.GetDataList<Point3d>(0, collection);
@@ -203,7 +203,7 @@ namespace SferedApi.Components
                         }
                         curve.ClosestPoint(collection[index], ref num4);
                         Vector3d vectord = curve.TangentAt(num4);
-                        vectord.Rotate(1.5707963267948966, plane.get_ZAxis());
+                        vectord.Rotate(1.5707963267948966, plane.ZAxis);
                         vectordArray[index] = vectord;
                         index++;
                     }
@@ -214,19 +214,9 @@ namespace SferedApi.Components
         }
         
         protected override Bitmap Icon =>
-            Resources.TopoArcsFillets;
+            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("392e64f4-1ec6-4879-82d5-303aac9bfccf");
-        
-        [Serializable, CompilerGenerated]
-        private sealed class <>c
-        {
-            public static readonly ArcsAndFillets.<>c <>9 = new ArcsAndFillets.<>c();
-            public static Func<ControlPoint, Point3d> <>9__4_0;
-            
-            internal Point3d <SolveInstance>b__4_0(ControlPoint x) => 
-                x.get_Location();
-        }
     }
 }

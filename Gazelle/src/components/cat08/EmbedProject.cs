@@ -19,7 +19,7 @@ namespace SferedApi.Components
         {
             pManager.AddBrepParameter("Brep", "B", "", 0);
             pManager.AddCurveParameter("Curves", "C", "Curves", 1);
-            pManager.AddVectorParameter("Vector", "V", "Project Vector. This is what both Brep and Curves consider as 'up'.", 0, Vector3d.get_ZAxis());
+            pManager.AddVectorParameter("Vector", "V", "Project Vector. This is what both Brep and Curves consider as 'up'.", 0, Vector3d.ZAxis);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

@@ -34,7 +34,7 @@ namespace SferedApi.Components.Geo
             DA.GetData<GeometryBase>(0, ref base2);
             DA.GetData<Vector3d>(1, ref vectord);
             DA.GetData<Plane>(2, ref plane);
-            Vector3d vectord4 = plane.get_ZAxis() * vectord.get_Z();
+            Vector3d vectord4 = plane.ZAxis * vectord.get_Z();
             Transform transform = Transform.Translation(((plane.get_XAxis() * vectord.get_X()) + (plane.get_YAxis() * vectord.get_Y())) + vectord4);
             if (!base2.Transform(transform))
             {

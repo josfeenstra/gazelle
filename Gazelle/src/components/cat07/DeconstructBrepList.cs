@@ -39,7 +39,7 @@ namespace SferedApi
             else
             {
                 DA.SetDataList(0, from item in brep.get_Faces() select item.get_FaceIndex());
-                DA.SetDataList(1, from item in brep.get_Loops() select item.get_LoopIndex());
+                DA.SetDataList(1, from item in brep.Loops select item.get_LoopIndex());
                 DA.SetDataList(2, from item in brep.get_Trims() select item.get_TrimIndex());
                 DA.SetDataList(3, from item in brep.get_Edges() select item.get_EdgeIndex());
                 DA.SetDataList(4, from item in brep.get_Vertices() select item.get_VertexIndex());

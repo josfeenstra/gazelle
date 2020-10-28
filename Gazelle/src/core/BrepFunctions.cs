@@ -20,9 +20,9 @@ namespace SferedApi
         
         public static int AddCurve2D(this Brep brep, int edge, int loop, out bool isTrimReversedEdge)
         {
-            BrepLoop loop2 = brep.get_Loops().get_Item(loop);
-            BrepFace face = loop2.get_Face();
-            Curve curve = brep.get_Surfaces().get_Item(face.get_SurfaceIndex()).Pullback(brep.get_Edges().get_Item(edge).DuplicateCurve(), 0.001);
+            BrepLoop loop2 = brep.Loops.get_Item(loop);
+            BrepFace face = loop2.Face;
+            Curve curve = brep.Surfaces.get_Item(face.get_SurfaceIndex()).Pullback(brep.get_Edges().get_Item(edge).DuplicateCurve(), 0.001);
             CurveOrientation orientation = (loop2.get_LoopType() != 1) ? ((loop2.get_LoopType() != 2) ? ((CurveOrientation) 0) : ((CurveOrientation) (-1))) : ((CurveOrientation) 1);
             CurveOrientation orientation2 = curve.ClosedCurveOrientation(Plane.get_WorldXY());
             curve.Reverse();
@@ -66,7 +66,7 @@ namespace SferedApi
         public static int AddLoop(this Brep brep, int face, BrepLoopType type)
         {
             BrepFace face2 = brep.get_Faces().get_Item(face);
-            return brep.get_Loops().Add(type, face2).get_LoopIndex();
+            return brep.Loops.Add(type, face2).get_LoopIndex();
         }
         
         public static int AddOrientedTrim(Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type)
@@ -85,9 +85,9 @@ namespace SferedApi
         public static int AddTrim(this Brep brep, int edge, int loop, bool isTrimReversedEdge, int curve2D, IsoStatus status, BrepTrimType type)
         {
             BrepEdge edge2 = brep.get_Edges().get_Item(edge);
-            BrepLoop loop2 = brep.get_Loops().get_Item(loop);
-            BrepFace face = loop2.get_Face();
-            Surface surface = brep.get_Surfaces().get_Item(face.get_SurfaceIndex());
+            BrepLoop loop2 = brep.Loops.get_Item(loop);
+            BrepFace face = loop2.Face;
+            Surface surface = brep.Surfaces.get_Item(face.get_SurfaceIndex());
             BrepTrim trim = brep.get_Trims().Add(edge2, isTrimReversedEdge, loop2, curve2D);
             trim.set_IsoStatus(status);
             trim.set_TrimType(type);
@@ -98,9 +98,9 @@ namespace SferedApi
         public static int AddTrimDepricated(this Brep brep, int edge, int loop, bool isTrimReversedEdge, bool flipTrim, IsoStatus status, BrepTrimType type)
         {
             BrepEdge edge2 = brep.get_Edges().get_Item(edge);
-            BrepLoop loop2 = brep.get_Loops().get_Item(loop);
-            BrepFace face = loop2.get_Face();
-            Curve curve = brep.get_Surfaces().get_Item(face.get_SurfaceIndex()).Pullback(edge2.DuplicateCurve(), 0.001);
+            BrepLoop loop2 = brep.Loops.get_Item(loop);
+            BrepFace face = loop2.Face;
+            Curve curve = brep.Surfaces.get_Item(face.get_SurfaceIndex()).Pullback(edge2.DuplicateCurve(), 0.001);
             if (flipTrim)
             {
                 curve.Reverse();
@@ -126,7 +126,7 @@ namespace SferedApi
                         break;
                     }
                     BrepFace current = enumerator.Current;
-                    foreach (BrepLoop loop in current.get_Loops())
+                    foreach (BrepLoop loop in current.Loops)
                     {
                         foreach (BrepTrim trim in loop.get_Trims())
                         {
@@ -140,8 +140,8 @@ namespace SferedApi
         {
             int num = brep.BuildInnerLoop(face, curve, 2);
             BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().get_Face();
-            Surface surface = brep.get_Surfaces().get_Item(face2.get_SurfaceIndex());
+            BrepFace face2 = trim.get_Loop().Face;
+            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
             int edge = trim.get_Edge().get_EdgeIndex();
             int num3 = brep.AddFace(face2.get_SurfaceIndex(), false);
             int num5 = AddOrientedTrim(brep, edge, brep.AddLoop(num3, 1), 0, 2);
@@ -153,8 +153,8 @@ namespace SferedApi
             int num2;
             int num = brep.BuildInnerLoop(face, edge, 2, out num2);
             BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().get_Face();
-            Surface surface = brep.get_Surfaces().get_Item(face2.get_SurfaceIndex());
+            BrepFace face2 = trim.get_Loop().Face;
+            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
             int num3 = trim.get_Edge().get_EdgeIndex();
             int num4 = brep.AddFace(face2.get_SurfaceIndex(), false);
             int num6 = AddOrientedTrim(brep, num3, brep.AddLoop(num4, 1), 0, 2);
@@ -166,8 +166,8 @@ namespace SferedApi
             int num2;
             int num = brep.BuildInnerLoop(face, curve, 2, out num2);
             BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().get_Face();
-            Surface surface = brep.get_Surfaces().get_Item(face2.get_SurfaceIndex());
+            BrepFace face2 = trim.get_Loop().Face;
+            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
             int edge = trim.get_Edge().get_EdgeIndex();
             int num4 = brep.AddFace(face2.get_SurfaceIndex(), false);
             int num6 = brep.AddTrim(edge, brep.AddLoop(num4, 1), trim.IsReversed(), num2, 0, 2);
@@ -249,7 +249,7 @@ namespace SferedApi
         public static Brep DeepCopy(Brep original, double precision)
         {
             Brep brep = new Brep();
-            foreach (Surface surface in original.get_Surfaces())
+            foreach (Surface surface in original.Surfaces)
             {
                 brep.AddSurface(surface.Duplicate() as Surface);
             }
@@ -265,9 +265,9 @@ namespace SferedApi
             {
                 brep.AddFace(face.get_SurfaceIndex(), face.get_OrientationIsReversed());
             }
-            foreach (BrepLoop loop in original.get_Loops())
+            foreach (BrepLoop loop in original.Loops)
             {
-                brep.AddLoop(loop.get_Face().get_FaceIndex(), loop.get_LoopType());
+                brep.AddLoop(loop.Face.get_FaceIndex(), loop.get_LoopType());
             }
             foreach (BrepTrim trim in original.get_Trims())
             {
@@ -308,12 +308,12 @@ namespace SferedApi
                     }
                     BrepTrim trim = brep.get_Trims().get_Item(numArray[0]);
                     BrepTrim trim2 = brep.get_Trims().get_Item(numArray[1]);
-                    if (trim.get_Face() == trim2.get_Face())
+                    if (trim.Face == trim2.Face)
                     {
                         Print<string>("Same Face");
                         continue;
                     }
-                    if (trim.get_Face().get_SurfaceIndex() == trim2.get_Face().get_SurfaceIndex())
+                    if (trim.Face.get_SurfaceIndex() == trim2.Face.get_SurfaceIndex())
                     {
                         bool flag = trim.IsReversed();
                         if (flag == trim2.IsReversed())
@@ -321,16 +321,16 @@ namespace SferedApi
                             Print<string>("SAME ORIENTATION THATS UNUSUAL");
                             continue;
                         }
-                        set.Add(trim.get_Face().get_FaceIndex());
-                        set.Add(trim2.get_Face().get_FaceIndex());
+                        set.Add(trim.Face.get_FaceIndex());
+                        set.Add(trim2.Face.get_FaceIndex());
                         if (flag)
                         {
-                            inner.AddIfNotInOther(trim2.get_Face().get_FaceIndex(), outer);
-                            outer.AddIfNotInOther(trim.get_Face().get_FaceIndex(), inner);
+                            inner.AddIfNotInOther(trim2.Face.get_FaceIndex(), outer);
+                            outer.AddIfNotInOther(trim.Face.get_FaceIndex(), inner);
                             continue;
                         }
-                        inner.AddIfNotInOther(trim.get_Face().get_FaceIndex(), outer);
-                        outer.AddIfNotInOther(trim2.get_Face().get_FaceIndex(), inner);
+                        inner.AddIfNotInOther(trim.Face.get_FaceIndex(), outer);
+                        outer.AddIfNotInOther(trim2.Face.get_FaceIndex(), inner);
                     }
                 }
             }
@@ -739,12 +739,12 @@ namespace SferedApi
                 {
                 }
                 bool flag = trim.IsReversed();
-                if (trim.get_Loop().get_Face().get_OrientationIsReversed())
+                if (trim.get_Loop().Face.get_OrientationIsReversed())
                 {
                     flag = !flag;
                 }
                 bool flag2 = trim2.IsReversed();
-                if (trim2.get_Loop().get_Face().get_OrientationIsReversed())
+                if (trim2.get_Loop().Face.get_OrientationIsReversed())
                 {
                     flag2 = !flag2;
                 }
@@ -808,7 +808,7 @@ namespace SferedApi
                         break;
                     }
                     BrepFace current = enumerator.Current;
-                    bool flag = brep.get_Surfaces().get_Item(current.get_SurfaceIndex()).ClosestPoint(point, ref num, ref num2);
+                    bool flag = brep.Surfaces.get_Item(current.get_SurfaceIndex()).ClosestPoint(point, ref num, ref num2);
                     if (flag && (current.IsPointOnFace(num, num2) == 1))
                     {
                         return current.get_FaceIndex();
@@ -921,7 +921,7 @@ namespace SferedApi
                         dictionary3.Add(key, brep.AddSurface(face.DuplicateSurface()));
                     }
                     int num3 = brep.AddFace(dictionary3[key], false);
-                    foreach (BrepLoop loop in face.get_Loops())
+                    foreach (BrepLoop loop in face.Loops)
                     {
                         int num5 = brep.AddLoop(num3, loop.get_LoopType());
                         foreach (BrepTrim trim in loop.get_Trims())
@@ -979,7 +979,7 @@ namespace SferedApi
                         dictionary3.Add(key, brep.AddSurface(face.DuplicateSurface()));
                     }
                     int num3 = brep.AddFace(dictionary3[key], false);
-                    foreach (BrepLoop loop in face.get_Loops())
+                    foreach (BrepLoop loop in face.Loops)
                     {
                         int num5 = brep.AddLoop(num3, loop.get_LoopType());
                         foreach (BrepTrim trim in loop.get_Trims())
@@ -1018,7 +1018,7 @@ namespace SferedApi
         public static void SplitSingularLoopsIntoTwo(this Brep brep)
         {
             List<int> list = new List<int>();
-            int num = brep.get_Loops().get_Count() - 1;
+            int num = brep.Loops.get_Count() - 1;
             while (true)
             {
                 if (num <= -1)
@@ -1026,7 +1026,7 @@ namespace SferedApi
                     brep.Standardize();
                     return;
                 }
-                BrepLoop loop = brep.get_Loops().get_Item(num);
+                BrepLoop loop = brep.Loops.get_Item(num);
                 if (loop.get_Trims().get_Count() == 1)
                 {
                     BrepEdge edge = loop.get_Trims().get_Item(0).get_Edge();
@@ -1040,9 +1040,9 @@ namespace SferedApi
         public static void SplitSingularLoopsIntoTwoExotic(this Brep brep)
         {
             List<int> list = new List<int>();
-            for (int i = brep.get_Loops().get_Count() - 1; i > -1; i--)
+            for (int i = brep.Loops.get_Count() - 1; i > -1; i--)
             {
-                BrepLoop loop = brep.get_Loops().get_Item(i);
+                BrepLoop loop = brep.Loops.get_Item(i);
                 if (loop.get_Trims().get_Count() == 1)
                 {
                     BrepEdge edge = loop.get_Trims().get_Item(0).get_Edge();

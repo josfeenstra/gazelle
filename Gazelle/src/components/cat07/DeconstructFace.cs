@@ -47,7 +47,7 @@ namespace SferedApi
                 BrepFace face = brep.get_Faces().get_Item(num);
                 DA.SetData(0, face.ToBrep());
                 DA.SetData(1, face.UnderlyingSurface());
-                DA.SetDataList(2, from item in face.get_Loops() select item.get_LoopIndex());
+                DA.SetDataList(2, from item in face.Loops select item.get_LoopIndex());
                 DA.SetData(3, face.get_OrientationIsReversed());
             }
         }

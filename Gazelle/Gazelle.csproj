@@ -60,45 +60,95 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="_src\components\cat06\ScalableSpline.cs" />
-    <Compile Include="_src\components\cat06\ComponentTopologyArcsAndFillets.cs" />
-    <Compile Include="_src\components\cat06\ComponentTopologyCurve.cs" />
-    <Compile Include="_src\components\cat06\ComponentTopologySurface.cs" />
-    <Compile Include="_src\custom-types\AttributesButtonGeneral.cs" />
-    <Compile Include="_src\components\cat00\ComponentDevPythonInject.cs" />
-    <Compile Include="_src\custom-types\AttributesButtonVarIn.cs" />
-    <Compile Include="_src\components\cat00\ComponentDevProcessFont.cs" />
-    <Compile Include="_src\components\cat04\ComponentGeoAsymmetricOffset.cs" />
-    <Compile Include="_src\components\cat04\ComponentGeoPerforateSurface.cs" />
-    <Compile Include="_src\core\BrepFunctions.cs" />
-    <Compile Include="_src\core\CurveFunctions.cs" />
-    <Compile Include="_src\core\SurfaceFunctions.cs" />
-    <None Include="_src\components\cat04\ComponentGeoPlanarMove.cs.TurnedOff" />
-    <Compile Include="_src\components\cat04\ComponentGeoQuickSubCurves.cs" />
-    <Compile Include="_src\components\cat04\ComponentGeoFlipCurve.cs" />
-    <Compile Include="_src\components\cat00\ComponentDevPluginInfo.cs" />
-    <Compile Include="_src\components\cat03\ComponentQuickBranchSelectNew.cs" />
-    <Compile Include="_src\components\cat05\ComponentGeoProjectText.cs" />
-    <Compile Include="_src\components\cat03\ComponentQuickBranchSelectLegacy.cs" />
-    <Compile Include="_src\components\cat03\ComponentQuickItemSelect.cs" />
-    <Compile Include="_src\components\cat03\ComponentQuickList.cs" />
-    <Compile Include="_src\components\cat03\ComponentQuickTree.cs" />
-    <Compile Include="_src\components\cat02\ComponentDVController.cs" />
-    <Compile Include="_src\components\cat02\ComponentNodeFromString.cs" />
-    <Compile Include="_src\components\cat01\ComponentNodeIn.cs" />
-    <Compile Include="_src\components\cat01\ComponentNodeInAll.cs" />
-    <Compile Include="_src\components\cat01\ComponentNodeMerge.cs" />
-    <Compile Include="_src\components\cat01\ComponentNodeOut.cs" />
-    <Compile Include="_src\components\cat02\ComponentNodePythonify.cs" />
-    <Compile Include="_src\components\cat02\ComponentNodeToString.cs" />
-    <Compile Include="_src\components\cat05\ComponentTextFontSaver.cs" />
-    <Compile Include="_src\custom-types\GH_DataNode.cs" />
-    <Compile Include="_src\custom-types\Datanode.cs" />
-    <None Include="_src\custom-types\GH_Param_BaseDataNode.Incorrect" />
-    <Compile Include="_src\custom-types\GH_Param_BaseDataNode.cs" />
-    <Compile Include="_src\utils\StaticData.cs" />
-    <Compile Include="_src\core\Functions.cs" />
-    <Compile Include="_src\custom-types\GH_Param_DataNode.cs" />
+    <Compile Include="src\components\cat00\ComponentNodeInputManager.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoBetterAngle.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoCookieCutter.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoPlanarMove.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoProjectText.cs" />
+    <Compile Include="src\components\cat06\ScalableSpline.cs" />
+    <Compile Include="src\components\cat06\ComponentTopologyArcsAndFillets.cs" />
+    <Compile Include="src\components\cat06\ComponentTopologyCurve.cs" />
+    <Compile Include="src\components\cat06\SplineSurface.cs" />
+    <Compile Include="src\components\cat07\AddEdge.cs" />
+    <Compile Include="src\components\cat07\AddFace.cs" />
+    <Compile Include="src\components\cat07\AddLoop.cs" />
+    <Compile Include="src\components\cat07\AddTrim.cs" />
+    <Compile Include="src\components\cat07\AddVertex.cs" />
+    <Compile Include="src\components\cat07\CreateEmptyBrep.cs" />
+    <Compile Include="src\components\cat07\DeconstructBrepList.cs" />
+    <Compile Include="src\components\cat07\DeconstructEdge.cs" />
+    <Compile Include="src\components\cat07\DeconstructFace.cs" />
+    <Compile Include="src\components\cat07\DeconstructLoop.cs" />
+    <Compile Include="src\components\cat07\DeconstructTrim.cs" />
+    <Compile Include="src\components\cat07\DeconstructVertex.cs" />
+    <Compile Include="src\components\cat08\BulidInnerFaces.cs" />
+    <Compile Include="src\components\cat08\BulidInnerLoops.cs" />
+    <Compile Include="src\components\cat08\DetectInsertions.cs" />
+    <Compile Include="src\components\cat08\EmbedCurves.cs" />
+    <Compile Include="src\components\cat08\EmbedCurvesToFace.cs" />
+    <Compile Include="src\components\cat08\EmbedProject.cs" />
+    <Compile Include="src\components\cat08\Extrude.cs" />
+    <Compile Include="src\components\cat08\ExtrudeFaces.cs" />
+    <Compile Include="src\components\cat08\FacesDeselect.cs" />
+    <Compile Include="src\components\cat08\FacesPartition.cs" />
+    <Compile Include="src\components\cat08\FacesSelect.cs" />
+    <Compile Include="src\components\cat08\PointOnFace.cs" />
+    <Compile Include="src\components\cat09\BrepClean.cs" />
+    <Compile Include="src\components\cat09\BrepReorient.cs" />
+    <Compile Include="src\components\cat09\BrepStandardize.cs" />
+    <Compile Include="src\components\cat09\BrepValidate.cs" />
+    <Compile Include="src\components\cat09\CopyBrep.cs" />
+    <Compile Include="src\components\cat09\PatchHexagon.cs" />
+    <Compile Include="src\components\cat10\ConsolePrinter.cs" />
+    <Compile Include="src\components\cat10\CurveRegionSplitter.cs" />
+    <Compile Include="src\components\cat10\DevTest.cs" />
+    <Compile Include="src\components\cat11\ComponentGeoCutCurve.cs" />
+    <Compile Include="src\components\cat11\CurveCounterClockwise.cs" />
+    <Compile Include="src\components\cat11\CurveRegionIntersect.cs" />
+    <Compile Include="src\core\BrepFunctions.cs" />
+    <Compile Include="src\core\CurveFunctions.cs" />
+    <Compile Include="src\core\GrasshopperFunctions.cs" />
+    <Compile Include="src\core\SurfaceFunctions.cs" />
+    <Compile Include="src\core\VectorFunctions.cs" />
+    <Compile Include="src\custom-types\AttributesButtonGeneral.cs" />
+    <Compile Include="src\components\cat00\ComponentDevPythonInject.cs" />
+    <Compile Include="src\custom-types\AttributesButtonVarIn.cs" />
+    <Compile Include="src\components\cat00\ComponentDevProcessFont.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoAsymmetricOffset.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoPerforateSurface.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoQuickSubCurves.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoFlipCurve.cs" />
+    <Compile Include="src\components\cat00\ComponentDevPluginInfo.cs" />
+    <Compile Include="src\components\cat03\ComponentQuickBranchSelectNew.cs" />
+    <Compile Include="src\components\cat05\ComponentGeoProjectText.cs" />
+    <Compile Include="src\components\cat03\ComponentQuickBranchSelectLegacy.cs" />
+    <Compile Include="src\components\cat03\ComponentQuickItemSelect.cs" />
+    <Compile Include="src\components\cat03\ComponentQuickList.cs" />
+    <Compile Include="src\components\cat03\ComponentQuickTree.cs" />
+    <Compile Include="src\components\cat02\ComponentDVController.cs" />
+    <Compile Include="src\components\cat02\ComponentNodeFromString.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeIn.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeInAll.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeMerge.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeOut.cs" />
+    <Compile Include="src\components\cat02\ComponentNodePythonify.cs" />
+    <Compile Include="src\components\cat02\ComponentNodeToString.cs" />
+    <Compile Include="src\components\cat05\ComponentTextFontSaver.cs" />
+    <Compile Include="src\custom-types\GH_DataNode.cs" />
+    <Compile Include="src\custom-types\Datanode.cs" />
+    <None Include="src\custom-types\GH_Param_BaseDataNode.Incorrect" />
+    <Compile Include="src\custom-types\GH_Param_BaseDataNode.cs" />
+    <Compile Include="src\scraps\RandomReduce.cs" />
+    <Compile Include="src\utils\CurvePartition.cs" />
+    <Compile Include="src\utils\Debug.cs" />
+    <Compile Include="src\utils\EdgeSplitter.cs" />
+    <Compile Include="src\utils\FontCustomCharacter.cs" />
+    <Compile Include="src\utils\Helpers.cs" />
+    <Compile Include="src\utils\IntersectionOrientation.cs" />
+    <Compile Include="src\utils\Nudger.cs" />
+    <Compile Include="src\utils\StaticData.cs" />
+    <Compile Include="src\core\Functions.cs" />
+    <Compile Include="src\custom-types\GH_Param_DataNode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,7 +156,7 @@
     </Compile>
     <Compile Include="GazelleInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_src\components\cat00\ComponentDevClass.cs" />
+    <Compile Include="src\components\cat00\ComponentDevClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -147,12 +197,7 @@
     <None Include="Resources\sfered-logo-zwart1.png" />
     <None Include="Resources\sfered-logo-zwart.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_src\components\cat07\" />
-    <Folder Include="_src\components\cat08\" />
-    <Folder Include="_src\components\cat09\" />
-    <Folder Include="_src\components\cat10\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

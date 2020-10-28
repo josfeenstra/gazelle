@@ -36,13 +36,13 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.get_Loops().get_Count()))
+            else if ((num < 0) || (num >= brep.Loops.get_Count()))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
-                BrepLoop loop = brep.get_Loops().get_Item(num);
+                BrepLoop loop = brep.Loops.get_Item(num);
                 DA.SetDataList(0, from item in loop.get_Trims() select item.get_TrimIndex());
                 DA.SetData(1, loop.get_LoopType().ToString());
             }

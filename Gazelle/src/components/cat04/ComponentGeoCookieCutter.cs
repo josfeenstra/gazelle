@@ -328,7 +328,7 @@ namespace SferedApi.Components.Geo
         {
             pManager.AddBrepParameter("Brep", "B", "Brep to project curves onto", 0);
             pManager.AddCurveParameter("Curves", "C", "Curves to project and cut with. Must be closed curves", 1);
-            pManager.AddVectorParameter("Vector", "D", "Projection Direction", 0, Vector3d.get_ZAxis());
+            pManager.AddVectorParameter("Vector", "D", "Projection Direction", 0, Vector3d.ZAxis);
             pManager.AddIntegerParameter("Options", "F", "First Projection Option. \n 0 = make all projections, \n 1 = only make the first hit per (sur)face count. \n 2 = only make the first hit of the entire brep count", 0, 0);
             pManager.AddNumberParameter("Tolerance", "T", "the tolerance of closest point operations within code.", 0, 0.0001);
         }

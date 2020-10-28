@@ -191,7 +191,7 @@ namespace SferedApi.Components.Geo
                     num5++;
                     continue;
                 }
-                vectord = aPlane.get_ZAxis() * -1.0;
+                vectord = aPlane.ZAxis * -1.0;
                 double num3 = 0.0;
                 aPlane.Translate(vectord * 1.0);
                 list2 = new List<Curve>();

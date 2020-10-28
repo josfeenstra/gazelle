@@ -466,7 +466,7 @@ namespace SferedApi
                                                     break;
                                                 }
                                                 BrepFace face2 = enumerator6.Current;
-                                                foreach (BrepLoop loop in face2.get_Loops())
+                                                foreach (BrepLoop loop in face2.Loops)
                                                 {
                                                     foreach (BrepTrim trim in loop.get_Trims())
                                                     {
