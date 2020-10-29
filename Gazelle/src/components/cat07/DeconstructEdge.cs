@@ -15,18 +15,18 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep", 0);
-            pManager.AddIntegerParameter("Edge Index", "Ei", "index of trim", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge Index", "Ei", "index of trim", 0, (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve 3d", "C", "3d curve linked to the edge", 0);
-            pManager.AddIntegerParameter("Face Indices", "Fi", "all adjacent faces", 1);
-            pManager.AddIntegerParameter("Trim Indices", "Ti", "the trims this edge represents in adjacent faces", 1);
-            pManager.AddIntegerParameter("Vertex indices", "Vi", "0 is start, 1 is end", 1);
-            pManager.AddTextParameter("Valence", "Val", "EdgeAdjacency", 0);
-            pManager.AddBooleanParameter("Reversed", "Rev", "IsProxyCurveReversed", 0);
+            pManager.AddCurveParameter("Curve 3d", "C", "3d curve linked to the edge", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Face Indices", "Fi", "all adjacent faces", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Trim Indices", "Ti", "the trims this edge represents in adjacent faces", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Vertex indices", "Vi", "0 is start, 1 is end", (GH_ParamAccess)1);
+            pManager.AddTextParameter("Valence", "Val", "EdgeAdjacency", (GH_ParamAccess)0);
+            pManager.AddBooleanParameter("Reversed", "Rev", "IsProxyCurveReversed", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -37,11 +37,11 @@ namespace SferedApi
             DA.GetData<int>(1, ref num);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "Input bad");
             }
             else if ((num < 0) || (num >= brep.Edges.Count))
             {
-                this.AddRuntimeMessage(10, "out of range");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)10, "out of range");
             }
             else
             {

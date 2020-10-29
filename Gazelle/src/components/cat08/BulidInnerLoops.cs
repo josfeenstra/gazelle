@@ -17,15 +17,15 @@ namespace SferedApi.Components
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddIntegerParameter("Face index", "Fi", "face Index", 0, 0);
-            pManager.AddCurveParameter("Curve", "C", "closed, on-surface curve to trim with", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Face index", "Fi", "face Index", (GH_ParamAccess)0, 0);
+            pManager.AddCurveParameter("Curve", "C", "closed, on-surface curve to trim with", (GH_ParamAccess)1);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Trim Indices", "Ti", "Trim Indices", 1);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Trim Indices", "Ti", "Trim Indices", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -38,11 +38,11 @@ namespace SferedApi.Components
             DA.GetDataList<Curve>(2, objA);
             if (((brep == null) || (face == -1)) || object.ReferenceEquals(objA, null))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {
-                DA.SetDataList(1, brep.BuildInnerLoops(face, objA, 1));
+                DA.SetDataList(1, brep.BuildInnerLoops(face, objA, (BrepTrimType)1));
                 DA.SetData(0, brep);
             }
         }

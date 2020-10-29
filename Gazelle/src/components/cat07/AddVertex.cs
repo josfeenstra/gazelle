@@ -9,20 +9,20 @@ namespace SferedApi
     
     public class AddVertex : GH_Component
     {
-        public AddVertex() : this(SD.Starter + "AddVertex", "Vertex", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
+        public AddVertex() : base(SD.Starter + "AddVertex", "Vertex", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
         {
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddPointParameter("Point", "P", "'point geo", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddPointParameter("Point", "P", "'point geo", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Vertex Index", "Vi", "Vertex index", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Vertex Index", "Vi", "Vertex index", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -33,7 +33,7 @@ namespace SferedApi
             DA.GetData<Point3d>(1, ref point);
             if ((brep == null) || !point.IsValid)
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

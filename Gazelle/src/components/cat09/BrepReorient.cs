@@ -16,14 +16,14 @@ namespace SferedApi.Components.BrepUtilities
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep", 0);
+            pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
             pManager.AddIntegerParameter("Face Index", "Fi", "Face Index of starting face", 0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddTextParameter("Print Log", "L", "Log", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddTextParameter("Print Log", "L", "Log", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

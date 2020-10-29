@@ -15,18 +15,18 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep", 0);
-            pManager.AddIntegerParameter("Int", "Ti", "index of trim", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Int", "Ti", "index of trim", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve", "C", "the 2d curve of the trim", 0);
-            pManager.AddBooleanParameter("IsReversed", "R", "orientation of the curve regarding the Edge", 0);
-            pManager.AddBooleanParameter("proxycurveisreversed", "R", "orientation of the curve", 0);
-            pManager.AddTextParameter("IsoStatus", "Is", "the isostatus", 0);
-            pManager.AddTextParameter("TrimType", "Tt", "the type of trim this is", 0);
-            pManager.AddIntegerParameter("Edge Index", "Ei", "the edge this trim links to", 0);
+            pManager.AddCurveParameter("Curve", "C", "the 2d curve of the trim", (GH_ParamAccess)0);
+            pManager.AddBooleanParameter("IsReversed", "R", "orientation of the curve regarding the Edge", (GH_ParamAccess)0);
+            pManager.AddBooleanParameter("proxycurveisreversed", "R", "orientation of the curve", (GH_ParamAccess)0);
+            pManager.AddTextParameter("IsoStatus", "Is", "the isostatus", (GH_ParamAccess)0);
+            pManager.AddTextParameter("TrimType", "Tt", "the type of trim this is", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge Index", "Ei", "the edge this trim links to", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -37,11 +37,11 @@ namespace SferedApi
             DA.GetData<int>(1, ref num);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "Input bad");
             }
             else if ((num < 0) || (num >= brep.Trims.Count))
             {
-                this.AddRuntimeMessage(10, "out of range");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)10, "out of range");
             }
             else
             {

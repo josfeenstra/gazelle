@@ -32,11 +32,18 @@ namespace SferedApi
                 LineCurve curve7 = new LineCurve(pointd2, pointd3);
                 LineCurve curve8 = new LineCurve(pointd, pointd3);
                 LineCurve curve9 = new LineCurve(pointd, pointd2);
-                Brep[] brepArray = new Brep[] { Brep.CreateEdgeSurface(curveArray5), Brep.CreateEdgeSurface(curveArray6), Brep.CreateEdgeSurface(curveArray7), Brep.CreateEdgeSurface(curveArray8) };
+
                 Curve[] curveArray5 = new Curve[] { D, curve2, curve3, curve9 };
                 Curve[] curveArray6 = new Curve[] { E, curve4, curve5, curve7 };
                 Curve[] curveArray7 = new Curve[] { F, curve6, curve, curve8 };
                 Curve[] curveArray8 = new Curve[] { curve7, curve8, curve9 };
+
+                Brep[] brepArray = new Brep[] {
+                    Brep.CreateEdgeSurface(curveArray5),
+                    Brep.CreateEdgeSurface(curveArray6),
+                    Brep.CreateEdgeSurface(curveArray7),
+                    Brep.CreateEdgeSurface(curveArray8) };
+
                 brepArray2 = brepArray;
             }
             return brepArray2;

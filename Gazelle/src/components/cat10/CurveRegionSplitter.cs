@@ -15,15 +15,15 @@ namespace SferedApi.Components.Experiments
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddCurveParameter("Curve", "Cb", "boundary curves", 1);
-            pManager.AddCurveParameter("Curve", "Cs", "splitter curves", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curve", "Cb", "boundary curves", (GH_ParamAccess)1);
+            pManager.AddCurveParameter("Curve", "Cs", "splitter curves", (GH_ParamAccess)1);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve pieces", "C", "curve divided among the faces", 2);
-            pManager.AddIntegerParameter("Face Indices", "Ei", "Indices of faces this curve interacts with", 1);
+            pManager.AddCurveParameter("Curve pieces", "C", "curve divided among the faces", (GH_ParamAccess)2);
+            pManager.AddIntegerParameter("Face Indices", "Ei", "Indices of faces this curve interacts with", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -34,11 +34,11 @@ namespace SferedApi.Components.Experiments
             DA.GetData<Curve>(1, ref curve);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else if (((curve == null) || !curve.IsValid) || curve.IsClosed)
             {
-                this.AddRuntimeMessage(20, "curve is invalid, missing, or not closed.");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "curve is invalid, missing, or not closed.");
             }
         }
         

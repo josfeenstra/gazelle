@@ -17,14 +17,14 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep", 0);
-            pManager.AddIntegerParameter("Int", "Li", "index of loop", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Int", "Li", "index of loop", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("TrimIndices", "Ti", "Trim indices", 1);
-            pManager.AddTextParameter("LoopType", "T", "LoopType", 1);
+            pManager.AddIntegerParameter("TrimIndices", "Ti", "Trim indices", (GH_ParamAccess)1);
+            pManager.AddTextParameter("LoopType", "T", "LoopType", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -35,11 +35,11 @@ namespace SferedApi
             DA.GetData<int>(1, ref num);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)20, "Input bad");
             }
             else if ((num < 0) || (num >= brep.Loops.Count))
             {
-                this.AddRuntimeMessage(10, "out of range");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)10, "out of range");
             }
             else
             {

@@ -58,9 +58,9 @@ namespace SferedApi.Components.Geo
                             PointContainment containment = curve2.Contains(item, Plane.WorldXY, 0.001);
                             if (containment != 0)
                             {
-                                if (containment != 3)
+                                if (containment != (PointContainment)3)
                                 {
-                                    if (containment == 1)
+                                    if (containment == (PointContainment)1)
                                     {
                                         if (num == -1)
                                         {
@@ -71,7 +71,7 @@ namespace SferedApi.Components.Geo
                                             num = num5;
                                         }
                                     }
-                                    if (containment == 2)
+                                    if (containment == (PointContainment)2)
                                     {
                                     }
                                     num5++;
@@ -146,11 +146,11 @@ namespace SferedApi.Components.Geo
                                 this.testData.Add("pointContainment is unset, the curve or the point are unworkable!");
                                 break;
                             
-                            case 1:
+                            case (PointContainment)1:
                                 flag = !flag;
                                 break;
                             
-                            case 3:
+                            case (PointContainment)3:
                                 this.testData.Add("POINT IS ON THE EDGE OF ANOTHER POINT at the pulled curve operation");
                                 break;
                             
@@ -192,14 +192,14 @@ namespace SferedApi.Components.Geo
             Box box;
             Plane plane = new Plane(c.PointAtStart, d);
             Box box2 = Box.Unset;
-            b.GetBoundingBox(plane, ref box);
+            b.GetBoundingBox(plane, out box);
             Curve curve = Curve.ProjectToPlane(c, plane);
-            Curve curve2 = curve.Duplicate();
+            Curve curve2 = curve.DuplicateCurve();
             curve2.Translate(d * box.Z.T0);
-            Curve curve3 = curve.Duplicate();
+            Curve curve3 = curve.DuplicateCurve();
             curve3.Translate(d * box.Z.T1);
             Curve[] curveArray1 = new Curve[] { curve3, curve2 };
-            List<Brep> list = Brep.CreateFromLoft(curveArray1, Point3d.Unset, Point3d.Unset, 3, false).ToList<Brep>();
+            List<Brep> list = Brep.CreateFromLoft(curveArray1, Point3d.Unset, Point3d.Unset, (LoftType)3, false).ToList<Brep>();
             Curve[] curveArray2 = new Curve[] { curve3, curve2 };
             list.AddRange(Brep.CreatePlanarBreps(curveArray2));
             Brep[] brepArray = Brep.JoinBreps(list, tolerance);
@@ -326,8 +326,8 @@ namespace SferedApi.Components.Geo
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep to project curves onto", 0);
-            pManager.AddCurveParameter("Curves", "C", "Curves to project and cut with. Must be closed curves", 1);
+            pManager.AddBrepParameter("Brep", "B", "Brep to project curves onto", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curves", "C", "Curves to project and cut with. Must be closed curves", (GH_ParamAccess)1);
             pManager.AddVectorParameter("Vector", "D", "Projection Direction", 0, Vector3d.ZAxis);
             pManager.AddIntegerParameter("Options", "F", "First Projection Option. \n 0 = make all projections, \n 1 = only make the first hit per (sur)face count. \n 2 = only make the first hit of the entire brep count", 0, 0);
             pManager.AddNumberParameter("Tolerance", "T", "the tolerance of closest point operations within code.", 0, 0.0001);
@@ -335,10 +335,10 @@ namespace SferedApi.Components.Geo
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Inner faces", "Bi", "(sur)faces inside the curve projections", 1);
-            pManager.AddBrepParameter("Outer faces", "Bo", "(sur)faces outside the curve projections", 1);
-            pManager.AddCurveParameter("Projected Curves", "C", "the curve projections", 1);
-            pManager.AddGenericParameter("test", "t", "Data regarding the project and cut procedure. If the result is unexpected, look here to see what went wrong", 1);
+            pManager.AddBrepParameter("Inner faces", "Bi", "(sur)faces inside the curve projections", (GH_ParamAccess)1);
+            pManager.AddBrepParameter("Outer faces", "Bo", "(sur)faces outside the curve projections", (GH_ParamAccess)1);
+            pManager.AddCurveParameter("Projected Curves", "C", "the curve projections", (GH_ParamAccess)1);
+            pManager.AddGenericParameter("test", "t", "Data regarding the project and cut procedure. If the result is unexpected, look here to see what went wrong", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

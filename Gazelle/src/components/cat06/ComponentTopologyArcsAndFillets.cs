@@ -50,7 +50,7 @@ namespace SferedApi.Components
                     radius = curve3.GetLength() - 0.2;
                     if (radius < 0.2)
                     {
-                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "arc too small!index1: " + index1);
+                        this.AddRuntimeMessage((GH_RuntimeMessageLevel)GH_RuntimeMessageLevel.Warning, "arc too small!index1: " + index1);
                         radius = 0.2;
                     }
                 }
@@ -101,7 +101,7 @@ namespace SferedApi.Components
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("PolyArc", "PA", "The Resulting PolyArc", 0);
+            pManager.AddCurveParameter("PolyArc", "PA", "The Resulting PolyArc", (GH_ParamAccess)0);
             pManager.AddCurveParameter("Curves", "C", "all Pieces", (GH_ParamAccess)1);
             pManager.AddCurveParameter("Arcs", "A", "Arcs", (GH_ParamAccess)1);
             pManager.AddCurveParameter("Fillets", "F", "Fillets", (GH_ParamAccess)1);

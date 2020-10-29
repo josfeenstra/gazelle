@@ -19,7 +19,7 @@ namespace SferedApi
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Empty Brep", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Empty Brep", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

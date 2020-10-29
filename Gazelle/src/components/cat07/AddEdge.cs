@@ -15,16 +15,16 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddCurveParameter("Curve", "C", "3D curve to create the edge from", 0);
-            pManager.AddIntegerParameter("Vertex Index Start", "Vs", "index from starting vertex", 0);
-            pManager.AddIntegerParameter("Vertex Index End", "Ve", "index from ending vertex", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curve", "C", "3D curve to create the edge from", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Vertex Index Start", "Vs", "index from starting vertex", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Vertex Index End", "Ve", "index from ending vertex", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Edge Index", "Ei", "Edge index", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge Index", "Ei", "Edge index", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -39,7 +39,7 @@ namespace SferedApi
             DA.GetData<int>(3, ref vertexTo);
             if (((brep == null) || ((curve == null) || (!curve.IsValid || (vertexFrom == -1)))) || (vertexTo == -1))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

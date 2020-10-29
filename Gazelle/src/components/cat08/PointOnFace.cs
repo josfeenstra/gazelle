@@ -16,13 +16,13 @@ namespace SferedApi.Components.BrepAdvanced
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddPointParameter("Point", "P", "Point", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddPointParameter("Point", "P", "Point", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Face Index", "Fi", "index of the face", 0);
+            pManager.AddIntegerParameter("Face Index", "Fi", "index of the face", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -33,7 +33,7 @@ namespace SferedApi.Components.BrepAdvanced
             DA.GetData<Point3d>(1, ref point);
             if ((brep == null) || (point == Point3d.Unset))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

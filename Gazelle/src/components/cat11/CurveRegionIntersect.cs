@@ -10,14 +10,14 @@ namespace SferedApi.Components.CurveAdvanced
     
     public class CurveRegionIntersect : GH_Component
     {
-        public CurveRegionIntersect() : this(SD.Starter + "AddEdge", SD.Starter + "Edge", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory11)
+        public CurveRegionIntersect() : base(SD.Starter + "AddEdge", SD.Starter + "Edge", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory11)
         {
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve1", "C", "curve 1", 0);
-            pManager.AddCurveParameter("Curve2", "C", "curve 2", 0);
+            pManager.AddCurveParameter("Curve1", "C", "curve 1", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curve2", "C", "curve 2", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -36,7 +36,7 @@ namespace SferedApi.Components.CurveAdvanced
             DA.GetData<int>(3, ref vertexTo);
             if (((brep == null) || ((curve == null) || (!curve.IsValid || (vertexFrom == -1)))) || (vertexTo == -1))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

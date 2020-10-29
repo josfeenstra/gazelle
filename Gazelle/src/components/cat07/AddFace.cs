@@ -9,20 +9,20 @@ namespace SferedApi
     
     public class AddFace : GH_Component
     {
-        public AddFace() : this(SD.Starter + "AddFace", "Face", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
+        public AddFace() : base(SD.Starter + "AddFace", "Face", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
         {
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddSurfaceParameter("Surface", "S", "3D surface to create the face from", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddSurfaceParameter("Surface", "S", "3D surface to create the face from", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Face Index", "Fi", "Face index", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Face Index", "Fi", "Face index", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -33,7 +33,7 @@ namespace SferedApi
             DA.GetData<Surface>(1, ref surface);
             if (((brep == null) || (surface == null)) || !surface.IsValid)
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

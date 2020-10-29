@@ -15,12 +15,12 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Original Brep", 0);
+            pManager.AddBrepParameter("Brep", "B", "Original Brep", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Copied Brep", 0);
+            pManager.AddBrepParameter("Brep", "B", "Copied Brep", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

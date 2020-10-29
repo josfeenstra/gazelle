@@ -3,8 +3,22 @@
 
 GET
 
+\.get_([A-Z].*?)\(\)
+.$1
 
 
 SET
 .set_([A-Za-z]*?)\(((.*?))\)
 .$1 = $2
+
+RUNTIME FIXER 
+this.AddRuntimeMessage\((.*?)\,
+this.AddRuntimeMessage((RuntimeMessageLevel)$1,
+
+PMANAGERFIXER
+pManager\.Add(.*?)Parameter\((.*?)\,\s([0-9]*?)\)\;
+pManager.Add$1Parameter($2, (GH_ParamAccess)$3);
+
+PMANAGER FIX 2
+(GH_ParamAccess\..*?\,.*?)(\(GH_ParamAccess\))
+$1

@@ -20,8 +20,9 @@ namespace SferedApi
         private string buttonTextOn;
         private string buttonTextOff;
         GH_Component RealOwner;
+        Func<bool> onButtonPress;
 
-        public AttributesButtonGeneral(GH_Component owner, string _buttonTextOn, string _buttonTextOff)
+        public AttributesButtonGeneral(GH_Component owner, string _buttonTextOn, string _buttonTextOff, Func<bool> function)
             : base(owner)
         {
             RealOwner = owner;
@@ -32,12 +33,14 @@ namespace SferedApi
             //   PerformLayout();
             this.buttonTextOn = _buttonTextOn;
             this.buttonTextOff = _buttonTextOff;
+
+            this.onButtonPress = function;
         }
 
         protected void ButtonPressed()
         {
             // are you sure message
-
+            this.onButtonPress();
         }
 
         protected override void Layout()

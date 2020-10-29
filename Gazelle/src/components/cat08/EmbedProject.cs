@@ -17,14 +17,14 @@ namespace SferedApi.Components
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddCurveParameter("Curves", "C", "Curves", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curves", "C", "Curves", (GH_ParamAccess)1);
             pManager.AddVectorParameter("Vector", "V", "Project Vector. This is what both Brep and Curves consider as 'up'.", 0, Vector3d.ZAxis);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -49,7 +49,7 @@ namespace SferedApi.Components
                         Curve current = enumerator.Current;
                         if ((current == null) || !current.IsValid)
                         {
-                            this.AddRuntimeMessage(20, "curve is invalid");
+                            this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "curve is invalid");
                             return;
                         }
                     }
@@ -59,7 +59,7 @@ namespace SferedApi.Components
             }
             else
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
         }
         

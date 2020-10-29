@@ -9,25 +9,30 @@ namespace SferedApi
     
     public class AddTrim : GH_Component
     {
-        public AddTrim() : this(SD.Starter + "AddTrim", "Trim", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
+        public AddTrim() : base(
+            SD.Starter + "AddTrim", 
+            "Trim", 
+            SD.CopyRight ?? "", 
+            SD.PluginTitle,
+            SD.PluginCategory7)
         {
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddIntegerParameter("Edge index", "Ei", "Edge Index", 0, 0);
-            pManager.AddIntegerParameter("Loop index", "Li", "Loop Index", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge index", "Ei", "Edge Index", (GH_ParamAccess)0, 0);
+            pManager.AddIntegerParameter("Loop index", "Li", "Loop Index", (GH_ParamAccess)0, 0);
             pManager.AddBooleanParameter("Reversed", "R", "Is trim reversed edge", 0, false);
             pManager.AddBooleanParameter("Flip", "F", "flip the curve", 0, false);
-            pManager.AddIntegerParameter("Isostatus", "Iso", "Iso Status :      { None = 0, X = 1,  Y = 2, West = 3,  South = 4, East = 5, North = 6 }", 0, 0);
-            pManager.AddIntegerParameter("TrimType", "T", "Trim Type :      { Unknown = 0, Boundary = 1, Mated = 2, Seam = 3, Singular = 4, CurveOnSurface = 5, PointOnSurface = 6, Slit = 7 }", 0, 0);
+            pManager.AddIntegerParameter("Isostatus", "Iso", "Iso Status :      { None = 0, X = 1,  Y = 2, West = 3,  South = 4, East = 5, North = 6 }", (GH_ParamAccess)0, 0);
+            pManager.AddIntegerParameter("TrimType", "T", "Trim Type :      { Unknown = 0, Boundary = 1, Mated = 2, Seam = 3, Singular = 4, CurveOnSurface = 5, PointOnSurface = 6, Slit = 7 }", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Trim Index", "Ti", "Trim index", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Trim Index", "Ti", "Trim index", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -48,7 +53,7 @@ namespace SferedApi
             DA.GetData<int>(6, ref num4);
             if (((brep == null) || ((edge == -1) || ((loop == -1) || ((num3 < 0) || ((num3 > 6) || (num4 < 0)))))) || (num4 > 7))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

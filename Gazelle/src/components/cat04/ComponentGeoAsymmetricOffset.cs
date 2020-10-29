@@ -28,8 +28,8 @@ namespace SferedApi.Components.Geo
         {
             pManager.AddCurveParameter("Curve", "C", "curve to raise", GH_ParamAccess.item);
             pManager.AddVectorParameter("Vector", "V", "Vector to raise curve with", GH_ParamAccess.item, Vector3d.Zero);
-            pManager.AddIntegerParameter("N controlpoints / degree", "N", "number of controlpoints to do raise with", GH_ParamAccess.item, 3);
-            pManager.AddNumberParameter("Factor", "F", "use this factor to amplyfy the ramping process. IF you use this, keep contolpoints to a minimum!", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("N controlpoints / degree", "N", "number of controlpoints to do raise with", GH_ParamAccess.item, (GH_ParamAccess)3);
+            pManager.AddNumberParameter("Factor", "F", "use this factor to amplyfy the ramping process. IF you use this, keep contolpoints to a minimum!", GH_ParamAccess.item, (GH_ParamAccess)0);
             pManager.AddNumberParameter("Halfpoint", "H", "use this factor to change where the curve flips, to get other curve shapes. Must be used in conjunction with factor!", GH_ParamAccess.item, 0.5);
         }
 

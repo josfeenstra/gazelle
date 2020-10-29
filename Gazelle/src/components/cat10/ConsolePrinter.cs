@@ -22,7 +22,7 @@ namespace SferedApi
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager p)
         {
-            p.AddTextParameter("Lines", "Lines", "All debug lines printed", 1);
+            p.AddTextParameter("Lines", "Lines", "All debug lines printed", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

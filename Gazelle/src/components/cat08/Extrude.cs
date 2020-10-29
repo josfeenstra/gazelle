@@ -15,13 +15,13 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddVectorParameter("Vector", "V", "direction and distance of extrution", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddVectorParameter("Vector", "V", "direction and distance of extrution", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Extruded brep", 0);
+            pManager.AddBrepParameter("Brep", "B", "Extruded brep", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -32,7 +32,7 @@ namespace SferedApi
             DA.GetData<Vector3d>(1, ref direction);
             if ((brep == null) || (direction == Vector3d.Unset))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

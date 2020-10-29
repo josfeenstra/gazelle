@@ -25,15 +25,15 @@ namespace SferedApi.Components.Geo
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddVectorParameter("Vector A", "A", "The first vector", 0);
-            pManager.AddVectorParameter("Vector B", "B", "The second vector", 0);
-            pManager.AddPlaneParameter("Plane", "P", "plane", 0);
+            pManager.AddVectorParameter("Vector A", "A", "The first vector", (GH_ParamAccess)0);
+            pManager.AddVectorParameter("Vector B", "B", "The second vector", (GH_ParamAccess)0);
+            pManager.AddPlaneParameter("Plane", "P", "plane", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Radians", "R", "the angle in radians", 0);
-            pManager.AddNumberParameter("Degree", "D", "the angle in degrees", 0);
+            pManager.AddNumberParameter("Radians", "R", "the angle in radians", (GH_ParamAccess)0);
+            pManager.AddNumberParameter("Degree", "D", "the angle in degrees", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -51,7 +51,7 @@ namespace SferedApi.Components.Geo
         }
         
         protected override Bitmap Icon =>
-            Resources.BetterAngle;
+            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("6cfc2f0b-d2d1-4e9c-9943-264cac9fb939");

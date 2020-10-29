@@ -17,15 +17,15 @@ namespace SferedApi.Components
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddCurveParameter("Curves", "C", "Closest curves with counter-clockwise orientation.", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curves", "C", "Closest curves with counter-clockwise orientation.", (GH_ParamAccess)1);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddIntegerParameter("Edge Indices", "Ei", "edge indices per face", 2);
-            pManager.AddIntegerParameter("Face Indices", "Fi", "Indices of faces this curve interacts with", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge Indices", "Ei", "edge indices per face", (GH_ParamAccess)2);
+            pManager.AddIntegerParameter("Face Indices", "Fi", "Indices of faces this curve interacts with", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -49,7 +49,7 @@ namespace SferedApi.Components
                         Curve current = enumerator.Current;
                         if (((current == null) || !current.IsValid) || !current.IsClosed)
                         {
-                            this.AddRuntimeMessage(20, "curve is invalid, missing, or not closed.");
+                            this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "curve is invalid, missing, or not closed.");
                             return;
                         }
                     }
@@ -61,7 +61,7 @@ namespace SferedApi.Components
             }
             else
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
         }
         

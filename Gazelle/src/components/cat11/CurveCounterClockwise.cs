@@ -16,14 +16,14 @@ namespace SferedApi.Components.CurveAdvanced
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve", "C", "Curve", 0);
+            pManager.AddCurveParameter("Curve", "C", "Curve", (GH_ParamAccess)0);
             pManager.AddPlaneParameter("Plane", "P", "Plane", 0, Plane.WorldXY);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve", "C", "Curve", 0);
-            pManager.AddBooleanParameter("Bool", "B", "True if this curve has been flipped.", 0);
+            pManager.AddCurveParameter("Curve", "C", "Curve", (GH_ParamAccess)0);
+            pManager.AddBooleanParameter("Bool", "B", "True if this curve has been flipped.", (GH_ParamAccess)0);
         }
         
         private Curve RunScript(Curve curve, Plane plane, out bool hasFlipped)
@@ -33,7 +33,7 @@ namespace SferedApi.Components.CurveAdvanced
             {
                 throw new Exception("A curve is not closed...");
             }
-            if (curve.ClosedCurveOrientation(plane) != 1)
+            if (curve.ClosedCurveOrientation(plane) != (CurveOrientation)1)
             {
                 hasFlipped = true;
                 curve.Reverse();

@@ -16,15 +16,15 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
             List<int> list1 = new List<int>();
             list1.Add(0);
-            pManager.AddIntegerParameter("Face indices", "Fi", "Edge Index", 1, list1);
+            pManager.AddIntegerParameter("Face indices", "Fi", "Edge Index", (GH_ParamAccess)1, list1);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "In", "New Brep including these faces", 0);
+            pManager.AddBrepParameter("Brep", "In", "New Brep including these faces", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -35,7 +35,7 @@ namespace SferedApi
             DA.GetDataList<int>(1, faces);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

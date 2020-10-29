@@ -17,16 +17,16 @@ namespace SferedApi.Components
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddCurveParameter("Curves", "C", "Curves to embed", 1);
-            pManager.AddIntegerParameter("Face", "Fi", "", 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddCurveParameter("Curves", "C", "Curves to embed", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Face", "Fi", "", (GH_ParamAccess)0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddIntegerParameter("Inner Face Indices", "In", "", 1);
-            pManager.AddIntegerParameter("Outer Face Indices", "Out", "", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Inner Face Indices", "In", "", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Outer Face Indices", "Out", "", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -50,7 +50,7 @@ namespace SferedApi.Components
                         Curve current = enumerator.Current;
                         if (((current == null) || !current.IsValid) || !current.IsClosed)
                         {
-                            this.AddRuntimeMessage(20, "curve is invalid, missing, or not closed.");
+                            this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "curve is invalid, missing, or not closed.");
                             return;
                         }
                     }
@@ -62,7 +62,7 @@ namespace SferedApi.Components
             }
             else
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
         }
         

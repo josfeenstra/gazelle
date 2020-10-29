@@ -5,6 +5,7 @@ namespace SferedApi.Components
     using Grasshopper.Kernel;
     using Grasshopper.Kernel.Data;
     using Grasshopper.Kernel.Parameters;
+    using Grasshopper.Kernel.Types;
     using SferedApi;
     using SferedApi.Properties;
     using System;
@@ -45,7 +46,7 @@ namespace SferedApi.Components
         public IGH_Param CreateParameter(GH_ParameterSide side, int index)
         {
             Param_GenericObject obj2 = new Param_GenericObject();
-            obj2.Access = 2;
+            obj2.Access = (GH_ParamAccess)2;
             obj2.NickName = index.ToString();
             obj2.MutableNickName = true;
             obj2.Optional = true;
@@ -61,7 +62,7 @@ namespace SferedApi.Components
             Type parameterType = info.ParameterType;
             if (typeof(IEnumerable).IsAssignableFrom(parameterType))
             {
-                obj2.Access = 1;
+                obj2.Access = (GH_ParamAccess)1;
             }
             else
             {
@@ -206,7 +207,7 @@ namespace SferedApi.Components
             {
                 Type elementType = parameterType.GetElementType();
                 GH_Structure<IGH_Goo> structure = new GH_Structure<IGH_Goo>();
-                DA.GetDataTree<IGH_Goo>(index, ref structure);
+                DA.GetDataTree<IGH_Goo>(index, out structure);
                 obj2 = structure;
             }
             else if (typeof(IEnumerable<bool>).IsAssignableFrom(parameterType))
@@ -262,7 +263,7 @@ namespace SferedApi.Components
         
         private void print(string message)
         {
-            this.AddRuntimeMessage(0xff, message);
+            this.AddRuntimeMessage((GH_RuntimeMessageLevel)0xff, message);
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

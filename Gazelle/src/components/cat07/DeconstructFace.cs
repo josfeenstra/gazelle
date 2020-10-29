@@ -17,8 +17,8 @@ namespace SferedApi
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "Brep", 0);
-            pManager.AddIntegerParameter("Int", "Fi", "index of face", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Int", "Fi", "index of face", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -37,11 +37,11 @@ namespace SferedApi
             DA.GetData<int>(1, ref num);
             if (brep == null)
             {
-                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)20, "Input bad");
             }
             else if ((num < 0) || (num >= brep.Faces.Count))
             {
-                this.AddRuntimeMessage((GH_RuntimeMessageLevel)10, "out of range");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)10, "out of range");
             }
             else
             {

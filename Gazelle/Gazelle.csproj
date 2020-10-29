@@ -64,7 +64,6 @@
     <Compile Include="src\components\cat04\ComponentGeoBetterAngle.cs" />
     <Compile Include="src\components\cat04\ComponentGeoCookieCutter.cs" />
     <Compile Include="src\components\cat04\ComponentGeoPlanarMove.cs" />
-    <Compile Include="src\components\cat04\ComponentGeoProjectText.cs" />
     <Compile Include="src\components\cat06\ScalableSpline.cs" />
     <Compile Include="src\components\cat06\ComponentTopologyArcsAndFillets.cs" />
     <Compile Include="src\components\cat06\ComponentTopologyCurve.cs" />
@@ -139,7 +138,6 @@
     <None Include="src\custom-types\GH_Param_BaseDataNode.Incorrect" />
     <Compile Include="src\custom-types\GH_Param_BaseDataNode.cs" />
     <Compile Include="src\scraps\RandomReduce.cs" />
-    <Compile Include="src\utils\CurvePartition.cs" />
     <Compile Include="src\utils\Debug.cs" />
     <Compile Include="src\utils\EdgeSplitter.cs" />
     <Compile Include="src\utils\IntersectionOrientation.cs" />

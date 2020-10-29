@@ -16,13 +16,13 @@ namespace SferedApi.Components.Topology
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Points", "P", "Points for the curve. A b-spline is made per 4 curves. The last point of the previous set is the start of the next curve", 1);
+            pManager.AddPointParameter("Points", "P", "Points for the curve. A b-spline is made per 4 curves. The last point of the previous set is the start of the next curve", (GH_ParamAccess)1);
             pManager.AddBooleanParameter("Boolean Closed", "Cl", "If Closed, make sure the last point connects with the first", 0, false);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("curve", "C", "The resulting curves", 1);
+            pManager.AddCurveParameter("curve", "C", "The resulting curves", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -51,7 +51,7 @@ namespace SferedApi.Components.Topology
         }
         
         protected override Bitmap Icon =>
-            Resources.TopoCurve;
+            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("49ad8f5b-643e-4dd6-9fbf-4d081c68ce01");

@@ -333,50 +333,50 @@ namespace SferedApi.Components.Geo
             return true;
         }
 
-        #region menu
+        //#region menu
 
-        /// <summary>
-        /// fill the Menu
-        /// </summary>
-        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
-        {
-            // new part
-            Menu_AppendSeparator(menu);
+        ///// <summary>
+        ///// fill the Menu
+        ///// </summary>
+        //public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
+        //{
+        //    // new part
+        //    Menu_AppendSeparator(menu);
 
-            // select a node to base this node upon. Nodes with a base will automaticly be connected 
-            Menu_Appen[menu, "Choose Mode:", null, false];
-            for (int i = 0; i < ModeNames.Count; i++)
-            {
-                // for every mode, add an entry which can be selected 
-                var nickname = ModeNames[i];
-                bool selected = i == Mode;
-                var item = Menu_Appen[menu, nickname, MenuSetMode, true, selected];
+        //    // select a node to base this node upon. Nodes with a base will automaticly be connected 
+        //    Menu_Appen[menu, "Choose Mode:", null, false];
+        //    for (int i = 0; i < ModeNames.Count; i++)
+        //    {
+        //        // for every mode, add an entry which can be selected 
+        //        var nickname = ModeNames[i];
+        //        bool selected = i == Mode;
+        //        var item = Menu_Appen[menu, nickname, MenuSetMode, true, selected];
 
-                // at the "click" event, i want to know which item is selected
-                item.Name = i.ToString();
-            }
+        //        // at the "click" event, i want to know which item is selected
+        //        item.Name = i.ToString();
+        //    }
 
-            // end new part 
-            Menu_AppendSeparator(menu);
-            base.AppendAdditionalMenuItems(menu);
-        }
+        //    // end new part 
+        //    Menu_AppendSeparator(menu);
+        //    base.AppendAdditionalMenuItems(menu);
+        //}
 
-        // gets activated by one of the selected items 
-        private void MenuSetMode(object sender, EventArgs e)
-        {
-            // try to get the name of the item clicked.
-            var item = sender as ToolStripMenuItem;
-            int i = -1;
-            int.TryParse(item.Name, out i);
-            if (i == -1) Message = "ERROR: SET MODE -1";
+        //// gets activated by one of the selected items 
+        //private void MenuSetMode(object sender, EventArgs e)
+        //{
+        //    // try to get the name of the item clicked.
+        //    var item = sender as ToolStripMenuItem;
+        //    int i = -1;
+        //    int.TryParse(item.Name, out i);
+        //    if (i == -1) Message = "ERROR: SET MODE -1";
 
-            // set the mode to this new index
-            Mode = i;
+        //    // set the mode to this new index
+        //    Mode = i;
 
-            // update 
-            ExpireSolution(true);
-        }
-        #endregion
+        //    // update 
+        //    ExpireSolution(true);
+        //}
+        //#endregion
 
 
 

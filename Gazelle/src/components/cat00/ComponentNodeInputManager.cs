@@ -63,7 +63,7 @@ namespace SferedApi.Components.NodeConversion
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("A", "A", "Explains whats happening", 0);
+            pManager.AddTextParameter("A", "A", "Explains whats happening", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

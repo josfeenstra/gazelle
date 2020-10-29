@@ -19,13 +19,13 @@ namespace SferedApi.Components.Surface
             string[] textArray1 = new string[] { "A", "B", "C", "1", "2", "3" };
             foreach (string str in textArray1)
             {
-                pManager.AddCurveParameter("Curve " + str, str, "", 0);
+                pManager.AddCurveParameter("Curve " + str, str, "", (GH_ParamAccess)0);
             }
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 1);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

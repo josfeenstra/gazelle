@@ -9,21 +9,21 @@ namespace SferedApi
     
     public class AddLoop : GH_Component
     {
-        public AddLoop() : this(SD.Starter + "AddLoop", "Loop", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
+        public AddLoop() : base(SD.Starter + "AddLoop", "Loop", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
         {
         }
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "", 0);
-            pManager.AddIntegerParameter("Face Index", "Fi", "Face Index", 0, 0);
-            pManager.AddIntegerParameter("BrepLoopType", "T", "Loop Type :  Unknown = 0, Outer = 1, Inner = 2, Slit = 3, CurveOnSurface = 4, PointOnSurface = 5", 0, 0);
+            pManager.AddBrepParameter("Brep", "B", "", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Face Index", "Fi", "Face Index", (GH_ParamAccess)0, 0);
+            pManager.AddIntegerParameter("BrepLoopType", "T", "Loop Type :  Unknown = 0, Outer = 1, Inner = 2, Slit = 3, CurveOnSurface = 4, PointOnSurface = 5", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", 0);
-            pManager.AddIntegerParameter("Loop Index", "Li", "Loop index", 0);
+            pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Loop Index", "Li", "Loop index", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -36,7 +36,7 @@ namespace SferedApi
             DA.GetData<int>(2, ref num2);
             if (((brep == null) || ((face == -1) || (num2 < 0))) || (num2 > 5))
             {
-                this.AddRuntimeMessage(20, "input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "input bad");
             }
             else
             {

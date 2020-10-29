@@ -24,53 +24,53 @@ namespace SferedApi
             this.Mode = 0;
         }
         
-        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
-        {
-            GH_DocumentObject.Menu_AppendSeparator(menu);
-            GH_DocumentObject.Menu_Appen[menu, "Choose Mode:", null, false];
-            int num = 0;
-            while (true)
-            {
-                if (num >= this.ModeNames.Count)
-                {
-                    GH_DocumentObject.Menu_AppendSeparator(menu);
-                    base.AppendAdditionalMenuItems(menu);
-                    return;
-                }
-                string str = this.ModeNames[num];
-                bool flag = num == this.Mode;
-                ToolStripMenuItem item = GH_DocumentObject.Menu_Appen[menu, str, new EventHandler(this.MenuSetMode], true, flag);
-                item.Name = num.ToString();
-                num++;
-            }
-        }
+        //public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
+        //{
+        //    GH_DocumentObject.Menu_AppendSeparator(menu);
+        //    GH_DocumentObject.Menu_Appen[menu, "Choose Mode:", null, false];
+        //    int num = 0;
+        //    while (true)
+        //    {
+        //        if (num >= this.ModeNames.Count)
+        //        {
+        //            GH_DocumentObject.Menu_AppendSeparator(menu);
+        //            base.AppendAdditionalMenuItems(menu);
+        //            return;
+        //        }
+        //        string str = this.ModeNames[num];
+        //        bool flag = num == this.Mode;
+        //        ToolStripMenuItem item = GH_DocumentObject.Menu_Appen[menu, str, new EventHandler(this.MenuSetMode], true, flag);
+        //        item.Name = num.ToString();
+        //        num++;
+        //    }
+        //}
         
-        private void MenuSetMode(object sender, EventArgs e)
-        {
-            int result = -1;
-            int.TryParse((sender as ToolStripMenuItem).Name, out result);
-            if (result == -1)
-            {
-                base.Message = "ERROR: SET MODE -1";
-            }
-            this.Mode = result;
-            this.ExpireSolution(true);
-        }
+        //private void MenuSetMode(object sender, EventArgs e)
+        //{
+        //    int result = -1;
+        //    int.TryParse((sender as ToolStripMenuItem).Name, out result);
+        //    if (result == -1)
+        //    {
+        //        base.Message = "ERROR: SET MODE -1";
+        //    }
+        //    this.Mode = result;
+        //    this.ExpireSolution(true);
+        //}
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCurveParameter("Curve", "C", "Curve to cut.", 0);
-            pManager.AddGenericParameter("Splitters", "S", "Numbers, Points or Planes to cut with", 1);
-            pManager.AddBooleanParameter("Options", "O", "Bool 0: OnlyClosestPlaneCut \n Bool 1: clipSubdivision \n Bool 2: planeFixSide Bool 3: planeFixClosest ", 1);
-            pManagerParam(1).Optional = true;
-            pManagerParam(2).Optional = true;
+            pManager.AddCurveParameter("Curve", "C", "Curve to cut.", (GH_ParamAccess)0);
+            pManager.AddGenericParameter("Splitters", "S", "Numbers, Points or Planes to cut with", (GH_ParamAccess)1);
+            pManager.AddBooleanParameter("Options", "O", "Bool 0: OnlyClosestPlaneCut \n Bool 1: clipSubdivision \n Bool 2: planeFixSide Bool 3: planeFixClosest ", (GH_ParamAccess)1);
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("SubCurves", "C", "Resulting Subcurves", 1);
-            pManager.AddPointParameter("Split Points", "P", "points of splitting", 1);
-            pManager.AddNumberParameter("t-Values", "t", "Splitting points of original curve", 1);
+            pManager.AddCurveParameter("SubCurves", "C", "Resulting Subcurves", (GH_ParamAccess)1);
+            pManager.AddPointParameter("Split Points", "P", "points of splitting", (GH_ParamAccess)1);
+            pManager.AddNumberParameter("t-Values", "t", "Splitting points of original curve", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -91,7 +91,7 @@ namespace SferedApi
             }
             foreach (string str in list5)
             {
-                this.AddRuntimeMessage(0xff, str);
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)1, str);
             }
             DA.SetDataList(0, curveArray);
             DA.SetDataList(1, list4);

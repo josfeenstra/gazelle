@@ -35,7 +35,7 @@ namespace SferedApi
             DA.GetData<Brep>(0, ref brep);
             if (brep == null)
             {
-                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)(GH_RuntimeMessageLevel)20, "Input bad");
             }
             else
             {
