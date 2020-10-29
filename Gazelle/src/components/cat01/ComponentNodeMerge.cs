@@ -11,7 +11,13 @@ namespace SferedApi.Components.Node
     
     public class ComponentNodeMerge : GH_Component
     {
-        public ComponentNodeMerge() : base(SD.Starter + "Node Merge", SD.Starter + "Merge", SD.CopyRight + "Merges two nodes into a single node.\nN2's k/v pairs will override N1's k/v pairs.", SD.PluginTitle, SD.PluginCategory1)
+        public ComponentNodeMerge() : base(
+            SD.Starter + "Node Merge", 
+            SD.Starter + "Merge", 
+            SD.CopyRight + "Merges two nodes into a single node.\n" +
+            "N2's k/v pairs will override N1's k/v pairs.", 
+            SD.PluginTitle, 
+            SD.PluginCategory1)
         {
         }
         
@@ -19,7 +25,7 @@ namespace SferedApi.Components.Node
         {
             pManager.AddParameter(new GH_Param_DataNode(), "Data Node 1", "N1", "Data Node 1.", 0);
             pManager.AddParameter(new GH_Param_DataNode(), "Data Node 2", "N2", "Data Node 2.", 0);
-            pManager.get_Param(1).set_Optional(true);
+            pManager[1].Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -34,8 +40,8 @@ namespace SferedApi.Components.Node
             GH_DataNode node2 = new GH_DataNode();
             DA.GetData<GH_DataNode>(1, ref node2);
             dataNode = new GH_DataNode(dataNode);
-            DataNode node3 = dataNode.get_Value();
-            DataNode node4 = node2.get_Value();
+            DataNode node3 = dataNode.Value;
+            DataNode node4 = node2.Value;
             foreach (string str in node4.Dict.Keys.ToList<string>())
             {
                 node3.Dict[str] = node4.Dict[str];
@@ -44,7 +50,7 @@ namespace SferedApi.Components.Node
         }
         
         protected override Bitmap Icon =>
-            Resources.NodeAdd;
+            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("50e57c97-7008-49fc-a439-f6ac9cc7c23b");

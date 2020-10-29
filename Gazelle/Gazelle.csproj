@@ -66,6 +66,7 @@
     <Compile Include="src\components\cat04\ComponentGeoBetterAngle.cs" />
     <Compile Include="src\components\cat04\ComponentGeoCookieCutter.cs" />
     <Compile Include="src\components\cat04\ComponentGeoPlanarMove.cs" />
+    <Compile Include="src\components\cat04\ComponentGeoProjectPerforate.cs" />
     <Compile Include="src\components\cat05\ComponentTextOnPlane.cs" />
     <Compile Include="src\components\cat06\ScalableSpline.cs" />
     <Compile Include="src\components\cat06\ComponentTopologyArcsAndFillets.cs" />

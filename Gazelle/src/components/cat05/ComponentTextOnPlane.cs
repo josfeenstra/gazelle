@@ -26,14 +26,14 @@ namespace SferedApi.Components.TextInsertion
         {
             pManager.AddTextParameter("Text", "T", "Text to project", 0);
             pManager.AddPlaneParameter("Plane", "P", "Plane to project text insertion from ", 0, Plane.WorldXY);
-            pManager.AddGenericParameter("Font Data", "F", "the font to use", 2);
+            pManager.AddGenericParameter("Font Data", "F", "the font to use", (GH_ParamAccess)2);
             pManager.AddNumberParameter("Height", "H", "Height of Letter", 0, 2.4);
             pManager.AddBooleanParameter("Option Centered", "C", "if true, text will be centered on plane", 0, true);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Projection curves", "C", "curves as projected on plane", 1);
+            pManager.AddCurveParameter("Projection curves", "C", "curves as projected on plane", (GH_ParamAccess)1);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -97,7 +97,7 @@ namespace SferedApi.Components.TextInsertion
                     }
                     else
                     {
-                        this.AddRuntimeMessage(10, "Character '" + ch.ToString() + "' has no loaded geometry");
+                        this.AddRuntimeMessage((GH_RuntimeMessageLevel)10, "Character '" + ch.ToString() + "' has no loaded geometry");
                         return;
                     }
                     continue;
