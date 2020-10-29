@@ -110,6 +110,7 @@
     <Compile Include="src\components\cat11\CurveRegionIntersect.cs" />
     <Compile Include="src\core\BrepFunctions.cs" />
     <Compile Include="src\core\CurveFunctions.cs" />
+    <Compile Include="src\core\GH_ComponentFunctions.cs" />
     <Compile Include="src\core\GrasshopperFunctions.cs" />
     <Compile Include="src\core\SurfaceFunctions.cs" />
     <Compile Include="src\core\VectorFunctions.cs" />

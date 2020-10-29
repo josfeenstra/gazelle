@@ -22,3 +22,7 @@ pManager.Add$1Parameter($2, (GH_ParamAccess)$3);
 PMANAGER FIX 2
 (GH_ParamAccess\..*?\,.*?)(\(GH_ParamAccess\))
 $1
+
+Param
+.get_Param\((.*?)\)
+[$1]
