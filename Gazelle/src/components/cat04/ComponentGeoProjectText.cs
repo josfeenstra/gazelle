@@ -144,7 +144,7 @@ namespace SferedApi.Components.Geo
             pManager.AddIntegerParameter("Nudge Maximum tries", "M", "Nudge Maximum tries", 0, 1);
             for (int i = 0; i < 10; i++)
             {
-                pManager.get_Param(i).Optional = true;
+                pManagerParam(i).Optional = true;
             }
         }
         

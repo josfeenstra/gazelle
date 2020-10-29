@@ -154,7 +154,7 @@ namespace SferedApi
                                     double num5;
                                     Point3d item = (goo as GH_Point).Value;
                                     list2.Add(item);
-                                    curve.ClosestPoint(item, ref num5);
+                                    curve.ClosestPoint(item, out num5);
                                     tValues.Add(num5);
                                 }
                             }
@@ -237,7 +237,7 @@ namespace SferedApi
         {
             Curve[] curveArray;
             Point3d[] pointdArray;
-            Intersection.CurveBrepFace(curve, face, 0.001, ref curveArray, ref pointdArray);
+            Intersection.CurveBrepFace(curve, face, 0.001, out curveArray, out pointdArray);
             return ((curveArray.Length != 0) || (pointdArray.Length != 0));
         }
         
@@ -250,7 +250,7 @@ namespace SferedApi
         public static Curve[] SplitAt(this Curve curve, double normParam, out Point3d cutPoint)
         {
             double num;
-            if (!curve.NormalizedLengthParameter(normParam, ref num))
+            if (!curve.NormalizedLengthParameter(normParam, out num))
             {
                 throw new Exception("normal param needs to be between 0 and 1");
             }

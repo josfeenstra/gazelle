@@ -198,7 +198,7 @@ namespace SferedApi
             }
             if (thisIndex < splitted.Faces.Count)
             {
-                BrepFace face = splitted.Faces.get_Item(thisIndex);
+                BrepFace face = splitted.Faces[thisIndex];
                 spaceMapper[thisIndex] = thisFaceShouldBe;
                 alreadyMapped.Add(thisIndex);
                 foreach (int num2 in face.AdjacentFaces())
@@ -375,7 +375,7 @@ namespace SferedApi
                             flag3 = true;
                             break;
                         }
-                        BrepFace face4 = splitted.Faces.get_Item(num2);
+                        BrepFace face4 = splitted.Faces[num2];
                         if (spaceMapper[num2])
                         {
                             leftover.Add(face4.DuplicateFace(false));
@@ -480,7 +480,7 @@ namespace SferedApi
                                     return true;
                                 }
                             }
-                            BrepFace surface = brep.Faces.get_Item(num);
+                            BrepFace surface = brep.Faces[num];
                             string str = "Face " + num.ToString() + ": ";
                             List<Brep> list2 = new List<Brep>();
                             List<Brep> list3 = new List<Brep>();
@@ -493,7 +493,7 @@ namespace SferedApi
                                 if (index < numArray.Length)
                                 {
                                     int num3 = numArray[index];
-                                    BrepEdge item = brep.Edges.get_Item(num3);
+                                    BrepEdge item = brep.Edges[num3];
                                     EdgeAdjacency adjacency = item.Valence;
                                     switch (adjacency)
                                     {
@@ -642,7 +642,7 @@ namespace SferedApi
                             flag4 = true;
                             break;
                         }
-                        BrepFace face3 = splitted.Faces.get_Item(num2);
+                        BrepFace face3 = splitted.Faces[num2];
                         if (spaceMapper[num2])
                         {
                             leftover.Add(face3.DuplicateFace(false));

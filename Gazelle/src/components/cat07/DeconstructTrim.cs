@@ -45,7 +45,7 @@ namespace SferedApi
             }
             else
             {
-                BrepTrim trim = brep.Trims.get_Item(num);
+                BrepTrim trim = brep.Trims[num];
                 DA.SetData(0, trim.DuplicateCurve());
                 DA.SetData(1, trim.IsReversed());
                 DA.SetData(2, trim.ProxyCurveIsReversed);

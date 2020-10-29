@@ -7,7 +7,8 @@ namespace SferedApi
     using System;
     using System.Drawing;
     using System.Runtime.CompilerServices;
-    
+    using System.Linq;
+
     public class DeconstructFace : GH_Component
     {
         public DeconstructFace() : base(SD.Starter + "Deconstruct Face", "DeFace", SD.CopyRight + "Deconstruct A BrepFace of a Brep", SD.PluginTitle, SD.PluginCategory7)
@@ -22,10 +23,10 @@ namespace SferedApi
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Brep", "B", "the brepface as a new brep", 0);
-            pManager.AddSurfaceParameter("Surface", "S", "the surface it is based on", 0);
-            pManager.AddIntegerParameter("Loops", "Li", "LoopIndices", 1);
-            pManager.AddBooleanParameter("orientation", "O", "orientation. true means reversed", 0);
+            pManager.AddBrepParameter("Brep", "B", "the brepface as a new brep", (GH_ParamAccess)0);
+            pManager.AddSurfaceParameter("Surface", "S", "the surface it is based on", (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Loops", "Li", "LoopIndices", (GH_ParamAccess)1);
+            pManager.AddBooleanParameter("orientation", "O", "orientation. true means reversed", (GH_ParamAccess)0);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -36,15 +37,15 @@ namespace SferedApi
             DA.GetData<int>(1, ref num);
             if (brep == null)
             {
-                this.AddRuntimeMessage(20, "Input bad");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)20, "Input bad");
             }
             else if ((num < 0) || (num >= brep.Faces.Count))
             {
-                this.AddRuntimeMessage(10, "out of range");
+                this.AddRuntimeMessage((GH_RuntimeMessageLevel)10, "out of range");
             }
             else
             {
-                BrepFace face = brep.Faces.get_Item(num);
+                BrepFace face = brep.Faces[num];
                 DA.SetData(0, face.ToBrep());
                 DA.SetData(1, face.UnderlyingSurface());
                 DA.SetDataList(2, from item in face.Loops select item.LoopIndex);

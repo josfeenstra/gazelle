@@ -45,7 +45,7 @@ namespace SferedApi
             }
             else
             {
-                BrepEdge edge = brep.Edges.get_Item(num);
+                BrepEdge edge = brep.Edges[num];
                 DA.SetData(0, edge.DuplicateCurve());
                 DA.SetDataList(1, edge.AdjacentFaces());
                 DA.SetDataList(2, edge.TrimIndices());

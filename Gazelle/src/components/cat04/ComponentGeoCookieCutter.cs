@@ -174,7 +174,7 @@ namespace SferedApi.Components.Geo
             }
             if (thisIndex < splitted.Faces.Count)
             {
-                BrepFace face = splitted.Faces.get_Item(thisIndex);
+                BrepFace face = splitted.Faces[thisIndex];
                 spaceMapper[thisIndex] = thisFaceShouldBe;
                 alreadyMapped.Add(thisIndex);
                 foreach (int num2 in face.AdjacentFaces())
@@ -296,7 +296,7 @@ namespace SferedApi.Components.Geo
                     MapSpace(splitted, spaceMapper, thisFaceShouldBe, thisIndex, null);
                     for (int i = 0; i < splitted.Faces.Count; i++)
                     {
-                        BrepFace face3 = splitted.Faces.get_Item(i);
+                        BrepFace face3 = splitted.Faces[i];
                         if (spaceMapper[i])
                         {
                             results.SurfacesInside.Add(face3.DuplicateFace(false));

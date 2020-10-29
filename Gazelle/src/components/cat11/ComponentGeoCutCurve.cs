@@ -27,7 +27,7 @@ namespace SferedApi
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {
             GH_DocumentObject.Menu_AppendSeparator(menu);
-            GH_DocumentObject.Menu_AppendItem(menu, "Choose Mode:", null, false);
+            GH_DocumentObject.Menu_Appen[menu, "Choose Mode:", null, false];
             int num = 0;
             while (true)
             {
@@ -39,7 +39,7 @@ namespace SferedApi
                 }
                 string str = this.ModeNames[num];
                 bool flag = num == this.Mode;
-                ToolStripMenuItem item = GH_DocumentObject.Menu_AppendItem(menu, str, new EventHandler(this.MenuSetMode), true, flag);
+                ToolStripMenuItem item = GH_DocumentObject.Menu_Appen[menu, str, new EventHandler(this.MenuSetMode], true, flag);
                 item.Name = num.ToString();
                 num++;
             }
@@ -62,8 +62,8 @@ namespace SferedApi
             pManager.AddCurveParameter("Curve", "C", "Curve to cut.", 0);
             pManager.AddGenericParameter("Splitters", "S", "Numbers, Points or Planes to cut with", 1);
             pManager.AddBooleanParameter("Options", "O", "Bool 0: OnlyClosestPlaneCut \n Bool 1: clipSubdivision \n Bool 2: planeFixSide Bool 3: planeFixClosest ", 1);
-            pManager.get_Param(1).Optional = true;
-            pManager.get_Param(2).Optional = true;
+            pManagerParam(1).Optional = true;
+            pManagerParam(2).Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

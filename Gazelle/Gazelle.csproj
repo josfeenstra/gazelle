@@ -142,10 +142,7 @@
     <Compile Include="src\utils\CurvePartition.cs" />
     <Compile Include="src\utils\Debug.cs" />
     <Compile Include="src\utils\EdgeSplitter.cs" />
-    <Compile Include="src\utils\FontCustomCharacter.cs" />
-    <Compile Include="src\utils\Helpers.cs" />
     <Compile Include="src\utils\IntersectionOrientation.cs" />
-    <Compile Include="src\utils\Nudger.cs" />
     <Compile Include="src\utils\StaticData.cs" />
     <Compile Include="src\core\Functions.cs" />
     <Compile Include="src\custom-types\GH_Param_DataNode.cs" />

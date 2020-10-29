@@ -7,7 +7,8 @@ namespace SferedApi
     using System;
     using System.Drawing;
     using System.Runtime.CompilerServices;
-    
+    using System.Linq;
+
     public class DeconstructLoop : GH_Component
     {
         public DeconstructLoop() : base(SD.Starter + "Deconstruct Loop", "DeLoop", SD.CopyRight + "Deconstruct a BrepLoop of a Brep", SD.PluginTitle, SD.PluginCategory7)
@@ -42,7 +43,7 @@ namespace SferedApi
             }
             else
             {
-                BrepLoop loop = brep.Loops.get_Item(num);
+                BrepLoop loop = brep.Loops[num];
                 DA.SetDataList(0, from item in loop.Trims select item.TrimIndex);
                 DA.SetData(1, loop.LoopType.ToString());
             }

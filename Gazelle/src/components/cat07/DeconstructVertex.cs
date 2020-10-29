@@ -41,7 +41,7 @@ namespace SferedApi
             }
             else
             {
-                BrepVertex vertex = brep.Vertices.get_Item(num);
+                BrepVertex vertex = brep.Vertices[num];
                 DA.SetData(0, vertex.Location);
                 DA.SetDataList(1, vertex.EdgeIndices());
             }

@@ -229,13 +229,13 @@ namespace SferedApi
             Menu_AppendSeparator(menu);
 
             // select a node to base this node upon. Nodes with a base will automaticly be connected 
-            Menu_AppendItem(menu, "Choose Mode:", null, false);
+            Menu_Appen[menu, "Choose Mode:", null, false];
             for (int i = 0; i < ModeNames.Count; i++)
             {
                 // for every mode, add an entry which can be selected 
                 var nickname = ModeNames[i];
                 bool selected = i == Mode;
-                var item = Menu_AppendItem(menu, nickname, MenuSetMode, true, selected);
+                var item = Menu_Appen[menu, nickname, MenuSetMode, true, selected];
 
                 // at the "click" event, i want to know which item is selected
                 item.Name = i.ToString();

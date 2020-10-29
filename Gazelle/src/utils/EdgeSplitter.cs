@@ -43,6 +43,6 @@ namespace SferedApi
         }
         
         private BrepEdge Edge =>
-            this.brep.Edges.get_Item(this.edge);
+            this.brep.Edges[this.edge];
     }
 }

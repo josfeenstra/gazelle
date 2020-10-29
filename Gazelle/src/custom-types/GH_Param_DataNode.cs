@@ -166,7 +166,7 @@ namespace SferedApi
             Menu_AppendSeparator(menu);
 
             // select a node to base this node upon. Nodes with a base will automaticly be connected 
-            Menu_AppendItem(menu, "Choose Base:", null, false);
+            Menu_Appen[menu, "Choose Base:", null, false];
             for (int i = -1; i < PossibleBaseNodes.Count; i++)
             {
                 // add special first item
@@ -179,7 +179,7 @@ namespace SferedApi
                     nickname = PossibleBaseNodes[i].NickName;
 
                 bool selected = ((i == -1 && BaseNode == null) || (i > -1 && BaseNode == PossibleBaseNodes[i]));
-                var item = Menu_AppendItem(menu, nickname, MenuSetBase, true, selected);
+                var item = Menu_Appen[menu, nickname, MenuSetBase, true, selected];
                 item.Name = i.ToString();
             }
             Menu_AppendSeparator(menu);
