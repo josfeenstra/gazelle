@@ -61,9 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\components\cat00\ComponentNodeInputManager.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeAdd.cs" />
+    <Compile Include="src\components\cat01\ComponentNodeMerge.cs" />
     <Compile Include="src\components\cat04\ComponentGeoBetterAngle.cs" />
     <Compile Include="src\components\cat04\ComponentGeoCookieCutter.cs" />
     <Compile Include="src\components\cat04\ComponentGeoPlanarMove.cs" />
+    <Compile Include="src\components\cat05\ComponentTextOnPlane.cs" />
     <Compile Include="src\components\cat06\ScalableSpline.cs" />
     <Compile Include="src\components\cat06\ComponentTopologyArcsAndFillets.cs" />
     <Compile Include="src\components\cat06\ComponentTopologyCurve.cs" />
@@ -115,7 +118,6 @@
     <Compile Include="src\components\cat00\ComponentDevProcessFont.cs" />
     <Compile Include="src\components\cat04\ComponentGeoAsymmetricOffset.cs" />
     <Compile Include="src\components\cat04\ComponentGeoPerforateSurface.cs" />
-    <Compile Include="src\components\cat04\ComponentGeoQuickSubCurves.cs" />
     <Compile Include="src\components\cat04\ComponentGeoFlipCurve.cs" />
     <Compile Include="src\components\cat00\ComponentDevPluginInfo.cs" />
     <Compile Include="src\components\cat03\ComponentQuickBranchSelectNew.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="src\components\cat02\ComponentNodeFromString.cs" />
     <Compile Include="src\components\cat01\ComponentNodeIn.cs" />
     <Compile Include="src\components\cat01\ComponentNodeInAll.cs" />
-    <Compile Include="src\components\cat01\ComponentNodeMerge.cs" />
     <Compile Include="src\components\cat01\ComponentNodeOut.cs" />
     <Compile Include="src\components\cat02\ComponentNodePythonify.cs" />
     <Compile Include="src\components\cat02\ComponentNodeToString.cs" />
@@ -192,7 +193,9 @@
     <None Include="Resources\sfered-logo-zwart1.png" />
     <None Include="Resources\sfered-logo-zwart.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="exclusions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

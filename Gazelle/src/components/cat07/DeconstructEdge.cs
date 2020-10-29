@@ -16,7 +16,7 @@ namespace SferedApi
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddBrepParameter("Brep", "B", "Brep", (GH_ParamAccess)0);
-            pManager.AddIntegerParameter("Edge Index", "Ei", "index of trim", 0, (GH_ParamAccess)0);
+            pManager.AddIntegerParameter("Edge Index", "Ei", "index of trim", (GH_ParamAccess)0, 0);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

@@ -594,10 +594,14 @@ namespace SferedApi
             List<Point3d> splitPoints;
             Curve[] subCurves;
             List<string> errorMessage;
-            bool succes = Components.Geo.ComponentGeoQuickSubCurves.CutCurves(curve,
-                                                                              GH_Cutters,
-                                                                              new List<GH_Boolean>() { new GH_Boolean(false), new GH_Boolean(false) },
-                                                                              out tValues, out splitPoints, out subCurves, out errorMessage);
+            bool succes = CurveFunctions.CutCurves(
+                curve,
+                GH_Cutters,
+                new List<GH_Boolean>() {
+                    new GH_Boolean(false),
+                    new GH_Boolean(false)
+                },
+                out tValues, out splitPoints, out subCurves, out errorMessage);
             if (!succes)
             {
                 // TODO Doe iets als het niet goed gaat
@@ -605,7 +609,6 @@ namespace SferedApi
             }
 
             // make smart subcollection
-
             return subCurves;
         }
 

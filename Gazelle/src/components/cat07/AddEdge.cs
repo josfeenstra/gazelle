@@ -9,7 +9,7 @@ namespace SferedApi
     
     public class AddEdge : GH_Component
     {
-        public AddEdge() : this(SD.Starter + "AddEdge", SD.Starter + "Edge", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
+        public AddEdge() : base(SD.Starter + "AddEdge", SD.Starter + "Edge", SD.CopyRight ?? "", SD.PluginTitle, SD.PluginCategory7)
         {
         }
         
