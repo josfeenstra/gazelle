@@ -10,30 +10,37 @@ namespace SferedApi.Components.NodeConversion
     
     public class ComponentNodeInputManager : GH_Component, IGH_VariableParameterComponent
     {
-        public ComponentNodeInputManager() : base(SD.Starter + "Node Expire Manager", SD.Starter + "N Expire Manager", SD.CopyRight + "Used to intelligently judge expire procedure of Nodes. \nif input changes, the 'Node Get item' components downstream will be configured in such a way that only new data will be recalculated.", SD.PluginTitle, SD.PluginCategory2)
+        public ComponentNodeInputManager() : base(
+            SD.Starter + "Node Expire Manager", 
+            SD.Starter + "N Expire Manager", 
+            SD.CopyRight + "Used to intelligently judge expire procedure of Nodes. " +
+            "\nif input changes, the 'Node Get item' components downstream will be " +
+            "configured in such a way that only new data will be recalculated.", 
+            SD.PluginTitle, 
+            SD.PluginCategory2)
         {
         }
         
         public bool CanInsertParameter(GH_ParameterSide side, int index) => 
-            (side == null) && (index == base.get_Params().get_Input().Count);
+            (side == null) && (index == base.Params.Input.Count);
         
         public bool CanRemoveParameter(GH_ParameterSide side, int index) => 
-            ((side == null) && (index != 0)) && (index == (base.get_Params().get_Input().Count - 1));
+            ((side == null) && (index != 0)) && (index == (base.Params.Input.Count - 1));
         
         public IGH_Param CreateParameter(GH_ParameterSide side, int index)
         {
             GH_Param_DataNode node = new GH_Param_DataNode();
-            node.set_Access(0);
-            node.set_NickName("N " + index.ToString());
-            node.set_MutableNickName(true);
+            node.Access = 0;
+            node.NickName = "N " + index.ToString();
+            node.MutableNickName = true;
             if (side != 0)
             {
-                base.get_Params().RegisterOutputParam(node, index);
+                base.Params.RegisterOutputParam(node, index);
             }
             else
             {
-                base.get_Params().RegisterInputParam(node, index);
-                this.CreateParameter(1, index);
+                base.Params.RegisterInputParam(node, index);
+                this.CreateParameter((GH_ParameterSide)1, index);
             }
             return node;
         }
@@ -42,9 +49,9 @@ namespace SferedApi.Components.NodeConversion
         {
             if (side == 0)
             {
-                IGH_Param param = base.get_Params().get_Output()[index];
-                base.get_Params().UnregisterOutputParameter(param);
-                base.get_Params().OnParametersChanged();
+                IGH_Param param = base.Params.Output[index];
+                base.Params.UnregisterOutputParameter(param);
+                base.Params.OnParametersChanged();
             }
             return true;
         }
@@ -66,14 +73,14 @@ namespace SferedApi.Components.NodeConversion
             int num = 1;
             while (true)
             {
-                if (num >= base.get_Params().get_Input().Count)
+                if (num >= base.Params.Input.Count)
                 {
                     DA.SetData(0, "test");
                     return;
                 }
                 GH_DataNode node = new GH_DataNode();
                 DA.GetData<GH_DataNode>(num, ref node);
-                DataNode node2 = node.get_Value();
+                DataNode node2 = node.Value;
                 DA.SetData(num, node2);
                 num++;
             }

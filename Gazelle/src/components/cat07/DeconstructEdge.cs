@@ -39,20 +39,20 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.get_Edges().get_Count()))
+            else if ((num < 0) || (num >= brep.Edges.Count))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
-                BrepEdge edge = brep.get_Edges().get_Item(num);
+                BrepEdge edge = brep.Edges.get_Item(num);
                 DA.SetData(0, edge.DuplicateCurve());
                 DA.SetDataList(1, edge.AdjacentFaces());
                 DA.SetDataList(2, edge.TrimIndices());
-                int[] numArray1 = new int[] { edge.get_StartVertex().get_VertexIndex(), edge.get_EndVertex().get_VertexIndex() };
+                int[] numArray1 = new int[] { edge.StartVertex.VertexIndex, edge.EndVertex.VertexIndex };
                 DA.SetDataList(3, numArray1);
-                DA.SetData(4, edge.get_Valence().ToString());
-                DA.SetData(5, edge.get_ProxyCurveIsReversed());
+                DA.SetData(4, edge.Valence.ToString());
+                DA.SetData(5, edge.ProxyCurveIsReversed);
             }
         }
         

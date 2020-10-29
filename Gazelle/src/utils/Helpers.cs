@@ -25,9 +25,9 @@ namespace SferedApi
                         break;
                     }
                     JArray current = (JArray) enumerator.Current;
-                    if (current.get_Type() != 6)
+                    if (current.Type != 6)
                     {
-                        if (current.get_Type() == 2)
+                        if (current.Type == 2)
                         {
                             foreach (int num in current)
                             {
@@ -42,10 +42,10 @@ namespace SferedApi
         }
         
         private int chooseLargestPoint(Point3d point1, Point3d point2) => 
-            (point1.get_X() <= point2.get_X()) ? ((point1.get_X() >= point2.get_X()) ? ((point1.get_Y() <= point2.get_Y()) ? ((point1.get_Y() >= point2.get_Y()) ? ((point1.get_Z() <= point2.get_Z()) ? ((point1.get_Z() >= point2.get_Z()) ? 0 : -1) : 1) : -1) : 1) : -1) : 1;
+            (point1.X <= point2.X) ? ((point1.X >= point2.X) ? ((point1.Y <= point2.Y) ? ((point1.Y >= point2.Y) ? ((point1.Z <= point2.Z) ? ((point1.Z >= point2.Z) ? 0 : -1) : 1) : -1) : 1) : -1) : 1;
         
         public CurveRelation CompareCurves(Curve curve1, Curve curve2) => 
-            ((curve1.Contains(curve2.get_PointAtStart()) != 3) || (curve1.Contains(curve2.get_PointAtEnd()) != 3)) ? CurveRelation.Unequal : CurveRelation.Overlap;
+            ((curve1.Contains(curve2.PointAtStart) != 3) || (curve1.Contains(curve2.PointAtEnd) != 3)) ? CurveRelation.Unequal : CurveRelation.Overlap;
         
         private static bool CurveMatch(BrepTrimList testCurves, List<Curve> controlCurves)
         {
@@ -67,7 +67,7 @@ namespace SferedApi
                         }
                         else
                         {
-                            if ((current.Contains(trim.get_PointAtStart()) == 3) && (current.Contains(trim.get_PointAtEnd()) == 3))
+                            if ((current.Contains(trim.PointAtStart) == 3) && (current.Contains(trim.PointAtEnd) == 3))
                             {
                                 flag = true;
                                 continue;
@@ -105,11 +105,11 @@ namespace SferedApi
         private static int GetInitialSurface(BrepFace face, Brep splitted, List<Curve> curves, ref List<object> test)
         {
             int num = -1;
-            int num2 = splitted.get_Faces().get_Count();
+            int num2 = splitted.Faces.Count;
             List<Curve> list = new List<Curve>();
-            foreach (BrepFace face2 in splitted.get_Faces())
+            foreach (BrepFace face2 in splitted.Faces)
             {
-                Curve curve = face2.get_OuterLoop().To2dCurve();
+                Curve curve = face2.OuterLoop.To2dCurve();
                 if (curve == null)
                 {
                     test.Add("CANT PULL CURVE");
@@ -118,7 +118,7 @@ namespace SferedApi
                 list.Add(curve);
             }
             Random random = new Random();
-            Point3d item = Point3d.get_Unset();
+            Point3d item = Point3d.Unset;
             int num3 = 0;
             int num4 = 100;
             bool flag = true;
@@ -196,9 +196,9 @@ namespace SferedApi
             {
                 alreadyMapped = new List<int>();
             }
-            if (thisIndex < splitted.get_Faces().get_Count())
+            if (thisIndex < splitted.Faces.Count)
             {
-                BrepFace face = splitted.get_Faces().get_Item(thisIndex);
+                BrepFace face = splitted.Faces.get_Item(thisIndex);
                 spaceMapper[thisIndex] = thisFaceShouldBe;
                 alreadyMapped.Add(thisIndex);
                 foreach (int num2 in face.AdjacentFaces())
@@ -228,16 +228,16 @@ namespace SferedApi
             }
             Point3d item = new Point3d(face.Domain(0).ParameterAt(0.5), face.Domain(1).ParameterAt(0.5), 0.0);
             chosenID = -1;
-            foreach (BrepFace face2 in splitted.get_Faces())
+            foreach (BrepFace face2 in splitted.Faces)
             {
-                PointFaceRelation relation = face2.IsPointOnFace(item.get_X(), item.get_Y());
+                PointFaceRelation relation = face2.IsPointOnFace(item.X, item.Y);
                 if (relation == 2)
                 {
                     test.Add("MIDDLE POINT IS ON EDGE OF (PROBABLY) TWO SURFACES");
                 }
                 if (relation == 1)
                 {
-                    chosenID = face2.get_FaceIndex();
+                    chosenID = face2.FaceIndex;
                 }
             }
             if (chosenID == -1)
@@ -279,20 +279,20 @@ namespace SferedApi
             leftover = new List<Brep>();
             holes = new List<Brep>();
             test = new List<object>();
-            if (brep.get_Faces().get_Count() < 1)
+            if (brep.Faces.Count < 1)
             {
                 test.Add("brep has no faces");
                 flag3 = false;
             }
-            else if (brep.get_Faces().get_Count() > 1)
+            else if (brep.Faces.Count > 1)
             {
                 test.Add("brep should have 1 face, but has multiple (perforate surface)");
                 flag3 = false;
             }
             else
             {
-                BrepFace face = brep.get_Faces().FirstOrDefault<BrepFace>();
-                Curve[] source = Curve.JoinCurves(face.get_OuterLoop().get_Trims());
+                BrepFace face = brep.Faces.FirstOrDefault<BrepFace>();
+                Curve[] source = Curve.JoinCurves(face.OuterLoop.Trims);
                 Curve curve = source.FirstOrDefault<Curve>();
                 if (source.Length != 1)
                 {
@@ -315,16 +315,16 @@ namespace SferedApi
                     Point3d item = new Point3d(face.Domain(0).ParameterAt(0.5), face.Domain(1).ParameterAt(0.5), 0.0);
                     Brep splitted = face.Split(curves, Tolerance);
                     int thisIndex = -1;
-                    foreach (BrepFace face2 in splitted.get_Faces())
+                    foreach (BrepFace face2 in splitted.Faces)
                     {
-                        PointFaceRelation relation = face2.IsPointOnFace(item.get_X(), item.get_Y());
+                        PointFaceRelation relation = face2.IsPointOnFace(item.X, item.Y);
                         if (relation == 2)
                         {
                             test.Add("MIDDLE POINT IS ON EDGE OF (PROBABLY) TWO SURFACES");
                         }
                         if (relation == 1)
                         {
-                            thisIndex = face2.get_FaceIndex();
+                            thisIndex = face2.FaceIndex;
                         }
                     }
                     if (thisIndex == -1)
@@ -362,7 +362,7 @@ namespace SferedApi
                         test.Add(containment.ToString());
                     }
                     List<bool> spaceMapper = new List<bool>();
-                    foreach (BrepFace face3 in splitted.get_Faces())
+                    foreach (BrepFace face3 in splitted.Faces)
                     {
                         spaceMapper.Add(false);
                     }
@@ -370,12 +370,12 @@ namespace SferedApi
                     int num2 = 0;
                     while (true)
                     {
-                        if (num2 >= splitted.get_Faces().get_Count())
+                        if (num2 >= splitted.Faces.Count)
                         {
                             flag3 = true;
                             break;
                         }
-                        BrepFace face4 = splitted.get_Faces().get_Item(num2);
+                        BrepFace face4 = splitted.Faces.get_Item(num2);
                         if (spaceMapper[num2])
                         {
                             leftover.Add(face4.DuplicateFace(false));
@@ -433,7 +433,7 @@ namespace SferedApi
                     if (enumerator.MoveNext())
                     {
                         Curve current = enumerator.Current;
-                        if (current.get_IsClosed())
+                        if (current.IsClosed)
                         {
                             continue;
                         }
@@ -445,7 +445,7 @@ namespace SferedApi
                         int num = 0;
                         while (true)
                         {
-                            if (num >= brep.get_Faces().get_Count())
+                            if (num >= brep.Faces.Count)
                             {
                                 using (List<Brep>.Enumerator enumerator5 = list.GetEnumerator())
                                 {
@@ -457,7 +457,7 @@ namespace SferedApi
                                         }
                                         Brep current = enumerator5.Current;
                                         leftover.Add(current);
-                                        using (IEnumerator<BrepFace> enumerator6 = current.get_Faces().GetEnumerator())
+                                        using (IEnumerator<BrepFace> enumerator6 = current.Faces.GetEnumerator())
                                         {
                                             while (true)
                                             {
@@ -468,9 +468,9 @@ namespace SferedApi
                                                 BrepFace face2 = enumerator6.Current;
                                                 foreach (BrepLoop loop in face2.Loops)
                                                 {
-                                                    foreach (BrepTrim trim in loop.get_Trims())
+                                                    foreach (BrepTrim trim in loop.Trims)
                                                     {
-                                                        trim.get_Edge().ToNurbsCurve();
+                                                        trim.Edge.ToNurbsCurve();
                                                     }
                                                 }
                                             }
@@ -480,7 +480,7 @@ namespace SferedApi
                                     return true;
                                 }
                             }
-                            BrepFace surface = brep.get_Faces().get_Item(num);
+                            BrepFace surface = brep.Faces.get_Item(num);
                             string str = "Face " + num.ToString() + ": ";
                             List<Brep> list2 = new List<Brep>();
                             List<Brep> list3 = new List<Brep>();
@@ -493,8 +493,8 @@ namespace SferedApi
                                 if (index < numArray.Length)
                                 {
                                     int num3 = numArray[index];
-                                    BrepEdge item = brep.get_Edges().get_Item(num3);
-                                    EdgeAdjacency adjacency = item.get_Valence();
+                                    BrepEdge item = brep.Edges.get_Item(num3);
+                                    EdgeAdjacency adjacency = item.Valence;
                                     switch (adjacency)
                                     {
                                         case 0:
@@ -530,7 +530,7 @@ namespace SferedApi
                                                 foreach (BrepEdge edge2 in list4)
                                                 {
                                                     CurveIntersections collection = Intersection.CurveCurve(current, edge2, 0.001, 0.001);
-                                                    if ((collection != null) && (collection.get_Count() > 0))
+                                                    if ((collection != null) && (collection.Count > 0))
                                                     {
                                                         list8.AddRange(collection);
                                                     }
@@ -538,7 +538,7 @@ namespace SferedApi
                                                 foreach (BrepEdge edge3 in list5)
                                                 {
                                                     CurveIntersections collection = Intersection.CurveCurve(current, edge3, 0.001, 0.001);
-                                                    if ((collection != null) && (collection.get_Count() > 0))
+                                                    if ((collection != null) && (collection.Count > 0))
                                                     {
                                                         test.Add(str + "intersection with naked edge!!");
                                                         list8.AddRange(collection);
@@ -546,7 +546,7 @@ namespace SferedApi
                                                 }
                                                 if (list8.Count <= 0)
                                                 {
-                                                    if (IsPointOnSurface(current.get_PointAtStart(), surface, 0.001))
+                                                    if (IsPointOnSurface(current.PointAtStart, surface, 0.001))
                                                     {
                                                         curves.Add(current);
                                                     }
@@ -602,20 +602,20 @@ namespace SferedApi
             leftover = new List<Brep>();
             holes = new List<Brep>();
             test = new List<object>();
-            if (brep.get_Faces().get_Count() < 1)
+            if (brep.Faces.Count < 1)
             {
                 test.Add("brep has no faces");
                 flag4 = false;
             }
-            else if (brep.get_Faces().get_Count() > 1)
+            else if (brep.Faces.Count > 1)
             {
                 test.Add("brep should have 1 face, but has multiple (perforate surface)");
                 flag4 = false;
             }
             else
             {
-                BrepFace face = brep.get_Faces().FirstOrDefault<BrepFace>();
-                Curve[] source = Curve.JoinCurves(face.get_OuterLoop().get_Trims());
+                BrepFace face = brep.Faces.FirstOrDefault<BrepFace>();
+                Curve[] source = Curve.JoinCurves(face.OuterLoop.Trims);
                 Curve curve = source.FirstOrDefault<Curve>();
                 if (source.Length != 1)
                 {
@@ -629,7 +629,7 @@ namespace SferedApi
                     int chosenID = -1;
                     bool flag2 = OldGetInitialSurface(face, splitted, curves, Tolerance, ref test, out chosenID, out flag);
                     List<bool> spaceMapper = new List<bool>();
-                    foreach (BrepFace face2 in splitted.get_Faces())
+                    foreach (BrepFace face2 in splitted.Faces)
                     {
                         spaceMapper.Add(false);
                     }
@@ -637,12 +637,12 @@ namespace SferedApi
                     int num2 = 0;
                     while (true)
                     {
-                        if (num2 >= splitted.get_Faces().get_Count())
+                        if (num2 >= splitted.Faces.Count)
                         {
                             flag4 = true;
                             break;
                         }
-                        BrepFace face3 = splitted.get_Faces().get_Item(num2);
+                        BrepFace face3 = splitted.Faces.get_Item(num2);
                         if (spaceMapper[num2])
                         {
                             leftover.Add(face3.DuplicateFace(false));
@@ -673,7 +673,7 @@ namespace SferedApi
                 {
                     case 1:
                     {
-                        PointContainment containment3 = curve.Contains(trim.get_PointAtStart());
+                        PointContainment containment3 = curve.Contains(trim.PointAtStart);
                         if ((containment3 == 1) || (containment3 == 3))
                         {
                             flag = !flag;

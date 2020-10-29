@@ -30,11 +30,11 @@ namespace SferedApi
         {
             Brep brep = null;
             List<int> faces = new List<int>();
-            Vector3d direction = Vector3d.get_Unset();
+            Vector3d direction = Vector3d.Unset;
             DA.GetData<Brep>(0, ref brep);
             DA.GetDataList<int>(1, faces);
             DA.GetData<Vector3d>(2, ref direction);
-            if ((brep == null) || (direction == Vector3d.get_Unset()))
+            if ((brep == null) || (direction == Vector3d.Unset))
             {
                 this.AddRuntimeMessage(20, "input bad");
             }

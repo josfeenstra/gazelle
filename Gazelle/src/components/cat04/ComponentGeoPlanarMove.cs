@@ -29,13 +29,13 @@ namespace SferedApi.Components.Geo
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             GeometryBase base2 = null;
-            Vector3d vectord = Vector3d.get_Unset();
-            Plane plane = Plane.get_Unset();
+            Vector3d vectord = Vector3d.Unset;
+            Plane plane = Plane.Unset;
             DA.GetData<GeometryBase>(0, ref base2);
             DA.GetData<Vector3d>(1, ref vectord);
             DA.GetData<Plane>(2, ref plane);
-            Vector3d vectord4 = plane.ZAxis * vectord.get_Z();
-            Transform transform = Transform.Translation(((plane.get_XAxis() * vectord.get_X()) + (plane.get_YAxis() * vectord.get_Y())) + vectord4);
+            Vector3d vectord4 = plane.ZAxis * vectord.Z;
+            Transform transform = Transform.Translation(((plane.XAxis * vectord.X) + (plane.YAxis * vectord.Y)) + vectord4);
             if (!base2.Transform(transform))
             {
                 throw new Exception("transformation failed.");

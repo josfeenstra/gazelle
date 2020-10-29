@@ -36,15 +36,15 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.Loops.get_Count()))
+            else if ((num < 0) || (num >= brep.Loops.Count))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
                 BrepLoop loop = brep.Loops.get_Item(num);
-                DA.SetDataList(0, from item in loop.get_Trims() select item.get_TrimIndex());
-                DA.SetData(1, loop.get_LoopType().ToString());
+                DA.SetDataList(0, from item in loop.Trims select item.TrimIndex);
+                DA.SetData(1, loop.LoopType.ToString());
             }
         }
         
@@ -53,15 +53,5 @@ namespace SferedApi
         
         public override Guid ComponentGuid =>
             new Guid("0501bfa1-9040-42aa-8aee-0d235c5bfe8c");
-        
-        [Serializable, CompilerGenerated]
-        private sealed class <>c
-        {
-            public static readonly DeconstructLoop.<>c <>9 = new DeconstructLoop.<>c();
-            public static Func<BrepTrim, int> <>9__3_0;
-            
-            internal int <SolveInstance>b__3_0(BrepTrim item) => 
-                item.get_TrimIndex();
-        }
     }
 }

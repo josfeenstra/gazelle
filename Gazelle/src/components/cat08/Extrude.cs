@@ -27,10 +27,10 @@ namespace SferedApi
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Brep brep = null;
-            Vector3d direction = Vector3d.get_Unset();
+            Vector3d direction = Vector3d.Unset;
             DA.GetData<Brep>(0, ref brep);
             DA.GetData<Vector3d>(1, ref direction);
-            if ((brep == null) || (direction == Vector3d.get_Unset()))
+            if ((brep == null) || (direction == Vector3d.Unset))
             {
                 this.AddRuntimeMessage(20, "input bad");
             }

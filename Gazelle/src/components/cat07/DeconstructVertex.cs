@@ -35,13 +35,13 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.get_Vertices().get_Count()))
+            else if ((num < 0) || (num >= brep.Vertices.Count))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
-                BrepVertex vertex = brep.get_Vertices().get_Item(num);
+                BrepVertex vertex = brep.Vertices.get_Item(num);
                 DA.SetData(0, vertex.Location);
                 DA.SetDataList(1, vertex.EdgeIndices());
             }

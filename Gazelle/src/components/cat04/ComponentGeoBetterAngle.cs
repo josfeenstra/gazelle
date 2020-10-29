@@ -38,9 +38,9 @@ namespace SferedApi.Components.Geo
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Vector3d a = Vector3d.get_Unset();
-            Vector3d b = Vector3d.get_Unset();
-            Plane p = Plane.get_Unset();
+            Vector3d a = Vector3d.Unset;
+            Vector3d b = Vector3d.Unset;
+            Plane p = Plane.Unset;
             DA.GetData<Vector3d>(0, ref a);
             DA.GetData<Vector3d>(1, ref b);
             DA.GetData<Plane>(2, ref p);

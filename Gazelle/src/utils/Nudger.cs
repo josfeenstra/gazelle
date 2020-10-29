@@ -14,9 +14,9 @@ namespace SferedApi
         public Nudger(double aStepDistance, Plane aPlane)
         {
             this.StepDistance = aStepDistance;
-            this.XDir = aPlane.get_XAxis();
-            this.YDir = aPlane.get_YAxis();
-            this.Origin = aPlane.get_Origin();
+            this.XDir = aPlane.XAxis;
+            this.YDir = aPlane.YAxis;
+            this.Origin = aPlane.Origin;
         }
         
         public Vector3d GetStep(int FinalStep)

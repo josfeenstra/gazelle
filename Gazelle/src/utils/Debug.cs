@@ -47,7 +47,7 @@ namespace SferedApi
         
         public static void Log(GH_Component sender, string message)
         {
-            data.Add(sender.get_Name() + " : " + message);
+            data.Add(sender.Name + " : " + message);
         }
         
         public static void SetListener(ConsolePrinter listener)

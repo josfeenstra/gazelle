@@ -17,10 +17,10 @@ namespace SferedApi
         
         public FontCustomCharacter(List<IGH_Goo> list)
         {
-            this.Character = (list[0] as GH_String).get_Value()[0];
-            this.Plane = (list[1] as GH_Plane).get_Value();
-            this.Width = (list[2] as GH_Number).get_Value();
-            this.Height = (list[3] as GH_Number).get_Value();
+            this.Character = (list[0] as GH_String).Value[0];
+            this.Plane = (list[1] as GH_Plane).Value;
+            this.Width = (list[2] as GH_Number).Value;
+            this.Height = (list[3] as GH_Number).Value;
             this.CurveList = new List<Curve>();
             if (CurveListStartIndex < list.Count)
             {
@@ -31,7 +31,7 @@ namespace SferedApi
                     {
                         break;
                     }
-                    this.CurveList.Add((list[curveListStartIndex] as GH_Curve).get_Value().DuplicateCurve());
+                    this.CurveList.Add((list[curveListStartIndex] as GH_Curve).Value.DuplicateCurve());
                     curveListStartIndex++;
                 }
             }

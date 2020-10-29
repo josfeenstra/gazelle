@@ -44,15 +44,15 @@ namespace SferedApi
                 }
                 if (num2 == 0)
                 {
-                    flag = options[num2].get_Value();
+                    flag = options[num2].Value;
                 }
                 if (num2 == 1)
                 {
-                    flag2 = options[num2].get_Value();
+                    flag2 = options[num2].Value;
                 }
                 if (num2 == 2)
                 {
-                    flag3 = options[num2].get_Value();
+                    flag3 = options[num2].Value;
                     flag4 = false;
                 }
                 num2++;
@@ -74,24 +74,24 @@ namespace SferedApi
                                     {
                                         if (!(goo is GH_Curve))
                                         {
-                                            errorMessage.Add($"Data of type {goo.get_TypeName()} could not be converted into a type of cutter. Index = {num3.ToString()}");
+                                            errorMessage.Add($"Data of type {goo.TypeName} could not be converted into a type of cutter. Index = {num3.ToString()}");
                                             return false;
                                         }
                                         else
                                         {
-                                            Curve item = (goo as GH_Curve).get_Value();
-                                            if (curve.get_IsClosed() && item.get_IsClosed())
+                                            Curve item = (goo as GH_Curve).Value;
+                                            if (curve.IsClosed && item.IsClosed)
                                             {
                                                 list4.Add(item);
                                                 foreach (IntersectionEvent event4 in Intersection.CurveCurve(curve, item, 0.001, 0.001))
                                                 {
-                                                    if (!event4.get_IsOverlap())
+                                                    if (!event4.IsOverlap)
                                                     {
-                                                        tValues.Add(event4.get_ParameterA());
+                                                        tValues.Add(event4.ParameterA);
                                                         continue;
                                                     }
-                                                    tValues.Add(event4.get_OverlapA().get_Min());
-                                                    tValues.Add(event4.get_OverlapA().get_Max());
+                                                    tValues.Add(event4.OverlapA.Min);
+                                                    tValues.Add(event4.OverlapA.Max);
                                                 }
                                             }
                                             else
@@ -102,34 +102,34 @@ namespace SferedApi
                                     }
                                     else
                                     {
-                                        Plane item = (goo as GH_Plane).get_Value();
+                                        Plane item = (goo as GH_Plane).Value;
                                         list3.Add(item);
                                         CurveIntersections intersections = Intersection.CurvePlane(curve, item, 0.001);
                                         if (intersections == null)
                                         {
                                             errorMessage.Add("Made Plane Adjustments");
                                             List<Point3d> list1 = new List<Point3d>();
-                                            list1.Add(curve.get_PointAtStart());
-                                            list1.Add(curve.get_PointAtEnd());
-                                            Point3d pointd3 = Point3dList.ClosestPointInList(list1, item.get_Origin());
+                                            list1.Add(curve.PointAtStart);
+                                            list1.Add(curve.PointAtEnd);
+                                            Point3d pointd3 = Point3dList.ClosestPointInList(list1, item.Origin);
                                             if (flag4)
                                             {
-                                                flag3 = pointd3 == curve.get_PointAtStart();
+                                                flag3 = pointd3 == curve.PointAtStart;
                                             }
                                             if (flag3)
                                             {
-                                                tValues.Add(curve.get_Domain().get_T0());
+                                                tValues.Add(curve.Domain.T0);
                                             }
                                             else
                                             {
-                                                tValues.Add(curve.get_Domain().get_T1());
+                                                tValues.Add(curve.Domain.T1);
                                             }
                                         }
                                         else if (!flag)
                                         {
                                             foreach (IntersectionEvent event3 in intersections)
                                             {
-                                                tValues.Add(event3.get_ParameterA());
+                                                tValues.Add(event3.ParameterA);
                                             }
                                         }
                                         else
@@ -138,11 +138,11 @@ namespace SferedApi
                                             double naN = double.NaN;
                                             foreach (IntersectionEvent event2 in intersections)
                                             {
-                                                double num8 = item.get_Origin().DistanceTo(event2.get_PointA());
+                                                double num8 = item.Origin.DistanceTo(event2.PointA);
                                                 if (num8 < positiveInfinity)
                                                 {
                                                     positiveInfinity = num8;
-                                                    naN = event2.get_ParameterA();
+                                                    naN = event2.ParameterA;
                                                 }
                                             }
                                             tValues.Add(naN);
@@ -152,7 +152,7 @@ namespace SferedApi
                                 else
                                 {
                                     double num5;
-                                    Point3d item = (goo as GH_Point).get_Value();
+                                    Point3d item = (goo as GH_Point).Value;
                                     list2.Add(item);
                                     curve.ClosestPoint(item, ref num5);
                                     tValues.Add(num5);
@@ -160,7 +160,7 @@ namespace SferedApi
                             }
                             else
                             {
-                                double item = (goo as GH_Number).get_Value();
+                                double item = (goo as GH_Number).Value;
                                 list.Add(item);
                                 tValues.Add(item);
                             }
@@ -175,8 +175,8 @@ namespace SferedApi
                         if (flag2)
                         {
                             double num9 = num;
-                            double num10 = curve.get_Domain().get_Min() + num9;
-                            double num11 = curve.get_Domain().get_Max() - num9;
+                            double num10 = curve.Domain.Min + num9;
+                            double num11 = curve.Domain.Max - num9;
                             int num12 = 0;
                             while (true)
                             {
@@ -220,13 +220,13 @@ namespace SferedApi
         }
         
         public static bool DoCurvesTouch(Curve a, Curve b) => 
-            Intersection.CurveCurve(a, b, 0.001, 0.0).get_Count() != 0;
+            Intersection.CurveCurve(a, b, 0.001, 0.0).Count != 0;
         
         public static void FixDirections(ref Curve[] curves)
         {
             for (int i = 0; i < (curves.Length - 1); i++)
             {
-                if (!VectorFunctions.IsSimilar(curves[i].get_PointAtEnd(), curves[i].get_PointAtStart()))
+                if (!VectorFunctions.IsSimilar(curves[i].PointAtEnd, curves[i].PointAtStart))
                 {
                     curves[i + 1].Reverse();
                 }

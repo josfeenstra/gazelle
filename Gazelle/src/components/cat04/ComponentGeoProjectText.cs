@@ -46,9 +46,9 @@ namespace SferedApi.Components.Geo
             else
             {
                 Brep brep = breps[0];
-                if (fingerprint.get_IsSolid())
+                if (fingerprint.IsSolid)
                 {
-                    if (brep.get_IsSolid())
+                    if (brep.IsSolid)
                     {
                         test.Add("Good: Both Solid");
                         flag2 = true;
@@ -107,7 +107,7 @@ namespace SferedApi.Components.Geo
                 List<Curve> list1 = new List<Curve>();
                 list1.Add(curve);
                 list1.Add(item);
-                Brep[] brepArray4 = Brep.CreateFromLoft(list1, Point3d.get_Unset(), Point3d.get_Unset(), 0, false);
+                Brep[] brepArray4 = Brep.CreateFromLoft(list1, Point3d.Unset, Point3d.Unset, 0, false);
                 Brep brep3 = brepArray4[0];
                 collection.Add(brep3);
             }
@@ -144,7 +144,7 @@ namespace SferedApi.Components.Geo
             pManager.AddIntegerParameter("Nudge Maximum tries", "M", "Nudge Maximum tries", 0, 1);
             for (int i = 0; i < 10; i++)
             {
-                pManager.get_Param(i).set_Optional(true);
+                pManager.get_Param(i).Optional = true;
             }
         }
         
@@ -175,9 +175,9 @@ namespace SferedApi.Components.Geo
             int num2 = 0;
             DA.GetData<double>(8, ref aStepDistance);
             DA.GetData<int>(9, ref num2);
-            base.set_Message("");
+            base.Message = "";
             this.LetterDataList = new List<FontCustomCharacter>();
-            foreach (List<IGH_Goo> list5 in this.letterRawData.get_Branches())
+            foreach (List<IGH_Goo> list5 in this.letterRawData.Branches)
             {
                 FontCustomCharacter item = new FontCustomCharacter(list5);
                 this.LetterDataList.Add(item);
@@ -214,7 +214,7 @@ namespace SferedApi.Components.Geo
                         if (!object.ReferenceEquals(objA, null))
                         {
                             List<Curve> curveList = objA.CurveList;
-                            Point3d pointd = objA.Plane.get_Origin();
+                            Point3d pointd = objA.Plane.Origin;
                             Plane plane = objA.Plane;
                             num4 = this.letterHeight / objA.Height;
                             num3 += objA.Width;
@@ -243,7 +243,7 @@ namespace SferedApi.Components.Geo
                     }
                     else if (this.Settings[0] == 1)
                     {
-                        Vector3d vectord4 = aPlane.get_XAxis() * ((num3 * num4) * -0.5);
+                        Vector3d vectord4 = aPlane.XAxis * ((num3 * num4) * -0.5);
                         foreach (Curve curve3 in list2)
                         {
                             curve3.Translate(vectord4);

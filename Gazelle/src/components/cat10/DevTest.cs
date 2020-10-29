@@ -45,27 +45,27 @@ namespace SferedApi.Components
         public IGH_Param CreateParameter(GH_ParameterSide side, int index)
         {
             Param_GenericObject obj2 = new Param_GenericObject();
-            obj2.set_Access(2);
-            obj2.set_NickName(index.ToString());
-            obj2.set_MutableNickName(true);
-            obj2.set_Optional(true);
+            obj2.Access = 2;
+            obj2.NickName = index.ToString();
+            obj2.MutableNickName = true;
+            obj2.Optional = true;
             return obj2;
         }
         
         public IGH_Param CreateParameter(ParameterInfo info, string name)
         {
             Param_GenericObject obj2 = new Param_GenericObject();
-            obj2.set_Name(name);
-            obj2.set_NickName(name);
-            obj2.set_Optional(true);
+            obj2.Name = name;
+            obj2.NickName = name;
+            obj2.Optional = true;
             Type parameterType = info.ParameterType;
             if (typeof(IEnumerable).IsAssignableFrom(parameterType))
             {
-                obj2.set_Access(1);
+                obj2.Access = 1;
             }
             else
             {
-                obj2.set_Access(0);
+                obj2.Access = 0;
             }
             return obj2;
         }
@@ -77,15 +77,15 @@ namespace SferedApi.Components
             this.GetParamInfos(out list, out list2);
             foreach (ParameterInfo info in list)
             {
-                base.get_Params().RegisterInputParam(this.CreateParameter(info, info.Name));
+                base.Params.RegisterInputParam(this.CreateParameter(info, info.Name));
             }
             int num = 0;
             foreach (ParameterInfo info2 in list2)
             {
-                base.get_Params().RegisterOutputParam(this.CreateParameter(info2, (num == 0) ? "return" : info2.Name));
+                base.Params.RegisterOutputParam(this.CreateParameter(info2, (num == 0) ? "return" : info2.Name));
                 num++;
             }
-            base.get_Params().OnParametersChanged();
+            base.Params.OnParametersChanged();
         }
         
         public bool DestroyParameter(GH_ParameterSide side, int index) => 
@@ -122,10 +122,10 @@ namespace SferedApi.Components
         
         private void GetNames(out string functionName, out string className)
         {
-            string str = this.get_NickName();
+            string str = this.NickName;
             if (str == "")
             {
-                str = this.get_Name();
+                str = this.Name;
             }
             int index = str.IndexOf(".");
             if (index == -1)
@@ -173,8 +173,8 @@ namespace SferedApi.Components
             MethodInfo methodFromClass = this.GetMethodFromClass(classFromAssembly, str);
             this.print("found a method! : " + methodFromClass.Name);
             this.method = methodFromClass;
-            this.set_Name(this.get_NickName());
-            base.set_Message(this.get_NickName());
+            this.Name = this.NickName;
+            base.Message = this.NickName;
         }
         
         private object LoadOutputParameter(ParameterInfo p)
@@ -275,24 +275,24 @@ namespace SferedApi.Components
         
         public void RemoveAllParams()
         {
-            int num = base.get_Params().get_Input().Count - 1;
+            int num = base.Params.Input.Count - 1;
             while (true)
             {
                 if (num <= -1)
                 {
-                    int num2 = base.get_Params().get_Output().Count - 1;
+                    int num2 = base.Params.Output.Count - 1;
                     while (true)
                     {
                         if (num2 <= -1)
                         {
-                            base.get_Params().OnParametersChanged();
+                            base.Params.OnParametersChanged();
                             return;
                         }
-                        base.get_Params().UnregisterOutputParameter(base.get_Params().get_Output()[num2]);
+                        base.Params.UnregisterOutputParameter(base.Params.Output[num2]);
                         num2--;
                     }
                 }
-                base.get_Params().UnregisterInputParameter(base.get_Params().get_Input()[num]);
+                base.Params.UnregisterInputParameter(base.Params.Input[num]);
                 num--;
             }
         }

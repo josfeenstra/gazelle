@@ -51,7 +51,7 @@ namespace SferedApi
             int.TryParse((sender as ToolStripMenuItem).Name, out result);
             if (result == -1)
             {
-                base.set_Message("ERROR: SET MODE -1");
+                base.Message = "ERROR: SET MODE -1";
             }
             this.Mode = result;
             this.ExpireSolution(true);
@@ -62,8 +62,8 @@ namespace SferedApi
             pManager.AddCurveParameter("Curve", "C", "Curve to cut.", 0);
             pManager.AddGenericParameter("Splitters", "S", "Numbers, Points or Planes to cut with", 1);
             pManager.AddBooleanParameter("Options", "O", "Bool 0: OnlyClosestPlaneCut \n Bool 1: clipSubdivision \n Bool 2: planeFixSide Bool 3: planeFixClosest ", 1);
-            pManager.get_Param(1).set_Optional(true);
-            pManager.get_Param(2).set_Optional(true);
+            pManager.get_Param(1).Optional = true;
+            pManager.get_Param(2).Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -81,7 +81,7 @@ namespace SferedApi
             List<string> list5;
             GH_Curve curve = new GH_Curve();
             DA.GetData<GH_Curve>(0, ref curve);
-            Curve curve2 = curve.get_Value().DuplicateCurve();
+            Curve curve2 = curve.Value.DuplicateCurve();
             List<IGH_Goo> splitters = new List<IGH_Goo>();
             DA.GetDataList<IGH_Goo>(1, splitters);
             List<GH_Boolean> options = new List<GH_Boolean>();

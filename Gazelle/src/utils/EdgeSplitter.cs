@@ -31,10 +31,10 @@ namespace SferedApi
         
         public void AddIntersect(EdgeSplitter other, IntersectionEvent x)
         {
-            if (x.get_IsPoint())
+            if (x.IsPoint)
             {
-                this.cutters.Add(x.get_ParameterA(), other);
-                other.cutters.Add(x.get_ParameterB(), this);
+                this.cutters.Add(x.ParameterA, other);
+                other.cutters.Add(x.ParameterB, this);
             }
         }
         
@@ -43,6 +43,6 @@ namespace SferedApi
         }
         
         private BrepEdge Edge =>
-            this.brep.get_Edges().get_Item(this.edge);
+            this.brep.Edges.get_Item(this.edge);
     }
 }

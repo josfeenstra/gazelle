@@ -13,7 +13,7 @@ namespace SferedApi
             Vector3d.CrossProduct(self, other);
         
         public static double Dot(this Vector3d self, Vector3d other) => 
-            ((self.get_X() * other.get_X()) + (self.get_Y() * other.get_Y())) + (self.get_Z() * other.get_Z());
+            ((self.X * other.X) + (self.Y * other.Y)) + (self.Z * other.Z);
         
         public static Vector3d FlipByDot(Vector3d toFlip, Vector3d guide)
         {
@@ -26,7 +26,7 @@ namespace SferedApi
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSimilar(Point3d self, Point3d other) => 
-            (IsSimilar(self.get_X(), other.get_X()) && IsSimilar(self.get_Y(), other.get_Y())) && IsSimilar(self.get_Z(), other.get_Z());
+            (IsSimilar(self.X, other.X) && IsSimilar(self.Y, other.Y)) && IsSimilar(self.Z, other.Z);
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSimilar(double self, double other) => 

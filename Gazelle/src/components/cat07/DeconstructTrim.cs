@@ -39,19 +39,19 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.get_Trims().get_Count()))
+            else if ((num < 0) || (num >= brep.Trims.Count))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
-                BrepTrim trim = brep.get_Trims().get_Item(num);
+                BrepTrim trim = brep.Trims.get_Item(num);
                 DA.SetData(0, trim.DuplicateCurve());
                 DA.SetData(1, trim.IsReversed());
-                DA.SetData(2, trim.get_ProxyCurveIsReversed());
-                DA.SetData(3, trim.get_IsoStatus().ToString());
-                DA.SetData(4, trim.get_TrimType().ToString());
-                DA.SetData(5, trim.get_Edge().get_EdgeIndex());
+                DA.SetData(2, trim.ProxyCurveIsReversed);
+                DA.SetData(3, trim.IsoStatus.ToString());
+                DA.SetData(4, trim.TrimType.ToString());
+                DA.SetData(5, trim.Edge.EdgeIndex);
             }
         }
         

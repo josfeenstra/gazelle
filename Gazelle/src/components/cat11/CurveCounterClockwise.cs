@@ -29,7 +29,7 @@ namespace SferedApi.Components.CurveAdvanced
         private Curve RunScript(Curve curve, Plane plane, out bool hasFlipped)
         {
             hasFlipped = false;
-            if (!curve.get_IsClosed())
+            if (!curve.IsClosed)
             {
                 throw new Exception("A curve is not closed...");
             }
@@ -45,7 +45,7 @@ namespace SferedApi.Components.CurveAdvanced
         {
             Curve curve = null;
             bool flag;
-            Plane plane = Plane.get_Unset();
+            Plane plane = Plane.Unset;
             DA.GetData<Curve>(0, ref curve);
             DA.GetData<Plane>(1, ref plane);
             curve = this.RunScript(curve, plane, out flag);

@@ -38,17 +38,17 @@ namespace SferedApi
             {
                 this.AddRuntimeMessage(20, "Input bad");
             }
-            else if ((num < 0) || (num >= brep.get_Faces().get_Count()))
+            else if ((num < 0) || (num >= brep.Faces.Count))
             {
                 this.AddRuntimeMessage(10, "out of range");
             }
             else
             {
-                BrepFace face = brep.get_Faces().get_Item(num);
+                BrepFace face = brep.Faces.get_Item(num);
                 DA.SetData(0, face.ToBrep());
                 DA.SetData(1, face.UnderlyingSurface());
-                DA.SetDataList(2, from item in face.Loops select item.get_LoopIndex());
-                DA.SetData(3, face.get_OrientationIsReversed());
+                DA.SetDataList(2, from item in face.Loops select item.LoopIndex);
+                DA.SetData(3, face.OrientationIsReversed);
             }
         }
         
@@ -57,15 +57,5 @@ namespace SferedApi
         
         public override Guid ComponentGuid =>
             new Guid("448adbf1-947f-4ef6-a990-42656da03db2");
-        
-        [Serializable, CompilerGenerated]
-        private sealed class <>c
-        {
-            public static readonly DeconstructFace.<>c <>9 = new DeconstructFace.<>c();
-            public static Func<BrepLoop, int> <>9__3_0;
-            
-            internal int <SolveInstance>b__3_0(BrepLoop item) => 
-                item.get_LoopIndex();
-        }
     }
 }

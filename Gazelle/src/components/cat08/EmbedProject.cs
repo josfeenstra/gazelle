@@ -31,7 +31,7 @@ namespace SferedApi.Components
         {
             Brep brep = null;
             List<Curve> curves = new List<Curve>();
-            Vector3d vector = Vector3d.get_Unset();
+            Vector3d vector = Vector3d.Unset;
             DA.GetData<Brep>(0, ref brep);
             DA.GetDataList<Curve>(1, curves);
             DA.GetData<Vector3d>(2, ref vector);

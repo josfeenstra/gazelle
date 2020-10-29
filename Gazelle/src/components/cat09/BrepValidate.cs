@@ -42,12 +42,12 @@ namespace SferedApi.Components.BrepBasics
                 string str;
                 string str2;
                 Curve[] curveArray = brep.DuplicateNakedEdgeCurves(true, true);
-                bool flag = brep.get_IsSolid() || (curveArray.Length != 0);
+                bool flag = brep.IsSolid || (curveArray.Length != 0);
                 DA.SetData(0, brep.IsValidWithLog(ref str));
                 DA.SetData(1, str);
                 DA.SetData(2, brep.IsValidTolerancesAndFlags(ref str2));
                 DA.SetData(3, str2);
-                DA.SetData(4, brep.get_IsSolid());
+                DA.SetData(4, brep.IsSolid);
                 DA.SetDataList(5, curveArray);
                 DA.SetData(6, flag);
             }

@@ -22,8 +22,8 @@ namespace SferedApi
         {
             BrepLoop loop2 = brep.Loops.get_Item(loop);
             BrepFace face = loop2.Face;
-            Curve curve = brep.Surfaces.get_Item(face.get_SurfaceIndex()).Pullback(brep.get_Edges().get_Item(edge).DuplicateCurve(), 0.001);
-            CurveOrientation orientation = (loop2.get_LoopType() != 1) ? ((loop2.get_LoopType() != 2) ? ((CurveOrientation) 0) : ((CurveOrientation) (-1))) : ((CurveOrientation) 1);
+            Curve curve = brep.Surfaces.Item(face.get_SurfaceIndex).Pullback(brep.Edges.Item(edge).DuplicateCurve, 0.001);
+            CurveOrientation orientation = (loop2.LoopType != 1) ? ((loop2.LoopType != 2) ? ((CurveOrientation) 0) : ((CurveOrientation) (-1))) : ((CurveOrientation) 1);
             CurveOrientation orientation2 = curve.ClosedCurveOrientation(Plane.WorldXY);
             curve.Reverse();
             isTrimReversedEdge = true;
@@ -32,26 +32,26 @@ namespace SferedApi
                 curve.Reverse();
                 isTrimReversedEdge = !isTrimReversedEdge;
             }
-            return brep.get_Curves2D().Add(curve);
+            return brep.Curves2D.Add(curve);
         }
         
         public static int AddEdge(this Brep brep, Curve curve, int vertexFrom, int vertexTo)
         {
-            int num = brep.get_Curves3D().Add(curve);
-            return brep.get_Edges().Add(vertexFrom, vertexTo, num, 0.001).get_EdgeIndex();
+            int num = brep.Curves3D.Add(curve);
+            return brep.Edges.Add(vertexFrom, vertexTo, num, 0.001).EdgeIndex;
         }
         
         public static int AddFace(this Brep brep, Surface surface)
         {
             int num = brep.AddSurface(surface);
-            return brep.get_Faces().Add(num).get_FaceIndex();
+            return brep.Faces.Add(num).FaceIndex;
         }
         
         public static int AddFace(this Brep brep, int surface, bool orientation = false)
         {
-            BrepFace face = brep.get_Faces().Add(surface);
-            face.set_OrientationIsReversed(orientation);
-            return face.get_FaceIndex();
+            BrepFace face = brep.Faces.Add(surface);
+            face.OrientationIsReversed = orientation;
+            return face.FaceIndex;
         }
         
         private static void AddIfNotInOther(this HashSet<int> set, int item, HashSet<int> other)
@@ -65,8 +65,8 @@ namespace SferedApi
         
         public static int AddLoop(this Brep brep, int face, BrepLoopType type)
         {
-            BrepFace face2 = brep.get_Faces().get_Item(face);
-            return brep.Loops.Add(type, face2).get_LoopIndex();
+            BrepFace face2 = brep.Faces.get_Item(face);
+            return brep.Loops.Add(type, face2).LoopIndex;
         }
         
         public static int AddOrientedTrim(Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type)
@@ -84,40 +84,40 @@ namespace SferedApi
         
         public static int AddTrim(this Brep brep, int edge, int loop, bool isTrimReversedEdge, int curve2D, IsoStatus status, BrepTrimType type)
         {
-            BrepEdge edge2 = brep.get_Edges().get_Item(edge);
+            BrepEdge edge2 = brep.Edges.get_Item(edge);
             BrepLoop loop2 = brep.Loops.get_Item(loop);
             BrepFace face = loop2.Face;
-            Surface surface = brep.Surfaces.get_Item(face.get_SurfaceIndex());
-            BrepTrim trim = brep.get_Trims().Add(edge2, isTrimReversedEdge, loop2, curve2D);
-            trim.set_IsoStatus(status);
-            trim.set_TrimType(type);
+            Surface surface = brep.Surfaces.Item(face.get_SurfaceIndex);
+            BrepTrim trim = brep.Trims.Add(edge2, isTrimReversedEdge, loop2, curve2D);
+            trim.IsoStatus = status;
+            trim.TrimType = type;
             trim.SetTolerances(0.001, 0.001);
-            return trim.get_TrimIndex();
+            return trim.TrimIndex;
         }
         
         public static int AddTrimDepricated(this Brep brep, int edge, int loop, bool isTrimReversedEdge, bool flipTrim, IsoStatus status, BrepTrimType type)
         {
-            BrepEdge edge2 = brep.get_Edges().get_Item(edge);
+            BrepEdge edge2 = brep.Edges.get_Item(edge);
             BrepLoop loop2 = brep.Loops.get_Item(loop);
             BrepFace face = loop2.Face;
-            Curve curve = brep.Surfaces.get_Item(face.get_SurfaceIndex()).Pullback(edge2.DuplicateCurve(), 0.001);
+            Curve curve = brep.Surfaces.Item(face.SurfaceIndex).Pullback(edge2.DuplicateCurve, 0.001);
             if (flipTrim)
             {
                 curve.Reverse();
             }
-            BrepTrim trim = brep.get_Trims().Add(edge2, isTrimReversedEdge, loop2, brep.get_Curves2D().Add(curve));
-            trim.set_IsoStatus(status);
-            trim.set_TrimType(type);
+            BrepTrim trim = brep.Trims.Add(edge2, isTrimReversedEdge, loop2, brep.Curves2D.Add(curve));
+            trim.IsoStatus = status;
+            trim.TrimType = type;
             trim.SetTolerances(0.001, 0.001);
-            return trim.get_TrimIndex();
+            return trim.TrimIndex;
         }
         
         public static int AddVertex(this Brep brep, Point3d point) => 
-            brep.get_Vertices().Add(point, 0.0).get_VertexIndex();
+            brep.Vertices.Add(point, 0.0).VertexIndex;
         
         public static void AppendAt(this Brep brep, Brep other, Dictionary<int, int> edgeMap)
         {
-            using (IEnumerator<BrepFace> enumerator = other.get_Faces().GetEnumerator())
+            using (IEnumerator<BrepFace> enumerator = other.Faces.GetEnumerator())
             {
                 while (true)
                 {
@@ -128,7 +128,7 @@ namespace SferedApi
                     BrepFace current = enumerator.Current;
                     foreach (BrepLoop loop in current.Loops)
                     {
-                        foreach (BrepTrim trim in loop.get_Trims())
+                        foreach (BrepTrim trim in loop.Trims)
                         {
                         }
                     }
@@ -139,11 +139,11 @@ namespace SferedApi
         public static int BuildInnerFace(this Brep brep, int face, Curve curve)
         {
             int num = brep.BuildInnerLoop(face, curve, 2);
-            BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().Face;
-            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
-            int edge = trim.get_Edge().get_EdgeIndex();
-            int num3 = brep.AddFace(face2.get_SurfaceIndex(), false);
+            BrepTrim trim = brep.Trims.get_Item(num);
+            BrepFace face2 = trim.Loop.Face;
+            Surface surface = brep.Surfaces.Item(face2.get_SurfaceIndex);
+            int edge = trim.Edge.EdgeIndex;
+            int num3 = brep.AddFace(face2.SurfaceIndex, false);
             int num5 = AddOrientedTrim(brep, edge, brep.AddLoop(num3, 1), 0, 2);
             return num3;
         }
@@ -152,11 +152,11 @@ namespace SferedApi
         {
             int num2;
             int num = brep.BuildInnerLoop(face, edge, 2, out num2);
-            BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().Face;
-            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
-            int num3 = trim.get_Edge().get_EdgeIndex();
-            int num4 = brep.AddFace(face2.get_SurfaceIndex(), false);
+            BrepTrim trim = brep.Trims.get_Item(num);
+            BrepFace face2 = trim.Loop.Face;
+            Surface surface = brep.Surfaces.Item(face2.get_SurfaceIndex);
+            int num3 = trim.Edge.EdgeIndex;
+            int num4 = brep.AddFace(face2.SurfaceIndex, false);
             int num6 = AddOrientedTrim(brep, num3, brep.AddLoop(num4, 1), 0, 2);
             return num4;
         }
@@ -165,11 +165,11 @@ namespace SferedApi
         {
             int num2;
             int num = brep.BuildInnerLoop(face, curve, 2, out num2);
-            BrepTrim trim = brep.get_Trims().get_Item(num);
-            BrepFace face2 = trim.get_Loop().Face;
-            Surface surface = brep.Surfaces.get_Item(face2.get_SurfaceIndex());
-            int edge = trim.get_Edge().get_EdgeIndex();
-            int num4 = brep.AddFace(face2.get_SurfaceIndex(), false);
+            BrepTrim trim = brep.Trims.get_Item(num);
+            BrepFace face2 = trim.Loop.Face;
+            Surface surface = brep.Surfaces.Item(face2.get_SurfaceIndex);
+            int edge = trim.Edge.EdgeIndex;
+            int num4 = brep.AddFace(face2.SurfaceIndex, false);
             int num6 = brep.AddTrim(edge, brep.AddLoop(num4, 1), trim.IsReversed(), num2, 0, 2);
             return num4;
         }
@@ -192,11 +192,11 @@ namespace SferedApi
         
         public static int BuildInnerLoop(this Brep brep, int face, Curve curve, BrepTrimType type, out int curveID)
         {
-            if (!curve.get_IsClosed())
+            if (!curve.IsClosed)
             {
                 throw new Exception("Curve is not closed");
             }
-            int vertexFrom = brep.AddVertex(curve.get_PointAtStart());
+            int vertexFrom = brep.AddVertex(curve.PointAtStart);
             int edge = brep.AddEdge(curve, vertexFrom, vertexFrom);
             int num3 = face;
             return AddOrientedTrim(brep, edge, brep.AddLoop(num3, 2), 0, type, out curveID);
@@ -224,9 +224,9 @@ namespace SferedApi
             double num2;
             double num3;
             int num = brep.AddTrimCurve(original.DuplicateCurve());
-            BrepTrim trim = brep.get_Trims().Add(original.get_Edge(), original.IsReversed(), original.get_Loop(), num);
-            trim.set_IsoStatus(original.get_IsoStatus());
-            trim.set_TrimType(trim.get_TrimType());
+            BrepTrim trim = brep.Trims.Add(original.Edge, original.IsReversed(), original.Loop, num);
+            trim.IsoStatus = original.IsoStatus;
+            trim.TrimType = trim.TrimType;
             trim.GetTolerances(ref num2, ref num3);
             double num4 = 1E-07;
             if (num2 < num4)
@@ -238,7 +238,7 @@ namespace SferedApi
                 num3 = num4;
             }
             trim.SetTolerances(num2, num3);
-            return trim.get_TrimIndex();
+            return trim.TrimIndex;
         }
         
         public static void CullUnusedEverything(this Brep brep)
@@ -253,23 +253,23 @@ namespace SferedApi
             {
                 brep.AddSurface(surface.Duplicate() as Surface);
             }
-            foreach (BrepVertex vertex in original.get_Vertices())
+            foreach (BrepVertex vertex in original.Vertices)
             {
-                brep.get_Vertices().Add(vertex.Location, precision);
+                brep.Vertices.Add(vertex.Location, precision);
             }
-            foreach (BrepEdge edge in original.get_Edges())
+            foreach (BrepEdge edge in original.Edges)
             {
-                brep.AddEdge(edge.DuplicateCurve(), edge.get_StartVertex().get_VertexIndex(), edge.get_EndVertex().get_VertexIndex());
+                brep.AddEdge(edge.DuplicateCurve(), edge.StartVertex.VertexIndex, edge.EndVertex.VertexIndex);
             }
-            foreach (BrepFace face in original.get_Faces())
+            foreach (BrepFace face in original.Faces)
             {
-                brep.AddFace(face.get_SurfaceIndex(), face.get_OrientationIsReversed());
+                brep.AddFace(face.SurfaceIndex, face.OrientationIsReversed);
             }
             foreach (BrepLoop loop in original.Loops)
             {
-                brep.AddLoop(loop.Face.get_FaceIndex(), loop.get_LoopType());
+                brep.AddLoop(loop.Face.FaceIndex, loop.LoopType);
             }
-            foreach (BrepTrim trim in original.get_Trims())
+            foreach (BrepTrim trim in original.Trims)
             {
                 CopyTrimWithCurve(brep, trim);
             }
@@ -279,7 +279,7 @@ namespace SferedApi
         public static Brep DeselectFaces(this Brep brep, List<int> faces)
         {
             List<int> list = new List<int>();
-            for (int i = 0; i < brep.get_Faces().get_Count(); i++)
+            for (int i = 0; i < brep.Faces.Count; i++)
             {
                 if (!faces.Contains(i))
                 {
@@ -295,10 +295,10 @@ namespace SferedApi
             HashSet<int> inner = new HashSet<int>();
             HashSet<int> outer = new HashSet<int>();
             HashSet<int> set = new HashSet<int>();
-            foreach (BrepEdge edge in brep.get_Edges())
+            foreach (BrepEdge edge in brep.Edges)
             {
-                Print<string>($"edge: {edge.get_EdgeIndex()}");
-                if (edge.get_Valence() == 2)
+                Print<string>($"edge: {edge.EdgeIndex}");
+                if (edge.Valence == 2)
                 {
                     int[] numArray = edge.TrimIndices();
                     if (numArray.Length != 2)
@@ -306,14 +306,14 @@ namespace SferedApi
                         Print<string>("Not two trims");
                         continue;
                     }
-                    BrepTrim trim = brep.get_Trims().get_Item(numArray[0]);
-                    BrepTrim trim2 = brep.get_Trims().get_Item(numArray[1]);
+                    BrepTrim trim = brep.Trims.get_Item(numArray[0]);
+                    BrepTrim trim2 = brep.Trims.get_Item(numArray[1]);
                     if (trim.Face == trim2.Face)
                     {
                         Print<string>("Same Face");
                         continue;
                     }
-                    if (trim.Face.get_SurfaceIndex() == trim2.Face.get_SurfaceIndex())
+                    if (trim.Face.SurfaceIndex == trim2.Face.SurfaceIndex)
                     {
                         bool flag = trim.IsReversed();
                         if (flag == trim2.IsReversed())
@@ -321,26 +321,26 @@ namespace SferedApi
                             Print<string>("SAME ORIENTATION THATS UNUSUAL");
                             continue;
                         }
-                        set.Add(trim.Face.get_FaceIndex());
-                        set.Add(trim2.Face.get_FaceIndex());
+                        set.Add(trim.Face.FaceIndex);
+                        set.Add(trim2.Face.FaceIndex);
                         if (flag)
                         {
-                            inner.AddIfNotInOther(trim2.Face.get_FaceIndex(), outer);
-                            outer.AddIfNotInOther(trim.Face.get_FaceIndex(), inner);
+                            inner.AddIfNotInOther(trim2.Face.FaceIndex, outer);
+                            outer.AddIfNotInOther(trim.Face.FaceIndex, inner);
                             continue;
                         }
-                        inner.AddIfNotInOther(trim.Face.get_FaceIndex(), outer);
-                        outer.AddIfNotInOther(trim2.Face.get_FaceIndex(), inner);
+                        inner.AddIfNotInOther(trim.Face.FaceIndex, outer);
+                        outer.AddIfNotInOther(trim2.Face.FaceIndex, inner);
                     }
                 }
             }
-            foreach (BrepFace face in brep.get_Faces())
+            foreach (BrepFace face in brep.Faces)
             {
-                if (!set.Contains(face.get_FaceIndex()))
+                if (!set.Contains(face.FaceIndex))
                 {
                     Func<int, bool> <>9__1;
                     Func<int, bool> <>9__0;
-                    Print<string>("Leftover: " + face.get_FaceIndex().ToString());
+                    Print<string>("Leftover: " + face.FaceIndex.ToString());
                     Func<int, bool> predicate = <>9__0;
                     if (<>9__0 == null)
                     {
@@ -349,7 +349,7 @@ namespace SferedApi
                     }
                     if (face.AdjacentFaces().All<int>(predicate))
                     {
-                        inner.Add(face.get_FaceIndex());
+                        inner.Add(face.FaceIndex);
                     }
                     Func<int, bool> func4 = <>9__1;
                     if (<>9__1 == null)
@@ -359,7 +359,7 @@ namespace SferedApi
                     }
                     if (face.AdjacentFaces().All<int>(func4))
                     {
-                        outer.Add(face.get_FaceIndex());
+                        outer.Add(face.FaceIndex);
                     }
                 }
             }
@@ -369,13 +369,13 @@ namespace SferedApi
         
         public static void EmbedCurves(ref Brep brep, List<Curve> curves, out List<List<int>> edges, out List<int> faces)
         {
-            int num = brep.get_Edges().get_Count();
+            int num = brep.Edges.Count;
             int num3 = num + curves.Count;
             edges = new List<List<int>>();
             faces = new List<int>();
             foreach (Curve curve in curves)
             {
-                int vertexFrom = brep.AddVertex(curve.get_PointAtStart());
+                int vertexFrom = brep.AddVertex(curve.PointAtStart);
                 int num5 = brep.AddEdge(curve, vertexFrom, vertexFrom);
             }
             Dictionary<int, EdgeSplitter> dictionary = new Dictionary<int, EdgeSplitter>();
@@ -405,7 +405,7 @@ namespace SferedApi
                     {
                         if (flag)
                         {
-                            int face = brep.PointOnFace(brep.get_Edges().get_Item(edge).get_PointAtStart());
+                            int face = brep.PointOnFace(brep.Edges.Item(edge).get_PointAtStart);
                             if (face != -1)
                             {
                                 faces.Add(BuildInnerFace(ref brep, face, edge));
@@ -414,8 +414,8 @@ namespace SferedApi
                         edge++;
                         break;
                     }
-                    CurveIntersections intersections = Intersection.CurveCurve(brep.get_Edges().get_Item(edge), brep.get_Edges().get_Item(num7), 0.001, 0.001);
-                    if (intersections.get_Count() > 0)
+                    CurveIntersections intersections = Intersection.CurveCurve(brep.Edges.Item(edge), brep.get_Edges.get_Item(num7), 0.001, 0.001);
+                    if (intersections.Count > 0)
                     {
                         flag = false;
                         if (!dictionary.ContainsKey(edge))
@@ -439,7 +439,7 @@ namespace SferedApi
         public static Brep EmbedCurvesBeun(Brep brep, List<Curve> curves)
         {
             List<Brep> list = new List<Brep>();
-            foreach (BrepFace face in brep.get_Faces())
+            foreach (BrepFace face in brep.Faces)
             {
                 Brep item = face.Split(curves, 0.001);
                 list.Add(item);
@@ -463,12 +463,12 @@ namespace SferedApi
             List<int> list;
             List<int> list2;
             List<bool> list3;
-            int num = brep.get_Vertices().get_Count();
-            int num2 = brep.get_Edges().get_Count();
+            int num = brep.Vertices.Count;
+            int num2 = brep.Edges.Count;
             brep.GetNakedItems(out list, out list2, out list3);
             Brep brep2 = brep.DuplicateBrep();
             brep2.Translate(direction);
-            brep2.get_Faces().Flip(false);
+            brep2.Faces.Flip(false);
             brep.Append(brep2);
             int num3 = 0;
             while (true)
@@ -481,7 +481,7 @@ namespace SferedApi
                 int num4 = list[num3];
                 int num5 = num4 + num2;
                 bool flag = list3[num3];
-                brep.get_Faces().AddRuledFace(brep.get_Edges().get_Item(num4), flag, brep.get_Edges().get_Item(num5), flag);
+                brep.Faces.AddRuledFace(brep.Edges.Item(num4), flag, brep.get_Edges.get_Item(num5), flag);
                 num3++;
             }
         }
@@ -489,8 +489,8 @@ namespace SferedApi
         public static Brep ExtrudeFaces(this Brep brep, List<int> faces, Vector3d direction)
         {
             brep = brep.DuplicateBrep();
-            int num = brep.get_Edges().get_Count();
-            int num2 = brep.get_Faces().get_Count();
+            int num = brep.Edges.Count;
+            int num2 = brep.Faces.Count;
             List<int> faceEdges = brep.GetFaceEdges(faces);
             Brep brep2 = brep.DuplicateBrep();
             Brep brep3 = brep.SelectFaces(faces);
@@ -520,14 +520,14 @@ namespace SferedApi
                 }
                 int num4 = faceEdges[num3];
                 int num5 = num + num4;
-                BrepEdge edge = brep.get_Edges().get_Item(num4);
-                BrepEdge edge2 = brep.get_Edges().get_Item(num5);
+                BrepEdge edge = brep.Edges.get_Item(num4);
+                BrepEdge edge2 = brep.Edges.get_Item(num5);
                 bool flag = false;
-                if ((edge2.get_TrimCount() == 1) && (brep.get_Trims().get_Item(edge2.TrimIndices()[0]).get_Loop().get_LoopType() == 2))
+                if ((edge2.TrimCount == 1) && (brep.Trims.Item(edge2.TrimIndices[0]).Loop.LoopType == 2))
                 {
                     flag = true;
                 }
-                brep.get_Faces().AddRuledFace(edge, flag, edge2, flag);
+                brep.Faces.AddRuledFace(edge, flag, edge2, flag);
                 num3++;
             }
         }
@@ -537,13 +537,13 @@ namespace SferedApi
             List<int> list;
             List<int> list2;
             List<bool> list3;
-            int num = brep.get_Vertices().get_Count();
-            int num2 = brep.get_Edges().get_Count();
-            int num3 = brep.get_Faces().get_Count();
+            int num = brep.Vertices.Count;
+            int num2 = brep.Edges.Count;
+            int num3 = brep.Faces.Count;
             brep.GetNakedItems(out list, out list2, out list3);
             Brep brep2 = brep.DuplicateBrep();
             brep2.Translate(direction);
-            brep2.get_Faces().Flip(false);
+            brep2.Faces.Flip(false);
             brep.Append(brep2);
             int num4 = 0;
             while (true)
@@ -554,7 +554,7 @@ namespace SferedApi
                     int item = num3;
                     while (true)
                     {
-                        if (item >= brep.get_Faces().get_Count())
+                        if (item >= brep.Faces.Count)
                         {
                             brep = brep.SelectFaces(faces);
                             TrueClean(ref brep);
@@ -567,20 +567,20 @@ namespace SferedApi
                 int num5 = list[num4];
                 int num6 = num5 + num2;
                 bool flag = list3[num4];
-                brep.get_Faces().AddRuledFace(brep.get_Edges().get_Item(num5), flag, brep.get_Edges().get_Item(num6), flag);
+                brep.Faces.AddRuledFace(brep.Edges.Item(num5), flag, brep.get_Edges.get_Item(num6), flag);
                 num4++;
             }
         }
         
         public static BrepFace FlipAFace(BrepFace face)
         {
-            face.set_OrientationIsReversed(!face.get_OrientationIsReversed());
+            face.OrientationIsReversed = !face.OrientationIsReversed;
             return face;
         }
         
         public static Brep FlipFace(Brep brep, int i)
         {
-            brep.get_Faces().get_Item(i).set_OrientationIsReversed(!brep.get_Faces().get_Item(i).get_OrientationIsReversed());
+            brep.Faces.Item(i).OrientationIsReversed = !brep.get_Faces.Item(i.get_OrientationIsReversed);
             return brep;
         }
         
@@ -603,12 +603,12 @@ namespace SferedApi
             HashSet<int> source = new HashSet<int>();
             foreach (int num in faces)
             {
-                BrepFace face = brep.get_Faces().get_Item(num);
+                BrepFace face = brep.Faces.get_Item(num);
                 foreach (int num3 in face.AdjacentEdges())
                 {
-                    BrepEdge edge = brep.get_Edges().get_Item(num3);
+                    BrepEdge edge = brep.Edges.get_Item(num3);
                     int[] numArray2 = edge.AdjacentFaces();
-                    if (edge.get_Valence() == 1)
+                    if (edge.Valence == 1)
                     {
                         source.Add(num3);
                     }
@@ -648,18 +648,18 @@ namespace SferedApi
                 {
                     list.Add(item);
                 }
-                BrepFace face = brep.get_Faces().get_Item(item);
+                BrepFace face = brep.Faces.get_Item(item);
                 int[] second = face.AdjacentEdges();
                 foreach (int num3 in face.AdjacentFaces())
                 {
                     if (!set.Contains(num3))
                     {
-                        IEnumerable<int> source = brep.get_Faces().get_Item(num3).AdjacentEdges().Intersect<int>(second);
+                        IEnumerable<int> source = brep.Faces.Item(num3).AdjacentEdges.Intersect<int>(second);
                         if (source.Count<int>() == 1)
                         {
                             bool flag3;
                             int num4 = source.FirstOrDefault<int>();
-                            if (!IsEdgeOrientationBoundary(brep.get_Edges().get_Item(num4)))
+                            if (!IsEdgeOrientationBoundary(brep.Edges.get_Item(num4)))
                             {
                                 flag3 = flag;
                             }
@@ -681,11 +681,11 @@ namespace SferedApi
         public static void GetNakedItems(this Brep brep, out List<int> edges)
         {
             edges = new List<int>();
-            foreach (BrepEdge edge in brep.get_Edges())
+            foreach (BrepEdge edge in brep.Edges)
             {
-                if (edge.get_Valence() == 1)
+                if (edge.Valence == 1)
                 {
-                    edges.Add(edge.get_EdgeIndex());
+                    edges.Add(edge.EdgeIndex);
                 }
             }
         }
@@ -695,15 +695,15 @@ namespace SferedApi
             edges = new List<int>();
             edgeFlags = new List<bool>();
             HashSet<int> source = new HashSet<int>();
-            foreach (BrepEdge edge in brep.get_Edges())
+            foreach (BrepEdge edge in brep.Edges)
             {
-                if (edge.get_Valence() == 1)
+                if (edge.Valence == 1)
                 {
-                    bool item = brep.get_Trims().get_Item(edge.TrimIndices()[0]).get_Loop().get_LoopType() == 1;
-                    edges.Add(edge.get_EdgeIndex());
+                    bool item = brep.Trims.Item(edge.TrimIndices[0]).Loop.LoopType == 1;
+                    edges.Add(edge.EdgeIndex);
                     edgeFlags.Add(item);
-                    source.Add(edge.get_StartVertex().get_VertexIndex());
-                    source.Add(edge.get_EndVertex().get_VertexIndex());
+                    source.Add(edge.StartVertex.VertexIndex);
+                    source.Add(edge.EndVertex.VertexIndex);
                 }
             }
             vertices = source.ToList<int>();
@@ -712,11 +712,11 @@ namespace SferedApi
         public static List<int> GetOrientationBoundaryEdges(Brep brep)
         {
             List<int> list = new List<int>();
-            foreach (BrepEdge edge in brep.get_Edges())
+            foreach (BrepEdge edge in brep.Edges)
             {
                 if (IsEdgeOrientationBoundary(edge))
                 {
-                    list.Add(edge.get_EdgeIndex());
+                    list.Add(edge.EdgeIndex);
                 }
             }
             return list;
@@ -733,18 +733,18 @@ namespace SferedApi
             }
             else
             {
-                BrepTrim trim = edge.get_Brep().get_Trims().get_Item(source[0]);
-                BrepTrim trim2 = edge.get_Brep().get_Trims().get_Item(source[1]);
-                if (((trim.get_Loop().get_LoopType() != 1) || (trim2.get_Loop().get_LoopType() != 2)) ? ((trim.get_Loop().get_LoopType() == 2) && (trim2.get_Loop().get_LoopType() == 1)) : true)
+                BrepTrim trim = edge.Brep.Trims.get_Item(source[0]);
+                BrepTrim trim2 = edge.Brep.Trims.get_Item(source[1]);
+                if (((trim.Loop.LoopType != 1) || (trim2.Loop.LoopType != 2)) ? ((trim.Loop.LoopType == 2) && (trim2.Loop.LoopType == 1)) : true)
                 {
                 }
                 bool flag = trim.IsReversed();
-                if (trim.get_Loop().Face.get_OrientationIsReversed())
+                if (trim.Loop.Face.OrientationIsReversed)
                 {
                     flag = !flag;
                 }
                 bool flag2 = trim2.IsReversed();
-                if (trim2.get_Loop().Face.get_OrientationIsReversed())
+                if (trim2.Loop.Face.OrientationIsReversed)
                 {
                     flag2 = !flag2;
                 }
@@ -765,10 +765,10 @@ namespace SferedApi
         
         public static void JoinEdges(this Brep brep, int edgeIndex1, int edgeIndex2)
         {
-            BrepEdge edge = brep.get_Edges().get_Item(edgeIndex1);
-            foreach (int num2 in brep.get_Edges().get_Item(edgeIndex2).TrimIndices())
+            BrepEdge edge = brep.Edges.get_Item(edgeIndex1);
+            foreach (int num2 in brep.Edges.Item(edgeIndex2).TrimIndices)
             {
-                BrepTrim trim = brep.get_Trims().get_Item(num2);
+                BrepTrim trim = brep.Trims.get_Item(num2);
             }
         }
         
@@ -797,7 +797,7 @@ namespace SferedApi
         
         public static int PointOnFace(this Brep brep, Point3d point)
         {
-            using (IEnumerator<BrepFace> enumerator = brep.get_Faces().GetEnumerator())
+            using (IEnumerator<BrepFace> enumerator = brep.Faces.GetEnumerator())
             {
                 while (true)
                 {
@@ -808,10 +808,10 @@ namespace SferedApi
                         break;
                     }
                     BrepFace current = enumerator.Current;
-                    bool flag = brep.Surfaces.get_Item(current.get_SurfaceIndex()).ClosestPoint(point, ref num, ref num2);
+                    bool flag = brep.Surfaces.Item(current.get_SurfaceIndex).ClosestPoint(point, ref num, ref num2);
                     if (flag && (current.IsPointOnFace(num, num2) == 1))
                     {
-                        return current.get_FaceIndex();
+                        return current.FaceIndex;
                     }
                 }
             }
@@ -831,16 +831,16 @@ namespace SferedApi
             {
                 int[] numArray;
                 int[] numArray2;
-                if (num >= brep.get_Faces().get_Count())
+                if (num >= brep.Faces.Count)
                 {
                     result = Brep.JoinBreps(list, 0.001);
                     return;
                 }
-                BrepFace face = brep.get_Faces().get_Item(num);
+                BrepFace face = brep.Faces.get_Item(num);
                 Brep item = brep.SelectFace(num);
                 Brep[] brepArray1 = new Brep[] { item };
                 Curve[] curveArray = Curve.ProjectToBrep(curves, brepArray1, vector, 0.001, ref numArray, ref numArray2);
-                Brep brep3 = item.get_Faces().get_Item(0).Split(curveArray, 0.001);
+                Brep brep3 = item.Faces.get_Item(0).Split(curveArray, 0.001);
                 if (brep3 == null)
                 {
                     list.Add(item);
@@ -914,8 +914,8 @@ namespace SferedApi
                         break;
                     }
                     int current = enumerator.Current;
-                    BrepFace face = oldBrep.get_Faces().get_Item(current);
-                    int key = face.get_SurfaceIndex();
+                    BrepFace face = oldBrep.Faces.get_Item(current);
+                    int key = face.SurfaceIndex;
                     if (!dictionary3.ContainsKey(key))
                     {
                         dictionary3.Add(key, brep.AddSurface(face.DuplicateSurface()));
@@ -923,30 +923,30 @@ namespace SferedApi
                     int num3 = brep.AddFace(dictionary3[key], false);
                     foreach (BrepLoop loop in face.Loops)
                     {
-                        int num5 = brep.AddLoop(num3, loop.get_LoopType());
-                        foreach (BrepTrim trim in loop.get_Trims())
+                        int num5 = brep.AddLoop(num3, loop.LoopType);
+                        foreach (BrepTrim trim in loop.Trims)
                         {
-                            BrepVertex[] vertexArray = new BrepVertex[] { trim.get_Edge().get_StartVertex(), trim.get_Edge().get_EndVertex() };
+                            BrepVertex[] vertexArray = new BrepVertex[] { trim.Edge.StartVertex, trim.Edge.EndVertex };
                             int index = 0;
                             while (true)
                             {
                                 if (index >= vertexArray.Length)
                                 {
-                                    BrepEdge edge = trim.get_Edge();
-                                    int num6 = edge.get_EdgeIndex();
+                                    BrepEdge edge = trim.Edge;
+                                    int num6 = edge.EdgeIndex;
                                     if (!dictionary2.ContainsKey(num6))
                                     {
-                                        int vertexFrom = dictionary[edge.get_StartVertex().get_VertexIndex()];
-                                        dictionary2.Add(num6, brep.AddEdge(edge.DuplicateCurve(), vertexFrom, dictionary[edge.get_EndVertex().get_VertexIndex()]));
+                                        int vertexFrom = dictionary[edge.StartVertex.VertexIndex];
+                                        dictionary2.Add(num6, brep.AddEdge(edge.DuplicateCurve(), vertexFrom, dictionary[edge.EndVertex.VertexIndex]));
                                     }
-                                    int num7 = AddOrientedTrim(brep, dictionary2[num6], num5, trim.get_IsoStatus(), trim.get_TrimType());
+                                    int num7 = AddOrientedTrim(brep, dictionary2[num6], num5, trim.IsoStatus, trim.TrimType);
                                     break;
                                 }
                                 BrepVertex vertex = vertexArray[index];
-                                if (!dictionary.ContainsKey(vertex.get_VertexIndex()))
+                                if (!dictionary.ContainsKey(vertex.VertexIndex))
                                 {
                                     int num9 = brep.AddVertex(vertex.Location);
-                                    dictionary.Add(vertex.get_VertexIndex(), num9);
+                                    dictionary.Add(vertex.VertexIndex, num9);
                                 }
                                 index++;
                             }
@@ -972,8 +972,8 @@ namespace SferedApi
                         break;
                     }
                     int current = enumerator.Current;
-                    BrepFace face = oldBrep.get_Faces().get_Item(current);
-                    int key = face.get_SurfaceIndex();
+                    BrepFace face = oldBrep.Faces.get_Item(current);
+                    int key = face.SurfaceIndex;
                     if (!dictionary3.ContainsKey(key))
                     {
                         dictionary3.Add(key, brep.AddSurface(face.DuplicateSurface()));
@@ -981,30 +981,30 @@ namespace SferedApi
                     int num3 = brep.AddFace(dictionary3[key], false);
                     foreach (BrepLoop loop in face.Loops)
                     {
-                        int num5 = brep.AddLoop(num3, loop.get_LoopType());
-                        foreach (BrepTrim trim in loop.get_Trims())
+                        int num5 = brep.AddLoop(num3, loop.LoopType);
+                        foreach (BrepTrim trim in loop.Trims)
                         {
-                            BrepVertex[] vertexArray = new BrepVertex[] { trim.get_Edge().get_StartVertex(), trim.get_Edge().get_EndVertex() };
+                            BrepVertex[] vertexArray = new BrepVertex[] { trim.Edge.StartVertex, trim.Edge.EndVertex };
                             int index = 0;
                             while (true)
                             {
                                 if (index >= vertexArray.Length)
                                 {
-                                    BrepEdge edge = trim.get_Edge();
-                                    int num6 = edge.get_EdgeIndex();
+                                    BrepEdge edge = trim.Edge;
+                                    int num6 = edge.EdgeIndex;
                                     if (!dictionary2.ContainsKey(num6))
                                     {
-                                        int vertexFrom = dictionary[edge.get_StartVertex().get_VertexIndex()];
-                                        dictionary2.Add(num6, brep.AddEdge(edge.DuplicateCurve(), vertexFrom, dictionary[edge.get_EndVertex().get_VertexIndex()]));
+                                        int vertexFrom = dictionary[edge.StartVertex.VertexIndex];
+                                        dictionary2.Add(num6, brep.AddEdge(edge.DuplicateCurve(), vertexFrom, dictionary[edge.EndVertex.VertexIndex]));
                                     }
-                                    int num7 = AddOrientedTrim(brep, dictionary2[num6], num5, trim.get_IsoStatus(), trim.get_TrimType());
+                                    int num7 = AddOrientedTrim(brep, dictionary2[num6], num5, trim.IsoStatus, trim.TrimType);
                                     break;
                                 }
                                 BrepVertex vertex = vertexArray[index];
-                                if (!dictionary.ContainsKey(vertex.get_VertexIndex()))
+                                if (!dictionary.ContainsKey(vertex.VertexIndex))
                                 {
                                     int num9 = brep.AddVertex(vertex.Location);
-                                    dictionary.Add(vertex.get_VertexIndex(), num9);
+                                    dictionary.Add(vertex.VertexIndex, num9);
                                 }
                                 index++;
                             }
@@ -1018,7 +1018,7 @@ namespace SferedApi
         public static void SplitSingularLoopsIntoTwo(this Brep brep)
         {
             List<int> list = new List<int>();
-            int num = brep.Loops.get_Count() - 1;
+            int num = brep.Loops.Count - 1;
             while (true)
             {
                 if (num <= -1)
@@ -1027,11 +1027,11 @@ namespace SferedApi
                     return;
                 }
                 BrepLoop loop = brep.Loops.get_Item(num);
-                if (loop.get_Trims().get_Count() == 1)
+                if (loop.Trims.Count == 1)
                 {
-                    BrepEdge edge = loop.get_Trims().get_Item(0).get_Edge();
-                    double[] numArray1 = new double[] { edge.get_Domain().ParameterAt(0.5) };
-                    brep.get_Edges().SplitEdgeAtParameters(edge.get_EdgeIndex(), numArray1);
+                    BrepEdge edge = loop.Trims.Item(0).get_Edge;
+                    double[] numArray1 = new double[] { edge.Domain.ParameterAt(0.5) };
+                    brep.Edges.SplitEdgeAtParameters(edge.EdgeIndex, numArray1);
                 }
                 num--;
             }
@@ -1040,29 +1040,19 @@ namespace SferedApi
         public static void SplitSingularLoopsIntoTwoExotic(this Brep brep)
         {
             List<int> list = new List<int>();
-            for (int i = brep.Loops.get_Count() - 1; i > -1; i--)
+            for (int i = brep.Loops.Count - 1; i > -1; i--)
             {
                 BrepLoop loop = brep.Loops.get_Item(i);
-                if (loop.get_Trims().get_Count() == 1)
+                if (loop.Trims.Count == 1)
                 {
-                    BrepEdge edge = loop.get_Trims().get_Item(0).get_Edge();
+                    BrepEdge edge = loop.Trims.Item(0).get_Edge;
                 }
             }
         }
         
         public static void TrueClean(ref Brep brep)
         {
-            brep = brep.SelectFaces((from x in brep.get_Faces() select x.get_FaceIndex()).ToList<int>());
-        }
-        
-        [Serializable, CompilerGenerated]
-        private sealed class <>c
-        {
-            public static readonly BrepFunctions.<>c <>9 = new BrepFunctions.<>c();
-            public static Func<BrepFace, int> <>9__10_0;
-            
-            internal int <TrueClean>b__10_0(BrepFace x) => 
-                x.get_FaceIndex();
+            brep = brep.SelectFaces((from x in brep.Faces select x.FaceIndex).ToList<int>());
         }
     }
 }

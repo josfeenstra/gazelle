@@ -36,7 +36,7 @@ namespace SferedApi.Components.Experiments
             {
                 this.AddRuntimeMessage(20, "input bad");
             }
-            else if (((curve == null) || !curve.IsValid) || curve.get_IsClosed())
+            else if (((curve == null) || !curve.IsValid) || curve.IsClosed)
             {
                 this.AddRuntimeMessage(20, "curve is invalid, missing, or not closed.");
             }

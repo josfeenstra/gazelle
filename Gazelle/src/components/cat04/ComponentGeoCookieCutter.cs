@@ -23,12 +23,12 @@ namespace SferedApi.Components.Geo
         {
             int num7;
             int num = -1;
-            chosenPoint = Point3d.get_Unset();
-            int num2 = splitted.get_Faces().get_Count();
+            chosenPoint = Point3d.Unset;
+            int num2 = splitted.Faces.Count;
             List<Curve> list = new List<Curve>();
-            foreach (BrepFace face2 in splitted.get_Faces())
+            foreach (BrepFace face2 in splitted.Faces)
             {
-                Curve curve = face2.get_OuterLoop().To2dCurve();
+                Curve curve = face2.OuterLoop.To2dCurve();
                 if (curve == null)
                 {
                     this.testData.Add("CANT PULL CURVE");
@@ -37,7 +37,7 @@ namespace SferedApi.Components.Geo
                 list.Add(curve);
             }
             Random random = new Random(0);
-            Point3d item = Point3d.get_Unset();
+            Point3d item = Point3d.Unset;
             int num3 = 0;
             int num4 = 0x3e8;
             bool flag = true;
@@ -108,7 +108,7 @@ namespace SferedApi.Components.Geo
                     this.testData.Add($"Tries : {num3}");
                     this.testData.Add("PointOnTrim:");
                     this.testData.Add(item);
-                    chosenPoint = face.PointAt(item.get_X(), item.get_Y());
+                    chosenPoint = face.PointAt(item.X, item.Y);
                     this.testData.Add("chosenPoint:");
                     this.testData.Add((Point3d) chosenPoint);
                     num7 = num;
@@ -172,9 +172,9 @@ namespace SferedApi.Components.Geo
             {
                 alreadyMapped = new List<int>();
             }
-            if (thisIndex < splitted.get_Faces().get_Count())
+            if (thisIndex < splitted.Faces.Count)
             {
-                BrepFace face = splitted.get_Faces().get_Item(thisIndex);
+                BrepFace face = splitted.Faces.get_Item(thisIndex);
                 spaceMapper[thisIndex] = thisFaceShouldBe;
                 alreadyMapped.Add(thisIndex);
                 foreach (int num2 in face.AdjacentFaces())
@@ -190,16 +190,16 @@ namespace SferedApi.Components.Geo
         private Brep OldGetExtrutionShape(Curve c, Brep b, Vector3d d, double tolerance)
         {
             Box box;
-            Plane plane = new Plane(c.get_PointAtStart(), d);
-            Box box2 = Box.get_Unset();
+            Plane plane = new Plane(c.PointAtStart, d);
+            Box box2 = Box.Unset;
             b.GetBoundingBox(plane, ref box);
             Curve curve = Curve.ProjectToPlane(c, plane);
             Curve curve2 = curve.Duplicate();
-            curve2.Translate(d * box.get_Z().get_T0());
+            curve2.Translate(d * box.Z.T0);
             Curve curve3 = curve.Duplicate();
-            curve3.Translate(d * box.get_Z().get_T1());
+            curve3.Translate(d * box.Z.T1);
             Curve[] curveArray1 = new Curve[] { curve3, curve2 };
-            List<Brep> list = Brep.CreateFromLoft(curveArray1, Point3d.get_Unset(), Point3d.get_Unset(), 3, false).ToList<Brep>();
+            List<Brep> list = Brep.CreateFromLoft(curveArray1, Point3d.Unset, Point3d.Unset, 3, false).ToList<Brep>();
             Curve[] curveArray2 = new Curve[] { curve3, curve2 };
             list.AddRange(Brep.CreatePlanarBreps(curveArray2));
             Brep[] brepArray = Brep.JoinBreps(list, tolerance);
@@ -230,12 +230,12 @@ namespace SferedApi.Components.Geo
                         throw new Exception("no Brep");
                     }
                     Results results = new Results();
-                    for (int i = 0; i < brep.get_Faces().get_Count(); i++)
+                    for (int i = 0; i < brep.Faces.Count; i++)
                     {
                         List<int> list1 = new List<int>();
                         list1.Add(i);
                         Brep b = brep.DuplicateSubBrep(list1);
-                        b.get_Faces().ShrinkFaces();
+                        b.Faces.ShrinkFaces();
                         this.testData.Add($"--- Brep.Faces[{i}] ---");
                         Results other = this.ProjectAndPerforateSurface(objA, b, d);
                         results.Add(other);
@@ -257,13 +257,13 @@ namespace SferedApi.Components.Geo
             Vector3d vector = D;
             vector.Unitize();
             Results results = new Results();
-            if (brep.get_Faces().get_Count() > 1)
+            if (brep.Faces.Count > 1)
             {
                 throw new Exception("brep has multiple faces");
             }
             foreach (Curve curve in curves)
             {
-                if (!curve.get_IsClosed())
+                if (!curve.IsClosed)
                 {
                     throw new Exception("not all curves are closed");
                 }
@@ -278,25 +278,25 @@ namespace SferedApi.Components.Geo
             {
                 if (index >= length)
                 {
-                    BrepFace face = brep.get_Faces().FirstOrDefault<BrepFace>();
+                    BrepFace face = brep.Faces.FirstOrDefault<BrepFace>();
                     Brep splitted = face.Split(results.ProjectedCurves, 0.001);
                     if (splitted == null)
                     {
                         this.testData.Add("found no intersections");
                         splitted = brep;
                     }
-                    Point3d chosenPoint = Point3d.get_Unset();
+                    Point3d chosenPoint = Point3d.Unset;
                     int thisIndex = this.GetInitialSurface(face, splitted, out chosenPoint);
                     bool thisFaceShouldBe = this.IsPointInCurves(curves, chosenPoint, vector);
                     List<bool> spaceMapper = new List<bool>();
-                    foreach (BrepFace face2 in splitted.get_Faces())
+                    foreach (BrepFace face2 in splitted.Faces)
                     {
                         spaceMapper.Add(false);
                     }
                     MapSpace(splitted, spaceMapper, thisFaceShouldBe, thisIndex, null);
-                    for (int i = 0; i < splitted.get_Faces().get_Count(); i++)
+                    for (int i = 0; i < splitted.Faces.Count; i++)
                     {
-                        BrepFace face3 = splitted.get_Faces().get_Item(i);
+                        BrepFace face3 = splitted.Faces.get_Item(i);
                         if (spaceMapper[i])
                         {
                             results.SurfacesInside.Add(face3.DuplicateFace(false));
@@ -345,7 +345,7 @@ namespace SferedApi.Components.Geo
         {
             Brep b = null;
             List<Curve> c = new List<Curve>();
-            Vector3d d = Vector3d.get_Unset();
+            Vector3d d = Vector3d.Unset;
             int num = -1;
             double pointTol = 0.001;
             DA.GetData<Brep>(0, ref b);

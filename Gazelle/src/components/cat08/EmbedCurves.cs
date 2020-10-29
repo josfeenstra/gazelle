@@ -47,7 +47,7 @@ namespace SferedApi.Components
                             break;
                         }
                         Curve current = enumerator.Current;
-                        if (((current == null) || !current.IsValid) || !current.get_IsClosed())
+                        if (((current == null) || !current.IsValid) || !current.IsClosed)
                         {
                             this.AddRuntimeMessage(20, "curve is invalid, missing, or not closed.");
                             return;
