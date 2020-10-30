@@ -21,7 +21,13 @@ namespace Gazelle.Components
         public int ButtonState;
         private MethodInfo method;
         
-        public DevTest() : base(SD.Starter + "Test", SD.Starter + "Test", SD.CopyRight + "Use reflection to call a static method from a class. Use the nickname to make a method call.", SD.PluginTitle, SD.PluginCategory10)
+        public DevTest() : base(
+            SD.Starter + "Test", 
+            SD.Starter + "Test", 
+            SD.CopyRight + "Use reflection to call a static method from a class. " +
+            "Use the nickname to make a method call.", 
+            SD.PluginTitle, 
+            SD.PluginCategory10)
         {
             this.method = null;
         }

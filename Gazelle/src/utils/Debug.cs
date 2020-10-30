@@ -9,18 +9,11 @@ namespace Gazelle
     {
         private static List<string> data = new List<string>();
         private static List<object> geometries = new List<object>();
-        private static List<ConsolePrinter> listeners = new List<ConsolePrinter>();
+        private static List<Func<bool>> listeners = new List<Func<bool>>();
         
         private static void ActivateListeners()
         {
-            foreach (ConsolePrinter printer in listeners)
-            {
-                if (!printer.IsExpired)
-                {
-                    printer.OnSolutionExpired(true);
-                    printer.IsExpired = true;
-                }
-            }
+
         }
         
         public static void Flush()
@@ -29,16 +22,24 @@ namespace Gazelle
             geometries = new List<object>();
         }
         
-        public static void Geo(object geo)
+        public static void LogGeo(object geo)
         {
-            geometries.Add(geo);
+            if (geo.GetType() is IEnumerable<object>)
+            {
+                foreach (var item in geo as IEnumerable<object>)
+                {
+                    geometries.Add(item);
+                }
+            }
+            else
+            {
+                geometries.Add(geo);
+            }
         }
         
-        public static List<object> GetAllGeometry() => 
-            geometries;
+        public static List<object> GetAllGeometry() => geometries;
         
-        public static List<string> GetAllStrings() => 
-            data;
+        public static List<string> GetAllStrings() => data;
         
         public static void Log(string message)
         {
@@ -48,14 +49,6 @@ namespace Gazelle
         public static void Log(GH_Component sender, string message)
         {
             data.Add(sender.Name + " : " + message);
-        }
-        
-        public static void SetListener(ConsolePrinter listener)
-        {
-            if (!listeners.Contains(listener))
-            {
-                listeners.Add(listener);
-            }
         }
         
         public static void Update()

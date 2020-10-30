@@ -281,11 +281,6 @@ namespace Gazelle
         #endregion
         #region Intersections
 
-        public static IntersectionsToSubCurves()
-        {
-
-        }
-
         #endregion
     }
 }

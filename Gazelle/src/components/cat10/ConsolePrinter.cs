@@ -5,30 +5,52 @@ namespace Gazelle
     using Gazelle.Properties;
     using System;
     using System.Drawing;
-    
+    using Rhino.Geometry;
+
     public class ConsolePrinter : GH_Component
     {
-        public bool IsExpired;
-        
-        public ConsolePrinter() : base(SD.Starter + "Console", SD.Starter + "Console", SD.CopyRight + "Toying around with how to setup a correct brep", SD.PluginTitle, SD.PluginCategory10)
+        public ConsolePrinter() : base(
+            SD.Starter + "Console", 
+            SD.Starter + "Console", 
+            SD.CopyRight + "Toying around with how to setup a correct brep", 
+            SD.PluginTitle, 
+            SD.PluginCategory10)
         {
-            this.IsExpired = false;
-            Debug.SetListener(this);
+
         }
-        
+
+        public override void CreateAttributes()
+        {
+            AttributesButtonGeneral general = 
+                new AttributesButtonGeneral(
+                    this, 
+                    "Update", 
+                    "Update", 
+                    new Func<bool>(this.OnButtonPress));
+            base.m_attributes = general;
+        }
+
+        public bool OnButtonPress()
+        {
+            this.ExpireSolution(true);
+            return true;
+        }
+
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager p)
         {
+
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager p)
         {
             p.AddTextParameter("Lines", "Lines", "All debug lines printed", (GH_ParamAccess)1);
+            p.AddGeometryParameter("Geometry", "Geo", "All debug Geometry printed", (GH_ParamAccess)2);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             DA.SetDataList(0, Debug.GetAllStrings());
-            this.IsExpired = false;
+            DA.SetDataList(1, Debug.GetAllGeometry());
         }
         
         protected override Bitmap Icon =>
