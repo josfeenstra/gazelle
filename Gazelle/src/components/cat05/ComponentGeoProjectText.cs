@@ -7,9 +7,9 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Newtonsoft.Json.Linq;
 using Rhino.Geometry;
-using SferedApi.Datatypes;
+using Gazelle.Datatypes;
 
-namespace SferedApi.Components.Geo
+namespace Gazelle.Components.Geo
 {
     public class ComponentGeoProjectText : GH_Component
     {

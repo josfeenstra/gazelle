@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.Meta
+namespace Gazelle.Components.Meta
 {
     public class ComponentDevPluginInfo : GH_Component
     {

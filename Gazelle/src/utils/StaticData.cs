@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SferedApi
+namespace Gazelle
 {
     // meta data
     class Meta
@@ -27,7 +27,7 @@ namespace SferedApi
     {
         // info for components
         public static string Starter     = "GZ ";
-        public static string CopyRight   = "(c) Sfered" + "Plugin version";
+        public static string CopyRight   = "(c) Sfered. Version" + Meta.Version;
         public static string PluginTitle = Meta.Name;
 
         // categories for components

@@ -10,7 +10,7 @@ using Rhino.Geometry;
 using Rhino.Geometry.Collections;
 using Rhino.Geometry.Intersect;
 
-namespace SferedApi
+namespace Gazelle
 {
     class Helpers
     {

@@ -6,7 +6,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace SferedApi
+namespace Gazelle
 {  
     public static class GrasshopperFunctions
     {

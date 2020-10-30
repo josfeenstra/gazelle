@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace SferedApi.Datatypes
+namespace Gazelle.Datatypes
 {
     // link between the GH_Goo and DataNode 
     class GH_DataNode : GH_Goo<DataNode>

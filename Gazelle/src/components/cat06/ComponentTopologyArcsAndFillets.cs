@@ -3,14 +3,14 @@ using Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using Rhino.Geometry.Intersect;
-using SferedApi.Properties;
+using Gazelle.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace SferedApi.Components
+namespace Gazelle.Components
 {
 
     public class ArcsAndFillets : GH_Component

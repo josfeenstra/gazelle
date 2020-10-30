@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.Geo
+namespace Gazelle.Components.Geo
 {
     public class ComponentGeoAsymmetricOffset : GH_Component
     {

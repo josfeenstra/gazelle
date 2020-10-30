@@ -2,12 +2,12 @@
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SferedApi.Properties;
+using Gazelle.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace SferedApi.Components
+namespace Gazelle.Components
 {
     public class ComponentGeoScalableSpline : GH_Component
     {

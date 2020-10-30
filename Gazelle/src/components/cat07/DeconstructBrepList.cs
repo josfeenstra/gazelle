@@ -2,12 +2,12 @@
 using System.Linq;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SferedApi.Properties;
+using Gazelle.Properties;
 using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class DeconstructBrepList : GH_Component
     {

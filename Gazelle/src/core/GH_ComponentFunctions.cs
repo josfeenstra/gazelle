@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SferedApi
+namespace Gazelle
 { 
     internal static class GH_ComponentFunctions
     {

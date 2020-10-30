@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.TextInsertion
+namespace Gazelle.Components.TextInsertion
 {
     public class ComponentTextFontSaver : GH_Component
     {

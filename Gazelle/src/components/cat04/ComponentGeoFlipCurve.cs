@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.Geo
+namespace Gazelle.Components.Geo
 {
     public class ComponentGeoFlipCurve : GH_Component
     {

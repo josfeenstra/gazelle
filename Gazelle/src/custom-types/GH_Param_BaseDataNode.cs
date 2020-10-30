@@ -6,7 +6,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SferedApi.Datatypes
+namespace Gazelle.Datatypes
 {
     public class GH_Param_BaseDataNode : GH_PersistentParam<IGH_Goo>
     {

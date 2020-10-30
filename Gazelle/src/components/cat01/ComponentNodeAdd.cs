@@ -6,9 +6,9 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SferedApi.Datatypes;
+using Gazelle.Datatypes;
 
-namespace SferedApi.Components.Node
+namespace Gazelle.Components.Node
 {
     public class ComponentNodeAdd : GH_Component, IGH_VariableParameterComponent
     {

@@ -5,10 +5,10 @@ using System.Drawing;
 using System.Collections.Generic;
 using Grasshopper.Kernel.Types;
 using System.Windows.Forms;
-using SferedApi.Datatypes;
+using Gazelle.Datatypes;
 using System.Linq;
 
-namespace SferedApi
+namespace Gazelle
 {
     
     // Written by David Rutten, edited by Jos Feenstra

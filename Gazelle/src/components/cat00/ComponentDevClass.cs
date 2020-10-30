@@ -4,7 +4,7 @@ using System.Dynamic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentDevClass : GH_Component
     {

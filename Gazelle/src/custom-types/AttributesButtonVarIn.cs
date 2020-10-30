@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace SferedApi
+namespace Gazelle
 {
     internal class AttributesButtonVarIn : GH_ComponentAttributes
     {

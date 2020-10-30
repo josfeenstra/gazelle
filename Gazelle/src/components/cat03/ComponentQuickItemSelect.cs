@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Rhino.Geometry;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentQuickItemSelect : GH_Component, IGH_VariableParameterComponent
     {

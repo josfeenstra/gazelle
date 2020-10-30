@@ -10,7 +10,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Grasshopper.Kernel.Types;
 
-namespace SferedApi.Datatypes
+namespace Gazelle.Datatypes
 {
     // NOTE: not to be confused with the GH_DataNode class
     class DataNode : Object

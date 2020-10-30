@@ -6,7 +6,7 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using Rhino.Geometry.Collections;
 
-namespace SferedApi.Components.Developer
+namespace Gazelle.Components.Developer
 {
     public class ComponentGeoPerforateSurface : GH_Component
     {

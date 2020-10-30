@@ -2,7 +2,7 @@
 using System.Drawing;
 using Grasshopper.Kernel;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class GazelleInfo : GH_AssemblyInfo
     {

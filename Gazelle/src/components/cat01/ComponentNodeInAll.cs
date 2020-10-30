@@ -6,7 +6,7 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentNodeInAll : GH_Component
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SferedApi.Datatypes;
+using Gazelle.Datatypes;
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentNodeToString : GH_Component
     {

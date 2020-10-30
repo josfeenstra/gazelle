@@ -17,7 +17,7 @@ using GH_IO.Serialization;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentNodeIn : GH_Component, IGH_VariableParameterComponent
     {

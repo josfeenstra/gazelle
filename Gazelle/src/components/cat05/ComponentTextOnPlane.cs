@@ -4,13 +4,13 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SferedApi;
-using SferedApi.Properties;
+using Gazelle;
+using Gazelle.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace SferedApi.Components
+namespace Gazelle.Components
 { 
     public class ComponentTextOnPlane : GH_Component
     {

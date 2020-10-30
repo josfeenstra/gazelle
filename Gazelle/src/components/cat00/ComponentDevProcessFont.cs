@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Rhino;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.Developer
+namespace Gazelle.Components.Developer
 {
     public class ComponentDevProcessFont : GH_Component
     {

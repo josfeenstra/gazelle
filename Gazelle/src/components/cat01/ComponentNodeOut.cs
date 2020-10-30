@@ -7,7 +7,7 @@ using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SferedApi.Components.Node
+namespace Gazelle.Components.Node
 {
     public class ComponentNodeOut : GH_Component, IGH_VariableParameterComponent
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SferedApi
+namespace Gazelle
 {
 
     
@@ -707,7 +707,7 @@ namespace SferedApi
             }
             return list;
         }
-        
+
         public static bool IsEdgeOrientationBoundary(BrepEdge edge)
         {
             bool flag4;

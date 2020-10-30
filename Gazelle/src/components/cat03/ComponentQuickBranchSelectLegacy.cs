@@ -7,7 +7,7 @@ using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SferedApi 
+namespace Gazelle 
 {
     public class ComponentQuickBranchSelectLegacy : GH_Component
     {

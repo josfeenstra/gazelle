@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SferedApi.Datatypes;
+using Gazelle.Datatypes;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 
 
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentDVController : GH_Component
     {

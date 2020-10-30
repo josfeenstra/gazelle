@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Dynamic;
-namespace SferedApi
+namespace Gazelle
 {
     public class ComponentNodePythonify : GH_Component
     {
