@@ -14,8 +14,18 @@ namespace Gazelle
     /// <summary>
     /// These are all functions for the advanced brep splitting tech
     /// </summary>
-    internal static class BrepTechFunctions
+    internal static class BrepSplitFunctions
     {
+        public static Brep SplitBrepWithCurves(this Brep brep, List<Curve> curves, out List<int> faces)
+        {
+            faces = new List<int>();
+            foreach (var curve in curves)
+            {
+                brep.SplitBrepWithCurve(curve);
+            }
+            return brep;
+        }
+
         /// <summary>
         /// Per Curve, 3 options: 
         /// 
@@ -33,34 +43,32 @@ namespace Gazelle
         ///    do nothing
         ///
         /// </summary>
-        public static void SplitBrep(this Brep brep, List<Curve> curves)
+        public static Brep SplitBrepWithCurve(this Brep brep, Curve curve)
         {
-            foreach (var curve in curves)
+            var xs = new List<IntersectionEvent>();
+            var ids = new List<int>();
+            foreach (var edge in brep.Edges)
             {
-                var xs = new List<IntersectionEvent>();
-                var ids = new List<int>();
-                foreach (var edge in brep.Edges)
+                foreach (var x in Intersection.CurveCurve(
+                    curve, edge, SD.IntersectTolerance, SD.OverlapTolerance))
                 {
-                    foreach (var x in Intersection.CurveCurve(
-                        curve, edge, SD.IntersectTolerance, SD.OverlapTolerance))
-                    {
-                        xs.Add(x);
-                        ids.Add(edge.EdgeIndex);
-                    }
-                }
-                if (xs.Count > 0)
-                {
-                    IncorporateForeignCurve(brep, curve, xs, ids);
-                }
-                else
-                {
-                    int faceIndex = MatchCurveToFace(brep, curve);
-                    if (faceIndex != -1)
-                    {
-                        brep.BuildInnerFace(faceIndex, curve); // 2
-                    }
+                    xs.Add(x);
+                    ids.Add(edge.EdgeIndex);
                 }
             }
+            if (xs.Count > 0)
+            {
+                IncorporateForeignCurve(brep, curve, xs, ids);
+            }
+            else
+            {
+                int faceIndex = MatchCurveToFace(brep, curve);
+                if (faceIndex != -1)
+                {
+                    brep.BuildInnerFace(faceIndex, curve); // 2
+                }
+            }
+            return brep;
         }
 
         private static void IncorporateForeignCurve(
@@ -103,7 +111,7 @@ namespace Gazelle
 
 
         // NOTE : obsolete thanks to brep.ClosestPoint();
-        public static bool IsCurveTouchingFace(Curve curve, BrepFace face)
+        public static bool IsCurveTouchingFaceObsolete(Curve curve, BrepFace face)
         {
             // pulling to get UV
             var response = face.PullPointsToFace(

@@ -96,6 +96,7 @@
     <Compile Include="src\components\cat08\FacesPartition.cs" />
     <Compile Include="src\components\cat08\FacesSelect.cs" />
     <Compile Include="src\components\cat08\PointOnFace.cs" />
+    <Compile Include="src\components\cat08\SplitBrepPlus.cs" />
     <Compile Include="src\components\cat09\BrepClean.cs" />
     <Compile Include="src\components\cat09\BrepReorient.cs" />
     <Compile Include="src\components\cat09\BrepStandardize.cs" />

@@ -27,7 +27,7 @@ namespace Gazelle
     {
         // info for components
         public static string Starter     = "GZ ";
-        public static string CopyRight   = "(c) Sfered. Version" + Meta.Version;
+        public static string CopyRight   = "(c) Sfered. Version: " + Meta.Version + ". ";
         public static string PluginTitle = Meta.Name;
 
         // categories for components
