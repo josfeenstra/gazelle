@@ -35,7 +35,7 @@ namespace Gazelle.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
-            pManager.AddIntegerParameter("Face Indices", "Ti", "Indices of new faces", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Face Indices", "Fi", "Indices of new faces", (GH_ParamAccess)1);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)

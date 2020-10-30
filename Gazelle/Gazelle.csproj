@@ -109,7 +109,7 @@
     <Compile Include="src\components\cat11\ComponentGeoCutCurve.cs" />
     <Compile Include="src\components\cat11\CurveCounterClockwise.cs" />
     <Compile Include="src\components\cat11\CurveRegionIntersect.cs" />
-    <Compile Include="src\core\BrepAdvancedFunctions.cs" />
+    <Compile Include="src\core\BrepSplitFunctions.cs" />
     <Compile Include="src\core\BrepFunctions.cs" />
     <Compile Include="src\core\CurveFunctions.cs" />
     <Compile Include="src\core\GH_ComponentFunctions.cs" />

@@ -16,12 +16,14 @@ namespace Gazelle
     /// </summary>
     internal static class BrepSplitFunctions
     {
-        public static Brep SplitBrepWithCurves(this Brep brep, List<Curve> curves, out List<int> faces)
+        public static Brep SplitBrepWithCurves(this Brep brep, List<Curve> curves, out List<int> createdFaces)
         {
-            faces = new List<int>();
+            Debug.Flush();
+            createdFaces = new List<int>();
             foreach (var curve in curves)
             {
-                brep.SplitBrepWithCurve(curve);
+                brep.SplitBrepWithCurve(curve, out List<int>newFaces);
+                createdFaces.AddRange(newFaces);
             }
             return brep;
         }
@@ -43,8 +45,9 @@ namespace Gazelle
         ///    do nothing
         ///
         /// </summary>
-        public static Brep SplitBrepWithCurve(this Brep brep, Curve curve)
+        public static Brep SplitBrepWithCurve(this Brep brep, Curve curve, out List<int> createdFaces)
         {
+            createdFaces = new List<int>();
             var xs = new List<IntersectionEvent>();
             var ids = new List<int>();
             foreach (var edge in brep.Edges)
@@ -65,16 +68,39 @@ namespace Gazelle
                 int faceIndex = MatchCurveToFace(brep, curve);
                 if (faceIndex != -1)
                 {
-                    brep.BuildInnerFace(faceIndex, curve); // 2
+                    int face = brep.BuildInnerFace(faceIndex, curve); // 2
+                    createdFaces.Add(face);
                 }
             }
             return brep;
         }
 
         private static void IncorporateForeignCurve(
-            Brep brep, Curve curve, List<IntersectionEvent> xs, List<int> ids)
+            Brep brep, 
+            Curve curve, 
+            List<IntersectionEvent> xs, 
+            List<int> ids)
         {
+            // get all unique faces
+            var faceHash = new HashSet<int>();
+            foreach (var i in ids)
+                foreach (var j in brep.Edges[i].AdjacentFaces())
+                    faceHash.Add(j);
+            var faces = faceHash.ToArray();
+            
+            // per face
 
+            Debug.LogGeo(curve);
+            
+        }
+
+        private static void IncorporateCurveFragment(BrepLoop loop, Curve fragment)
+        {
+            // split loop with fragment
+            foreach (BrepTrim trim in loop.Trims)
+            {
+                //
+            }
         }
 
         /// <summary>
