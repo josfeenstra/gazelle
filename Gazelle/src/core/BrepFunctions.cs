@@ -75,13 +75,13 @@ namespace Gazelle
             return brep.Loops.Add(type, face2).LoopIndex;
         }
         
-        public static int AddOrientedTrim(Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type)
+        public static int AddOrientedTrim(this Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type)
         {
             int num;
             return AddOrientedTrim(brep, edge, loop, status, type, out num);
         }
         
-        public static int AddOrientedTrim(Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type, out int curveID)
+        public static int AddOrientedTrim(this Brep brep, int edge, int loop, IsoStatus status, BrepTrimType type, out int curveID)
         {
             bool flag;
             curveID = brep.AddCurve2D(edge, loop, out flag);
@@ -154,17 +154,17 @@ namespace Gazelle
             return num3;
         }
         
-        private static int BuildInnerFace(ref Brep brep, int face, int edge)
+        private static int BuildInnerFace(ref Brep brep, int faceID, int edge)
         {
             int num2;
-            int num = brep.BuildInnerLoop(face, edge, (BrepTrimType)2, out num2);
+            int num = brep.BuildInnerLoop(faceID, edge, (BrepTrimType)2, out num2);
             BrepTrim trim = brep.Trims[num];
             BrepFace face2 = trim.Loop.Face;
             Surface surface = brep.Surfaces[face2.SurfaceIndex];
-            int num3 = trim.Edge.EdgeIndex;
-            int num4 = brep.AddFace(face2.SurfaceIndex, false);
-            int num6 = AddOrientedTrim(brep, num3, brep.AddLoop(num4, (BrepLoopType)1), 0, (BrepTrimType)2);
-            return num4;
+            int edgeID = trim.Edge.EdgeIndex;
+            int faceID2 = brep.AddFace(face2.SurfaceIndex, false);
+            int trimID = AddOrientedTrim(brep, edgeID, brep.AddLoop(faceID, (BrepLoopType)1), 0, (BrepTrimType)2);
+            return faceID2;
         }
         
         public static int BuildInnerFacePreservingCurve(this Brep brep, int face, Curve curve)

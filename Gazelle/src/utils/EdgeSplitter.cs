@@ -40,6 +40,7 @@ namespace Gazelle
         
         public void Split()
         {
+
         }
         
         private BrepEdge Edge =>

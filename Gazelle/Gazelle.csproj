@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="doc\CookieCutterNotes.txt" />
     <Compile Include="src\components\cat00\ComponentNodeInputManager.cs" />
     <Compile Include="src\components\cat01\ComponentNodeAdd.cs" />
     <Compile Include="src\components\cat01\ComponentNodeMerge.cs" />
@@ -111,9 +112,11 @@
     <Compile Include="src\components\cat11\CurveRegionIntersect.cs" />
     <Compile Include="src\core\BrepSplitFunctions.cs" />
     <Compile Include="src\core\BrepFunctions.cs" />
+    <Compile Include="src\core\BrepSplitHelpers.cs" />
     <Compile Include="src\core\CurveFunctions.cs" />
     <Compile Include="src\core\GH_ComponentFunctions.cs" />
     <Compile Include="src\core\GrasshopperFunctions.cs" />
+    <Compile Include="src\core\PolygonFunctions.cs" />
     <Compile Include="src\core\SurfaceFunctions.cs" />
     <Compile Include="src\core\VectorFunctions.cs" />
     <Compile Include="src\custom-types\AttributesButtonGeneral.cs" />
@@ -169,6 +172,7 @@
     <None Include="Resources\pick_item22.png" />
     <None Include="Resources\pick_item23.png" />
     <None Include="Resources\information.bmp" />
+    <Content Include="doc\regex.txt" />
     <Content Include="Resources\info.png" />
     <Content Include="Resources\TextInsertJson.txt" />
     <None Include="Resources\Image2.bmp" />

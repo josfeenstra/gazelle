@@ -1,0 +1,36 @@
+﻿LINKS
+
+ON CUTTING 
+https://bentles.github.io/cyrus_beckington/
+
+
+
+
+ON TOLERANCES
+https://wiki.mcneel.com/rhino/faqtolerances
+
+GENERAL EXAMPLES:
+https://github.com/mcneel/rhinocommon/tree/master/examples/cs
+https://github.com/mcneel/rhinocommon/blob/master/examples/cs/ex_addtwistedcube.cs
+Brep Structure
+https://developer.rhino3d.com/guides/cpp/brep-data-structure/
+
+Components
+
+Brep
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_Brep.htm
+
+Edge
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_BrepEdge.htm
+
+Face
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_BrepFace.htm
+
+Loop
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_BrepLoop.htm
+
+Trim
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_BrepTrim.htm
+
+Vertex
+https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_BrepVertex.htm
