@@ -17,7 +17,17 @@ namespace Gazelle
         {
             brep.Append(other);
         }
-        
+
+        public static int AddCurve2DBasic(this Brep brep, int edge, int surfaceID, bool reverse)
+        {
+            Curve curve = brep.Surfaces[surfaceID].Pullback(
+                brep.Edges[edge].DuplicateCurve(), 0.001
+                );
+            if (reverse)
+                curve.Reverse();
+            return brep.Curves2D.Add(curve);
+        }
+
         public static int AddCurve2D(this Brep brep, int edge, int loop, out bool isTrimReversedEdge)
         {
             BrepLoop loop2 = brep.Loops[loop];
@@ -119,7 +129,7 @@ namespace Gazelle
         }
         
         public static int AddVertex(this Brep brep, Point3d point) => 
-            brep.Vertices.Add(point, 0.0).VertexIndex;
+            brep.Vertices.Add(point, 0.00000001).VertexIndex;
         
         public static void AppendAt(this Brep brep, Brep other, Dictionary<int, int> edgeMap)
         {
@@ -277,7 +287,14 @@ namespace Gazelle
             }
             foreach (BrepTrim trim in original.Trims)
             {
-                CopyTrimWithCurve(brep, trim);
+                int curve2d = brep.Curves2D.Add(trim.DuplicateCurve());
+                brep.AddTrim(
+                    trim.Edge.EdgeIndex,
+                    trim.Loop.LoopIndex,
+                    trim.IsReversed(),
+                    curve2d,
+                    trim.IsoStatus,
+                    trim.TrimType);
             }
             return brep;
         }
@@ -844,18 +861,34 @@ namespace Gazelle
         {
         }
         
-        public static void RemoveFace(this Brep brep, int face)
+        public static Brep RemoveFace(this Brep brep, int faceID)
         {
-            throw new NotImplementedException();
+            // duplicate everything except this face
+            var faces = new int[brep.Faces.Count - 1];
+            int offset = 0;
+            for(int i = 0; i < brep.Faces.Count; i++)
+            {
+                if (brep.Faces[i].FaceIndex != faceID)
+                    faces[i + offset] = brep.Faces[i].FaceIndex;
+                else
+                    offset -= 1;
+            }
+            return brep.DuplicateSubBrep(faces);
         }
         
-        public static void RemoveFace(this Brep brep, int faceIndex, bool recurse = false)
+        public static Brep RemoveFaces(this Brep brep, List<int> faces)
         {
-        }
-        
-        public static void RemoveFaces(this Brep brep, List<int> faces)
-        {
-            throw new NotImplementedException();
+            // duplicate everything except this face
+            var leftoverFaces = new int[brep.Faces.Count - faces.Count];
+            int offset = 0;
+            for (int i = 0; i < brep.Faces.Count; i++)
+            {
+                if (!faces.Contains(brep.Faces[i].FaceIndex))
+                    leftoverFaces[i + offset] = brep.Faces[i].FaceIndex;
+                else
+                    offset -= 1;
+            }
+            return brep.DuplicateSubBrep(leftoverFaces);
         }
         
         public static void RemoveLoop(this Brep brep, int loopIndex, bool recurse = false)
