@@ -8,25 +8,47 @@ using Rhino.Geometry;
 
 namespace Gazelle
 {
-    struct CurveFragment
+    class CurveFragment
     {
-        public int face, edgeFrom, edgeTo;
+        public int face, ab, cd;
         public double paramFrom, paramTo;
         public Curve fragment;
+
+        
+        public int vertexFrom, vertexTo;
+        public int a, b, c, d;
 
         public CurveFragment(int face, int edgeFrom, int edgeTo, double paramFrom, double paramTo, Curve fragment)
         {
             this.face = face;
-            this.edgeFrom = edgeFrom;
-            this.edgeTo = edgeTo;
+            this.ab = edgeFrom;
+            this.cd = edgeTo;
             this.paramFrom = paramFrom;
             this.paramTo = paramTo;
             this.fragment = fragment ?? throw new ArgumentNullException(nameof(fragment));
+
+            this.vertexFrom = -1; 
+            this.vertexTo = -1; 
+            this.a = 0; 
+            this.b = 0; 
+            this.c = 0; 
+            this.d = 0; 
+        }
+
+        public void SetAfterSplitData(int vertexFrom, int vertexTo, int a, int b, int c, int d)
+        {
+            // set data known after splitting my FROM and TO edge. 
+            this.vertexFrom = vertexFrom; // vertex in between a and b
+            this.vertexTo = vertexTo; // vertex in between c and d
+            this.a = a; // first part of edgeFrom
+            this.b = b; // last part of edgeFrom
+            this.c = c; // first part of edgeTo
+            this.d = d; // last part of edgeTo
         }
 
         public override string ToString()
         {
-            return $"Fragment | face {face} | edgeFrom {edgeFrom} | edgeTo {edgeTo} | " +
+            return $"Fragment | face {face} | edgeFrom {ab} | edgeTo {cd} | " +
                    $"paramFrom {paramFrom} | paramTo {paramTo}.";
         }
     }
@@ -150,12 +172,16 @@ namespace Gazelle
     struct SplitResult
     {
         int originalEdgeIndex;
+
+        
+
         int faceA, faceB;
         int trimA1, trimA2, trimB1, trimB2;
 
         public SplitResult(int originalEdgeIndex, int faceA, int faceB, int trimA1, int trimA2, int trimB1, int trimB2)
         {
             this.originalEdgeIndex = originalEdgeIndex;
+
             this.faceA = faceA;
             this.faceB = faceB;
             this.trimA1 = trimA1;

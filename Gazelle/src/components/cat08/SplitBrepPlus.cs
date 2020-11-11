@@ -36,12 +36,12 @@ namespace Gazelle.Components
         {
             pManager.AddBrepParameter("Brep", "B", "New Brep with the addition", (GH_ParamAccess)0);
             pManager.AddIntegerParameter("Face Indices", "Fi", "Indices of new faces", (GH_ParamAccess)1);
+            pManager.AddIntegerParameter("Face Indices", "Fo", "Indices of existing faces", (GH_ParamAccess)1);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Brep brep = null;
-            int face = -1;
             List<Curve> curves = new List<Curve>();
             DA.GetData<Brep>(0, ref brep);
             DA.GetDataList<Curve>(1, curves);
@@ -52,10 +52,11 @@ namespace Gazelle.Components
                 return;
             }
 
-            brep = BrepSplitFunctions.SplitBrepWithCurves(brep, curves, out List<int> faces);
+            brep = BrepSplitFunctions.SplitBrepWithCurves(brep, curves, out var faces, out var leftovers);
                 
             DA.SetData(0, brep);
             DA.SetDataList(1, faces);
+            DA.SetDataList(2, leftovers);
         }
     }
 }

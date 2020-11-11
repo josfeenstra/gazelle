@@ -16,7 +16,7 @@ namespace Gazelle
     /// </summary>
     internal static class BrepSplitFunctions
     {
-        public static Brep SplitBrepWithCurves(this Brep brep, List<Curve> curves, out List<int> createdFaces)
+        public static Brep SplitBrepWithCurves(this Brep brep, List<Curve> curves, out List<int> createdFaces, out List<int> otherFaces)
         {
             Debug.Flush();
 
@@ -41,12 +41,19 @@ namespace Gazelle
                 createdFaces[i] -= nOldFaces;
             }
 
+            // get all faces that are NOT newly created, but edited
+            // TODO make this more efficient
+            otherFaces = new List<int>();
+            for (int i = 0; i < brep.Faces.Count; i++)
+            {
+                if (!createdFaces.Contains(i))
+                    otherFaces.Add(i);
+            }
+
             // finally, fix everyhing, and hope that this doenst change face indexing
             brep.Standardize();
             return brep;
         }
-
-        // UTIL 
 
         /// <summary>
         /// based on a curves' starting point, judge which face it is a part of.
@@ -114,13 +121,14 @@ namespace Gazelle
             createdFaces = new List<int>();
             oldFaces = new List<int>();
 
-            var succes = TryGetFragments(brep, curve, out List<CurveFragment> fragments);
+            var succes = TryGetFragments(brep, curve, out var fragments);
             if (succes)
             {
-                brep = SplitEdges(brep, fragments, out var mapping);
-                foreach (var fragment in fragments)
+                brep = SplitEdges(brep, fragments, out var mappedFragments);
+                foreach (var face in mappedFragments.Keys)
                 {
-                    brep = AddFragment(brep, fragment, mapping, out var adds, out var removes);
+                    brep = AddFragmentsToFace(brep, face, mappedFragments[face], 
+                        out var adds, out var removes);
                     createdFaces.AddRange(adds);
                     oldFaces.AddRange(removes);
                 }
@@ -142,17 +150,25 @@ namespace Gazelle
         }
 
 
-        // 
+        /// <summary>
+        ///This is a preprocessing step. 
+        /// - take all edges interacting with fragments, and split them accordingly. 
+        /// - Add data of new elements created to the corresponding curveFragments
+        /// - also return a mapping so a face can find all fragments found on that face. 
+        /// </summary>
         private static Brep SplitEdges(Brep brep, List<CurveFragment> fragments, 
-            out Dictionary<int, SplitResult> mapping)
+            out Dictionary<int, List<CurveFragment>> mappedFragments)
         {
-            mapping = new Dictionary<int, SplitResult>();
+            // TODO : cleanup all unused data
+
+            // first, create the mapping
+            var mapping = new Dictionary<int, SplitResult>();
             foreach (var fragment in fragments)
             {
                 int vCount = brep.Edges.Count;
-                int edgeID = fragment.edgeFrom;
+                int edgeID = fragment.ab;
                 brep.Edges.SplitEdgeAtParameters(
-                    fragment.edgeFrom, 
+                    fragment.ab, 
                     new double[1] { fragment.paramFrom });
 
                 var edgeID2 = brep.Edges.Count - 1;
@@ -165,28 +181,58 @@ namespace Gazelle
                 var ti2 = e2.TrimIndices();
 
                 // give fragment a notion of how these edges are split up
+
+                var a = GetTrimFromEdge(ref brep, edgeID, faceA);
+                var b = GetTrimFromEdge(ref brep, edgeID2, faceA);
+                var c = GetTrimFromEdge(ref brep, edgeID, faceB);
+                var d = GetTrimFromEdge(ref brep, edgeID2, faceB);
+
                 var sr = new SplitResult(
                     edgeID,
                     faceA,
                     faceB, 
-                    GetTrimFromEdge(ref brep, edgeID, faceA),
-                    GetTrimFromEdge(ref brep, edgeID2, faceA),
-                    GetTrimFromEdge(ref brep, edgeID, faceB),
-                    GetTrimFromEdge(ref brep, edgeID2, faceB));
+                    a,
+                    b,
+                    c,
+                    d
+                );
+
                 mapping.Add(edgeID, sr);
 
                 Debug.Log($"edge has become : {sr}");
             }
 
+            // second, use the mapping to add extra data to the curve fragments
+            // add it to mapped fragments
+            mappedFragments = new Dictionary<int, List<CurveFragment>>();
+            foreach (var frag in fragments)
+            {
+                Debug.Log("hallo haai");
+                // extract the mapping
+                mapping[frag.ab].GetTrims(frag.face, out int a, out int b);
+                mapping[frag.cd].GetTrims(frag.face, out int c, out int d);
+                int vertexFrom = brep.Edges[a].EndVertex.VertexIndex;
+                int vertexTo = brep.Edges[c].EndVertex.VertexIndex;
+
+                // add it to the fragments themselves
+                frag.SetAfterSplitData(vertexFrom, vertexTo, a, b, c, d);
+                Debug.Log($" set: {frag.a}, {frag.b}, {frag.c}, {frag.d}");
+
+                // add it to mapped fragments
+                if (mappedFragments.ContainsKey(frag.face))
+                    mappedFragments[frag.face].Add(frag);
+                else
+                    mappedFragments.Add(frag.face, new List<CurveFragment>() { frag });
+            }
 
             return brep;
         }
 
         // the process of adding one curve fragment to one face.
-        private static Brep AddFragment(
-            Brep brep, 
-            CurveFragment fragment,
-            Dictionary<int, SplitResult> mapping,
+        private static Brep AddFragmentsToFace(
+            Brep brep,
+            int faceID, 
+            List<CurveFragment> frags,
             out List<int> addedFaces,
             out List<int> removeFaces)
         {
@@ -194,34 +240,38 @@ namespace Gazelle
             addedFaces = new List<int>();
             removeFaces = new List<int>();
 
-            var oldFace = brep.Faces[fragment.face];
+            var oldFace = brep.Faces[faceID];
             var surface = oldFace.SurfaceIndex;
 
-            Debug.Log($"adding fragment to face {fragment.face}");
+            Debug.Log($"adding fragments to face {faceID}");
 
             // Do a whole bunch of work to eventually, just add the new curve to all the correct lists
             // in the correct way
 
-            mapping[fragment.edgeFrom].GetTrims(fragment.face, out int a, out int b);
-            mapping[fragment.edgeTo].GetTrims(fragment.face, out int c, out int d);
-
-            Debug.Log(fragment.ToString());
-            Debug.Log($" recieved the following parameters: {a}, {b}, {c}, {d}");
-
-            var fromVectexID = brep.Edges[fragment.edgeFrom].EndVertex.VertexIndex;
-            var toVertexID = brep.Edges[fragment.edgeTo].EndVertex.VertexIndex;
-            var fragmentEdge = brep.AddEdge(fragment.fragment, fromVectexID, toVertexID);
-
-            var fragmentEdge2D = brep.AddCurve2DBasic(fragmentEdge, surface, false);
-            var fragmentEdge2DFlipped = brep.AddCurve2DBasic(fragmentEdge, surface, true);
-
             // use this to correctly traverse the loops, and add new edges to the loops
             var flc = new FaceLoopCollection(oldFace);
+            var newEdges = new Dictionary<int, int>();
 
-            flc.PrintDictionary();
+            int counter = 0;
+            foreach (var frag in frags)
+            {
+                counter -= 2;
+                Debug.Log(frag.ToString());
+                Debug.Log($" recieved the following parameters: {frag.a}, {frag.b}, {frag.c}, {frag.d}");
 
-            // add to new 'trims'
-            flc.AddTwoWayBridge(-1, -2, a, b, c, d);
+                // TODO change this if we know it does the same bloody thing.
+                var fromVectexID = brep.Edges[frag.ab].EndVertex.VertexIndex;
+                var toVertexID = brep.Edges[frag.cd].EndVertex.VertexIndex;
+                var fragmentEdge = brep.AddEdge(frag.fragment, fromVectexID, toVertexID);
+
+                newEdges.Add(counter, fragmentEdge);
+
+                flc.PrintDictionary();
+
+                // add to new 'trims'
+                Debug.Log($"adding {counter+1}, ")
+                flc.AddTwoWayBridge(counter+1, counter, frag.a, frag.b, frag.c, frag.d);
+            }
 
             flc.PrintDictionary();
 
@@ -232,14 +282,25 @@ namespace Gazelle
                 var loop = brep.AddLoop(face, BrepLoopType.Outer);
                 foreach (var trimID in trimSequence)
                 {
-                    if (trimID == -1)
+                    if (trimID < 0)
                     {
-                        brep.AddTrim(fragmentEdge, loop, false, fragmentEdge2D, IsoStatus.None, BrepTrimType.Mated);
-                        addedFaces.Add(face); // if this trim is used, it means that the attacted face is a new one.
-                    }
-                    else if (trimID == -2)
-                    {
-                        brep.AddTrim(fragmentEdge, loop, true, fragmentEdge2DFlipped, IsoStatus.None, BrepTrimType.Mated);
+                        // a new edge must be added 
+                        if (trimID % 2 == 1)
+                        {
+                            // an odd negative integer represent regularly oriented edge
+                            int fragmentEdge = newEdges[trimID - 1];
+                            var fragmentEdge2D = brep.AddCurve2DBasic(fragmentEdge, surface, false);
+                            brep.AddTrim(fragmentEdge, loop, false, fragmentEdge2D, IsoStatus.None, BrepTrimType.Mated);
+                            addedFaces.Add(face); // if this trim is used, it means that the attacted face is a new one.
+                        }
+                        else
+                        {
+                            // amn even negative integer represent reversed edge
+                            int fragmentEdge = newEdges[trimID];
+                            var fragmentEdge2DFlipped = brep.AddCurve2DBasic(fragmentEdge, surface, true);
+                            brep.AddTrim(fragmentEdge, loop, true, fragmentEdge2DFlipped, IsoStatus.None, BrepTrimType.Mated);
+                        }
+
                     }
                     else
                     {
@@ -257,7 +318,7 @@ namespace Gazelle
             }
 
             // remove old face
-            removeFaces.Add(fragment.face);
+            removeFaces.Add(faceID);
             return brep;
         }
 
@@ -281,6 +342,8 @@ namespace Gazelle
                 throw new Exception("edge and face do not match");
             }
         }
+
+        // --- UTILITY
 
         private static void AddOldTrimToNewLoop(ref Brep brep, BrepTrim oldTrim, int newLoop)
         {
@@ -327,7 +390,6 @@ namespace Gazelle
             return brep;
         }
 
-
         public static bool TryGetFragments(Brep brep, Curve curve, out List<CurveFragment> fragments)
         {
             fragments = new List<CurveFragment>();
@@ -348,27 +410,30 @@ namespace Gazelle
             if (data.Count == 1)
                 throw new Exception("does this work with only 1? It should not");
 
-            // do complicated shit for the first & last
-            var first = data.Values[0];
-            var last = data.Values[data.Count-1];
-            var firstLastCurves = Curve.JoinCurves(new Curve[2] {
+            // do complicated shit for the first & last if curve is closed
+            if (curve.IsClosed)
+            {
+                var first = data.Values[0];
+                var last = data.Values[data.Count - 1];
+                var firstLastCurves = Curve.JoinCurves(new Curve[2] {
                curve.Trim(last.Item1.ParameterA, curve.Domain.T1),
                curve.Trim(curve.Domain.T0, first.Item1.ParameterA)
             });
 
-            if (firstLastCurves.Length != 1)
-                throw new Exception("got multiple curves or no curves, should not happen");
+                if (firstLastCurves.Length != 1)
+                    throw new Exception("got multiple curves or no curves, should not happen");
 
-            if (!TryMatchCurveToFace(brep, curve, out int firstFace))
-                throw new Exception("got no face, should not happen");
+                if (!TryMatchCurveToFace(brep, curve, out int firstFace))
+                    throw new Exception("got no face, should not happen");
 
-            fragments.Add(new CurveFragment(
-                firstFace,
-                last.Item2,
-                first.Item2,
-                last.Item1.ParameterB,
-                first.Item1.ParameterB,
-                firstLastCurves[0]));
+                fragments.Add(new CurveFragment(
+                    firstFace,
+                    last.Item2,
+                    first.Item2,
+                    last.Item1.ParameterB,
+                    first.Item1.ParameterB,
+                    firstLastCurves[0]));
+            }
 
             // basics
             for (int i = 0; i < data.Count-1; i++)
