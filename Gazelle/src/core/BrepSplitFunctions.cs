@@ -22,7 +22,7 @@ namespace Gazelle
         {
             Debug.Flush();
 
-            brep = BrepFunctions.DeepCopy(brep, SD.Tolerance);
+            // brep = BrepFunctions.DeepCopy(brep, SD.Tolerance);
 
             // turn curves into mapped fragments, and split brep edges with it
             var mappedFragments = new Dictionary<int, List<CurveFragment>>();
@@ -144,7 +144,6 @@ namespace Gazelle
                     edgeCutData[ei].Add(x.ParameterB, xi);
                 }
             }
-
             if (xs.Count == 0)
                 return false;
 
@@ -190,7 +189,6 @@ namespace Gazelle
                 var xFrom = xs[xiFrom];
                 var vertexFrom = newVertices[xiFrom];
                 // var edgesFrom = newEdges[vertexFrom];
-
                 var xiTo = trimData.Values[(i + 1) % trimData.Count];
                 var xTo = xs[xiTo];
                 var vertexTo = newVertices[xiTo];
@@ -200,41 +198,35 @@ namespace Gazelle
 
                 // join first & last trim if curve is closed
                 Curve trim = null;
-                if (curve.IsClosed && i == trimData.Count - 1)
+                if (i == trimData.Count - 1)
                 {
-                    // Debug.Log($"special");
-                    var firstLastCurves = Curve.JoinCurves(new Curve[2] {
+                    if (curve.IsClosed)
+                    {
+                        // Debug.Log($"special");
+                        var firstLastCurves = Curve.JoinCurves(new Curve[2] {
                         curve.Trim(xFrom.ParameterA, curve.Domain.T1),
                         curve.Trim(curve.Domain.T0, xTo.ParameterA)
                     });
 
-                    if (firstLastCurves.Length != 1)
-                        throw new Exception("got multiple curves or no curves, should not happen");
-                    trim = firstLastCurves[0];
+                        if (firstLastCurves.Length != 1)
+                            throw new Exception("got multiple curves or no curves, should not happen");
+                        trim = firstLastCurves[0];
+                    }
+                    else
+                    {
+                        // dont do anything with the last intersection if the curve is not closed 
+                        continue;
+                    }
+
                 }
                 else
                 {
                     // normal case 
                     trim = curve.Trim(xFrom.ParameterA, xTo.ParameterA);
                 }
-   
+
                 if (!TryMatchCurveToFace(brep, trim, out int faceID, 0.5))
                     throw new Exception("got no face, should not happen");
-
-                //// get trimIndexes in the edge order. 
-                //int a = GetTrimFromEdge(ref brep, edgesFrom.I, faceID, out bool aReversed);
-                //int b = GetTrimFromEdge(ref brep, edgesFrom.J, faceID, out bool bReversed);
-                //int c = GetTrimFromEdge(ref brep, edgesTo.I, faceID, out bool cReversed);
-                //int d = GetTrimFromEdge(ref brep, edgesTo.J, faceID, out bool dReversed);
-
-                //// Debug.Log($"reversals : {aReversed}, {bReversed}, {cReversed}, {dReversed}");
-                //if (aReversed != bReversed) Debug.Log("this would be weird");
-                //if (cReversed != dReversed) Debug.Log("this would also be weird");
-
-                //if (aReversed)
-                //    Swap(ref a, ref b);
-                //if (cReversed)
-                //    Swap(ref c, ref d);
 
                 var frag = new CurveFragment(
                     trim,
@@ -610,6 +602,73 @@ namespace Gazelle
             T tempswap = x;
             x = y;
             y = tempswap;
+        }
+    }
+
+    internal static class BrepCurveFunctions
+    {
+        public static Curve[] RangedProjection(Brep brep, Curve curve)
+        {
+            return null;
+        }
+
+
+        public static bool IsCurveInBrep(Brep brep, Curve curve)
+        {
+            // option 1 : curve touching edge
+            foreach (var edge in brep.Edges)
+            {
+                foreach (var x in Intersection.CurveCurve(
+                    curve, edge, SD.IntersectTolerance, SD.OverlapTolerance))
+                {
+                    return true;
+                }
+            }
+
+            // option 2 : curve completely in bounds 
+            if (IsTouching(brep, curve))
+                return true;
+
+            // option 3 : curve out of bounds
+            return false;
+        }
+
+        internal static bool IsTouching(Brep brep, Curve curve)
+        {
+            int match = -1;
+
+            var curveT = curve.Domain.ParameterAt(0.5);
+
+            var succes = brep.ClosestPoint(
+                curve.PointAt(curveT),
+                out Point3d closestPoint,
+                out ComponentIndex ci,
+                out double s,
+                out double t,
+                SD.PointTolerance,
+                out Vector3d normal);
+
+            if (!succes)
+                return false;
+
+            switch (ci.ComponentIndexType)
+            {
+                case ComponentIndexType.BrepFace:
+                    match = ci.Index;
+                    return true;
+                case ComponentIndexType.BrepEdge:
+                    Debug.Log("curve starting point on edge!!");
+                    match = brep.Edges[ci.Index].AdjacentFaces()[0];
+                    return true;
+                case ComponentIndexType.BrepVertex:
+                    Debug.Log("curve starting point on vertex!!");
+                    var edgeIndex = brep.Vertices[ci.Index].EdgeIndices()[0];
+                    match = brep.Edges[edgeIndex].AdjacentFaces()[0];
+                    return true;
+                default:
+                    Debug.Log("this should not happen!!");
+                    return false;
+            }
         }
     }
 }
