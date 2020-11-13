@@ -21,7 +21,7 @@ namespace Gazelle
             foreach (JArray sublist in jArray)
             {
                 // try to fill this curve with various approaches
-                Curve curve;
+                // Curve curve;
                 if (sublist.Type == JTokenType.Integer)
                 {
                     // single int found 
