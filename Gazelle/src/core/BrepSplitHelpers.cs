@@ -8,23 +8,69 @@ using Rhino.Geometry;
 
 namespace Gazelle
 {
+    enum CurveFragmentType
+    {
+        EdgeCutter,
+        Unattached
+    }
+
     // a package of data to save how and where parts of a curve need to be inserted
     class CurveFragment
     {
-        public Curve fragment;
-        public int face; 
-        
+        public Curve curve;
+        public int face;
+        public CurveFragmentType type;
+
         public int vertexFrom, vertexTo;
         public int a, b, c, d;
 
-        public CurveFragment(Curve fragment, int face, int vertexFrom, int vertexTo, int a, int b, int c, int d)
+        public CurveFragment(Curve curve, int face, int vertexFrom, int vertexTo, int a, int b, int c, int d)
         {
-            this.fragment = fragment ?? throw new ArgumentNullException(nameof(fragment));
+            this.curve = curve ?? throw new ArgumentNullException(nameof(curve));
             this.face = face;
+            this.type = CurveFragmentType.EdgeCutter;
 
             this.vertexFrom = vertexFrom; // vertex in between a and b
             this.vertexTo = vertexTo; // vertex in between c and d
 
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.d = d;
+        }
+
+        public CurveFragment(Curve curve, int face, int vertexFrom, int vertexTo)
+        {
+            this.curve = curve ?? throw new ArgumentNullException(nameof(curve));
+            this.face = face;
+            this.type = CurveFragmentType.EdgeCutter;
+
+            this.vertexFrom = vertexFrom; // vertex in between a and b
+            this.vertexTo = vertexTo; // vertex in between c and d
+
+            this.a = int.MinValue;
+            this.b = int.MinValue;
+            this.c = int.MinValue;
+            this.d = int.MinValue;
+        }
+
+        public CurveFragment(Curve curve, int face)
+        {
+            this.curve = curve ?? throw new ArgumentNullException(nameof(curve));
+            this.face = face;
+            this.type = CurveFragmentType.Unattached;
+
+            this.vertexFrom = int.MinValue;
+            this.vertexTo = int.MinValue;
+
+            this.a = int.MinValue;
+            this.b = int.MinValue;
+            this.c = int.MinValue;
+            this.d = int.MinValue;
+        }
+
+        public void SetAfterwards(int a, int b, int c, int d)
+        {
             this.a = a;
             this.b = b;
             this.c = c;
