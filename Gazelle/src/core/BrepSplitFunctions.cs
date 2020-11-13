@@ -48,6 +48,7 @@ namespace Gazelle
             // TODO : signal all faces surrounded by new faces as 'new'
 
 
+
             // remove the faces that recieved new loops
             var nOldFaces = oldFaces.Count;
             brep = brep.RemoveFaces(oldFaces);
