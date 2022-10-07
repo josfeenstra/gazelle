@@ -5,7 +5,6 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using Gazelle;
-using Gazelle.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -120,9 +119,7 @@ namespace Gazelle.Components
             DA.SetDataList(0, list2);
         }
         
-        protected override Bitmap Icon =>
-            Resources.ProjectText;
-        
+ 
         public override Guid ComponentGuid =>
             new Guid("1bcdaac7-5234-4487-b6ef-79b4f19f8c43");
     }

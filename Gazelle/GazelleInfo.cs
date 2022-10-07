@@ -13,14 +13,7 @@ namespace Gazelle
                 return "Gazelle";
             }
         }
-        public override Bitmap Icon
-        {
-            get
-            {
-                //Return a 24x24 pixel bitmap to represent this GHA library.
-                return Properties.Resources.Sfered_Iconified;
-            }
-        }
+
         public override string Description
         {
             get

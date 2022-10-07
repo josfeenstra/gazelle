@@ -3,7 +3,6 @@ namespace Gazelle.Components.Geo
 {
     using Grasshopper.Kernel;
     using Rhino.Geometry;
-    using Gazelle.Properties;
     using System;
     using System.Drawing;
     
@@ -49,9 +48,6 @@ namespace Gazelle.Components.Geo
             DA.SetData(0, num);
             DA.SetData(1, num2);
         }
-        
-        protected override Bitmap Icon =>
-            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("6cfc2f0b-d2d1-4e9c-9943-264cac9fb939");

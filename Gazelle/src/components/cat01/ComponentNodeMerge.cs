@@ -4,7 +4,6 @@ namespace Gazelle.Components.Node
     using Grasshopper.Kernel;
     using Gazelle;
     using Gazelle.Datatypes;
-    using Gazelle.Properties;
     using System;
     using System.Drawing;
     using System.Linq;
@@ -48,9 +47,6 @@ namespace Gazelle.Components.Node
             }
             DA.SetData(0, dataNode);
         }
-        
-        protected override Bitmap Icon =>
-            Resources.Image1;
         
         public override Guid ComponentGuid =>
             new Guid("50e57c97-7008-49fc-a439-f6ac9cc7c23b");

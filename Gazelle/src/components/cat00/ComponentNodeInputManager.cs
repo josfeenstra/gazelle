@@ -4,7 +4,6 @@ namespace Gazelle.Components.NodeConversion
     using Grasshopper.Kernel;
     using Gazelle;
     using Gazelle.Datatypes;
-    using Gazelle.Properties;
     using System;
     using System.Drawing;
     
@@ -90,9 +89,7 @@ namespace Gazelle.Components.NodeConversion
         {
         }
         
-        protected override Bitmap Icon =>
-            Resources.NodeController;
-        
+
         public override Guid ComponentGuid =>
             new Guid("1c7445dd-469c-433f-a0d1-079f37cf25ac");
     }

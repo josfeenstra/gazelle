@@ -4,7 +4,6 @@ namespace Gazelle
     using Grasshopper.Kernel;
     using Grasshopper.Kernel.Types;
     using Rhino.Geometry;
-    using Gazelle.Properties;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -97,9 +96,6 @@ namespace Gazelle
             DA.SetDataList(1, list4);
             DA.SetDataList(2, list3);
         }
-        
-        protected override Bitmap Icon =>
-            Resources.CutCurve;
         
         public override Guid ComponentGuid =>
             new Guid("359b021b-ebd3-42a4-aa96-33b87348f5a4");

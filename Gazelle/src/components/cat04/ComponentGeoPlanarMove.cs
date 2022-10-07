@@ -3,9 +3,7 @@ namespace Gazelle.Components.Geo
 {
     using Grasshopper.Kernel;
     using Rhino.Geometry;
-    using Gazelle.Properties;
     using System;
-    using System.Drawing;
     
     public class ComponentGeoPlanarMove : GH_Component
     {
@@ -44,9 +42,7 @@ namespace Gazelle.Components.Geo
             DA.SetData(1, transform);
         }
         
-        protected override Bitmap Icon =>
-            Resources.Image1;
-        
+
         public override Guid ComponentGuid =>
             new Guid("a1e19b67-f72e-4d65-bac5-c427d4455d26");
     }

@@ -2,7 +2,6 @@
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using Gazelle.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -134,9 +133,6 @@ namespace Gazelle.Components
                 num++;
             }
         }
-
-        protected override Bitmap Icon =>
-            Resources.Image1;
 
         public override Guid ComponentGuid =>
             new Guid("188007a5-a201-4d35-8d46-f02d68d0b02e");
